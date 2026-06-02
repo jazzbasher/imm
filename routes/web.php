@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TimeClockController;
+use App\Http\Controllers\VendorsController;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -17,6 +18,8 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/freightlog', [App\Http\Controllers\FreightLogController::class, 'index'])->name('freightlog');
+
+Route::get('/vendors', [App\Http\Controllers\VendorsController::class, 'index'])->name('vendors');
 
 Auth::routes();
 
