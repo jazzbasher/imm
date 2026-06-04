@@ -15,6 +15,8 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+
+                    Need to remove home later
                 </div>
             </div>
         </div>

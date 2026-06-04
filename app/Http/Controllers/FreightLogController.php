@@ -43,3 +43,4 @@ class FreightLogController extends Controller
     }
     
 }
+
