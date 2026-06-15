@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TimeClockController;
 use App\Http\Controllers\VendorsController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TimeOffRequestController;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -27,6 +28,20 @@ Route::get('/test', [App\Http\Controllers\HomeController::class, 'test'])->name(
 Route::get('/phpinfo', function () {
     return phpinfo();
 });
+
+Route::get('/send-test-email', function () {
+    Mail::raw('This email was sent via the Mailgun HTTP API!', function ($message) {
+        $message->to('mbartlett@industrialmill.com')
+                ->subject('Mailgun API Test');
+    });
+
+    return 'Email sent successfully!';
+});
+
+Route::get('/calendar', [TimeOffRequestController::class, 'index']);
+Route::get('/api/events', [TimeOffRequestController::class, 'getEvents']);
+
+Route::get('/notify', [TimeOffRequestController::class, 'submitforapproval']);
 
 Auth::routes();
 
