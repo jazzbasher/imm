@@ -334,11 +334,17 @@ return [
             'icon_color' => 'warning',
         ],
         ['header' => 'TIME AND LEAVE'],
-        [
-            'text' => 'Leave Request',
-            'url' => 'https://forms.cloud.microsoft/r/TwSL0qeMVD',
+        // [
+        //     'text' => 'Leave Request',
+        //     'url' => 'https://forms.cloud.microsoft/r/TwSL0qeMVD',
+        //     'icon' => 'far fa-fw fa-calendar-alt',
+        //     'target'      => '_blank',
+        //     'icon_color' => 'cyan',
+        // ],
+          [
+            'text' => 'Time-Off Calendar',
+            'url' => '/calendar',
             'icon' => 'far fa-fw fa-calendar-alt',
-            'target'      => '_blank',
             'icon_color' => 'cyan',
         ],
         [
@@ -353,17 +359,21 @@ return [
             // 'icon' => 'far fa-fw fa-calendar-alt',
             // 'icon_color' => 'yellow',
         ],
-        ['header' => 'account_settings'],
-        [
-            'text' => 'profile',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
+         ['header' => 'ADMIN',
+          'can'   => 'admin' 
         ],
-        [
-            'text' => 'change_password',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
+
+        // ['header' => 'account_settings'],
+        // [
+        //     'text' => 'profile',
+        //     'url' => 'admin/settings',
+        //     'icon' => 'fas fa-fw fa-user',
+        // ],
+        // [
+        //     'text' => 'change_password',
+        //     'url' => 'admin/settings',
+        //     'icon' => 'fas fa-fw fa-lock',
+        // ],
         // [
         //     'text' => 'multilevel',
         //     'icon' => 'fas fa-fw fa-share',
@@ -458,6 +468,16 @@ return [
                     'type' => 'css',
                     'asset' => false,
                     'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
+                ],
+            ],
+        ],
+        'FlashRemove' => [
+        'active' => true,
+        'files' => [
+                [
+                'type' => 'js',
+                'asset' => true,
+                'location' => 'js/flash-remove.js',
                 ],
             ],
         ],

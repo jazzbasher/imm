@@ -7,6 +7,8 @@
 @stop
 
 @section('content')
+    @include('partials.flash-messages')
+    
     <p>Yada Yada Yada.</p>
 @stop
 

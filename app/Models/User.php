@@ -46,4 +46,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function isAdmin(): bool
+    {
+        return (bool) $this->is_admin; 
+    }
+
+    public function hourly(): bool
+    {
+        return (bool) $this->hourly; 
+    }
+
+
 }

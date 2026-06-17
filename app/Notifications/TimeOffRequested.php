@@ -37,7 +37,7 @@ class TimeOffRequested extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->line('A new time-off request has been submitted.')
+            ->line($this->timeOffRequest['user'] . ' has submitted a new time-off request from ' . $this->timeOffRequest['from'] . ' to ' . $this->timeOffRequest['to'])
             ->action('Review Request', url('/manager/requests'))
             ->line('Thank you!');
     }
@@ -50,8 +50,8 @@ class TimeOffRequested extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'request_id' => $this->timeOffRequest['id'],
-            'message' => 'New time off request from ' . $this->timeOffRequest['total']
+            'user' => $this->timeOffRequest['user'],
+            'message' => 'New time off request from ' . $this->timeOffRequest['from']
         ];
     }
 }
