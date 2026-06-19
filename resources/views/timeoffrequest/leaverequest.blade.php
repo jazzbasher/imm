@@ -45,7 +45,12 @@
         </div>
     </div>
 
-            <div class="form-group">
+            <div class="form-group" id="partialstart" style="display: none;">
+                <label for="title">Date</label>
+                <input type="date" class="form-control" id="partialstartdata" name="partialstartdata" value="{{ old('partialstartdata') }}" autocomplete="off" onclick="this.showPicker()" onfocus="this.showPicker()">
+            </div>
+
+            <div class="form-group" id="alldaystart">
                 <label for="title">Start Date</label>
                 <input type="date" class="form-control" id="start" name="start" onchange="calculateWorkData()" value="{{ old('start') }}" autocomplete="off" onclick="this.showPicker()" onfocus="this.showPicker()">
             </div>
@@ -60,7 +65,7 @@
 
 
 
-            <div class="form-group">
+            <div class="form-group" id="alldayend">
                 <label for="title">End Date</label>
                 <input type="date" class="form-control" id="end" name="end" onchange="calculateWorkData()" value="{{ old('end') }}" autocomplete="off" onclick="this.showPicker()" onfocus="this.showPicker()">
             </div>
@@ -69,20 +74,28 @@
 
            <div id="endtime" style="display: none; text-align: right;">
         <label for="endtime">End Time</label>
-        <input type="time" name="endtime" value="{{ old('endtime') }}" id="eventtime">
+        <input type="time" name="endtime" value="{{ old('endtime') }}" id="eventtimetwo">
     </div>
 
 
   <!-- Output: Total Work Days -->
-    <div class="form-group">
+    <div class="form-group" id="firstday">
         <label for="total_days">Total Requested Days:</label>
         <input type="text" id="total_days" name="total_days" class="form-control" readonly>
     </div>
 
+
+
     <!-- Output: Total Work Hours -->
-    <div class="form-group">
+    <div class="form-group" id="firsthours">
         <label for="total_hours">Total Requested Hours (8 hrs/day):</label>
         <input type="text" id="total_hours" name="total_hours" class="form-control" readonly>
+    </div>
+
+    <!-- Output: second hours -->
+    <div class="form-group" style="display: none;" id="secondhours">
+        <label for="second_hours">Total Requested Hours:</label>
+        <input type="text" id="second_hours" name="second_hours" class="form-control" readonly>
     </div>
 
 
@@ -126,14 +139,51 @@
         radio.addEventListener('change', function() {
             const detailsSection = document.getElementById('starttime');
             const detailsS = document.getElementById('endtime');
+            const firstDays = document.getElementById('firstday');
+            const firstHour = document.getElementById('firsthours');
+            const secondHour = document.getElementById('secondhours');
+            const secondhours = document.getElementById('second_hours');
+            const eventtime = document.getElementById('eventtime');
+            const eventtimetwo = document.getElementById('eventtimetwo');
+            const partialstart = document.getElementById('partialstart');
+            const partialstartdata = document.getElementById('partialstartdata');
+            const alldaystart = document.getElementById('alldaystart');
+            const alldayend = document.getElementById('alldayend');
+            const primarystart = document.getElementById('start');
+            const primaryend = document.getElementById('end');
+            const totalDays = document.getElementById('total_days');
+            const totalHours = document.getElementById('total_hours');
+
             if (this.value === '0') {
                 detailsSection.style.display = 'block';
                 detailsS.style.display = 'block';
+                secondHour.style.display = 'block';
+                partialstart.style.display = 'block';
+                firstDays.style.display = 'none';
+                firstHour.style.display = 'none';
+                alldaystart.style.display = 'none';
+                alldayend.style.display = 'none';
             } else {
                 detailsSection.style.display = 'none';
                 detailsS.style.display = 'none';
-                document.getElementById('eventtime').value = ''; // Clear input if hidden
+                secondHour.style.display = 'none';
+                partialstart.style.display = 'none';
+                firstDays.style.display = 'block';
+                firstHour.style.display = 'block';
+                alldaystart.style.display = 'block';
+                alldayend.style.display = 'block';
+               
+                eventtime.value = ''; // Clear input if hidden
+                eventtimetwo.value = ''; // Clear input if hidden
+                secondhours.value = ''; // Clear input if hidden
+                partialstartdata.value = '';
+                primarystart.value = '';
+                primaryend.value = '';
+                totalDays.value = '';
+                totalHours.value = '';
             }
+
+
         });
     });
 </script>
@@ -161,8 +211,8 @@
     let currentDate = new Date(start);
     while (currentDate <= end) {
         const dayOfWeek = currentDate.getDay();
-        // 0 is Sunday, 6 is Saturday
-        if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+        // 5 is saturday, 6 is sunday 
+        if (dayOfWeek !== 5 && dayOfWeek !== 6) {
             workDays++;
         }
         // Move to the next day
@@ -176,5 +226,47 @@
     document.getElementById('total_days').value = workDays;
     document.getElementById('total_hours').value = totalHours;
 }
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const startTimeInput = document.getElementById('eventtime');
+    const endTimeInput = document.getElementById('eventtimetwo');
+    const totalHoursInput = document.getElementById('second_hours');
+
+    function calculateHours() {
+        const startTimeVal = startTimeInput.value;
+        const endTimeVal = endTimeInput.value;
+
+        // Ensure both fields contain a valid value before executing math
+        if (!startTimeVal || !endTimeVal) {
+            totalHoursInput.value = '';
+            return;
+        }
+
+        // Attach a dummy date structure to parse standard HTML time "HH:MM"
+        const dummyDate = '1970-01-01 ';
+        const startTimestamp = new Date(dummyDate + startTimeVal).getTime();
+        let endTimestamp = new Date(dummyDate + endTimeVal).getTime();
+
+        // Account for shifts crossing midnight (e.g., 10:00 PM to 06:00 AM)
+        if (endTimestamp < startTimestamp) {
+            endTimestamp += 24 * 60 * 60 * 1000; // Add exactly 24 hours in milliseconds
+        }
+
+        // Subtract timestamps to find millisecond difference
+        const diffInMilliseconds = endTimestamp - startTimestamp;
+
+        // Convert the structural milliseconds to float hours
+        const diffInHours = diffInMilliseconds / (1000 * 60 * 60);
+
+        // Populate field with a clean 2-decimal layout (e.g., 8.50)
+        totalHoursInput.value = diffInHours.toFixed(2);
+    }
+
+    // Monitor value shifts on both fields
+    startTimeInput.addEventListener('change', calculateHours);
+    endTimeInput.addEventListener('change', calculateHours);
+});
 </script>
 @stop

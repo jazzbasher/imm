@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Time Off')
+@section('title', 'Pending Leave Requests')
 
 @section('content')
 @include('partials.flash-messages')
@@ -67,9 +67,9 @@
                       </td>
                       <td>
                       	@if($request->allDay == 1)
-                          {{ \Carbon\Carbon::parse($request->start)->diffInWeekdays(\Carbon\Carbon::parse($request->end)) * 8 }}
+                          {{ ((\Carbon\Carbon::parse($request->start)->diffInDays(\Carbon\Carbon::parse($request->end)) + 1) * 8) }}
                         @elseif($request->allDay == 0)
-                        {{ \Carbon\Carbon::parse($request->start)->diffInHours(\Carbon\Carbon::parse($request->end)) }}
+                        {{ \Carbon\Carbon::parse($request->start)->diffInBusinessHours(\Carbon\Carbon::parse($request->end)) }}
                         @endif
                       </td>
                        <td>

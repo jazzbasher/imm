@@ -1,9 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'Freight Log')
+@section('title', 'Freight Log') 
 
 @section('content_header')
-    <h1>Freight Log</h1>
+@include('partials.flash-messages')
+    <a href="{{ route('freightlog.create') }}"><button type="button" class="btn btn-warning text-nowrap"><i class="fas fa-plus mr-2"></i>New Entry</button></a>
 @stop
 
 @section('content')

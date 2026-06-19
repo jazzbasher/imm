@@ -7,11 +7,12 @@
  <section class="content">
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Time-Off Calendar</h3>
-          <div class="card-tools">
-            <a type="button" href="{{ route('timeoff.requestform') }}" class="btn btn-tool" title="Add Bid">
+          {{-- <a type="button" href="{{ route('timeoff.requestform') }}" class="btn btn-tool" title="New Leave Request">
               <i class="fas fa-plus"></i> New Request
-            </a>
+            </a> --}}
+            <a href="{{ route('timeoff.requestform') }}"><button type="button" class="btn btn-warning text-nowrap"><i class="fas fa-plus mr-2"></i>New Leave Request</button></a>
+          <div class="card-tools">
+            
           </div>
         </div>
         <div class="card-body">
@@ -40,11 +41,14 @@
             editable: false,
             displayEventTime: true, 
             displayEventEnd: true, 
+            eventColor: '#ffc107',
+            eventTextColor: 'black',
             eventTimeFormat: { 
                 hour: 'numeric',
                 minute: '2-digit',
                 meridiem: false 
             },
+
 
             eventContent: function(arg) {
                 // Check if the event has time and is not all-day

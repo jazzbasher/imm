@@ -257,7 +257,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => '/',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -361,6 +361,13 @@ return [
         ],
          ['header' => 'ADMIN',
           'can'   => 'admin' 
+        ],
+        [
+            'text' => 'Time Clock Reporting',
+             'url' => 'admin/settings',
+             'icon' => 'fas fa-user-clock',
+             'icon_color' => 'success',
+             'can'   => 'admin' 
         ],
 
         // ['header' => 'account_settings'],

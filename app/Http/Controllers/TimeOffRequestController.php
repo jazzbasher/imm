@@ -48,6 +48,8 @@ class TimeOffRequestController extends Controller
     }
 
 
+
+
     public function leavestore(Request $request)
     {
         $allday = $request->input('allDay');
@@ -55,8 +57,21 @@ class TimeOffRequestController extends Controller
         $loggeduser = Auth::user()->name;
 
          $request->validate([
-            'start' => 'required|date',
-            'end' => 'required|date|after_or_equal:start',
+            'start' => 'required_if:allDay,1|date|nullable',
+            'end' => 'required_if:allDay,1|date|after_or_equal:start|nullable',
+            'partialstartdata' => 'required_if:allDay,0|date|nullable',
+            'allDay' => 'required|boolean',
+            'starttime' => 'required_if:allDay,0|nullable',
+            'endtime' => 'required_if:allDay,0|nullable',
+            'type'   => 'nullable',
+            'user_id' => 'required',
+            'reason'  => 'nullable'
+        ], [
+
+            'starttime.required_if' => 'A start time must be entered if partial day selected',
+            'endtime.required_if' => 'An end time must be entered if partial day selected',
+            'partialstartdata.required_if' => 'A date must be entered with time if partial day selected',
+
         ]);
 
          $from = Carbon::parse($request->input('start'))->format('m/d/y');
@@ -64,8 +79,8 @@ class TimeOffRequestController extends Controller
 
         if($allday == 0)
         {
-            $start = $request->input('start') . ' ' . $request->input('starttime') . ':00';
-            $end = $request->input('end') . ' ' . $request->input('endtime') . ':00';
+            $start = $request->input('partialstartdata') . ' ' . $request->input('starttime') . ':00';
+            $end = $request->input('partialstartdata') . ' ' . $request->input('endtime') . ':00';
 
             $request->merge([
                 'start' => $start,
@@ -81,20 +96,7 @@ class TimeOffRequestController extends Controller
         ]);
 
 
-        $request->validate([
-            'allDay' => 'required|boolean',
-            'starttime' => 'required_if:allDay,0|nullable',
-            'endtime' => 'required_if:allDay,0|nullable',
-            'type'   => 'nullable',
-            'user_id' => 'required',
-            'reason'  => 'nullable'
-
-        ], [
-
-            'starttime.required_if' => 'A start time must be entered if partial day selected',
-            'endtime.required_if' => 'An end time must be entered if partial day selected',
-
-        ]);
+    
 
         $timeOffRequest = ['user' => $loggeduser, 'from' => $from, 'to' => $to];
 
@@ -179,6 +181,17 @@ class TimeOffRequestController extends Controller
 
 
         return redirect()->back()->with('success', 'Request denied.  Not added to calendar.');
+    }
+
+
+    public function businesstime()
+    {
+        $start = Carbon::parse('2026-06-17 12:00:00');
+        $end = Carbon::parse('2026-06-17 17:00:00');
+
+        $test = $start->diffInBusinessHours($end);
+
+        dd($test);
     }
 
 
