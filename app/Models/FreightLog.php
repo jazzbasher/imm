@@ -14,5 +14,10 @@ class FreightLog extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function outsidesales()
+    {
+        return $this->belongsTo(User::class, 'salesrep', 'id');
+    }
     
 }

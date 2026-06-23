@@ -3,11 +3,12 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Dashboard</h1>
+@include('partials.flash-messages')
+    
 @stop
 
 @section('content')
-    @include('partials.flash-messages')
+  <h1>Dashboard</h1>
     
     <p>Yada Yada Yada.</p>
 @stop
@@ -18,5 +19,4 @@
 @stop
 
 @section('js')
-    <script> console.log("Hi, I'm using the Laravel-AdminLTE package!"); </script>
 @stop

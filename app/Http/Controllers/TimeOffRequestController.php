@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TimeOffRequest;
 use App\Notifications\TimeOffRequested;
+use App\Notifications\TimeOffAction;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
+use Carbon\Carbon; 
 
 class TimeOffRequestController extends Controller
 {
@@ -107,24 +108,11 @@ class TimeOffRequestController extends Controller
             $timemanager->notify(new TimeOffRequested($timeOffRequest));
         }
 
-        
+         
 
         return redirect()->route('calendar')->with('success','Leave Submitted For Approval!');
 
 
-
-
-        // return [
-        //     // The trigger field
-        //     'allDay' => 'boolean', 
-
-        //     // These items become required only if 'is_company' is true (or 1)
-        //     'starttime' => 'required_if:addDay,0|date_format:H:i',
-        //     'endtime'       => 'required_if:addDay,0|date_format:H:i', 
-        // ];
-
-        
-        // dd('here');
     }
 
     public function pendingrequests()
@@ -135,21 +123,20 @@ class TimeOffRequestController extends Controller
     }
 
 
-    public function submitforapproval()
-    {
-        $manager = User::where('is_admin', 1)->first();
+    // public function submitforapproval()
+    // {
+    //     $manager = User::where('is_admin', 1)->first();
 
-        $timeOffRequest = ['id' => '10293', 'total' => 49.99];
+    //     $timeOffRequest = ['id' => '10293', 'total' => 49.99];
 
-        $manager->notify(new TimeOffRequested($timeOffRequest));
-    }
+    //     $manager->notify(new TimeOffRequested($timeOffRequest));
+    // }
 
 
 
     public function adminapprove(Request $request, $id)
     {
        
-
         $request->validate([
             'status' => 'required|integer',
         ]);
@@ -157,12 +144,20 @@ class TimeOffRequestController extends Controller
 
         $approve = TimeOffRequest::findOrFail($id);
 
+        $user = $approve->user_id;
+        $useremail = User::where('id', $user)->first();
+        
 
         $approve->status = $request->input('status');
         $approve->save();
 
+        
+            $timeOffAction = ['action' => 'approved'];
 
-        return redirect()->back()->with('success', 'Request approved and added to calendar');
+            $useremail->notify(new TimeOffAction($timeOffAction));
+        
+
+        return redirect()->back()->with('success', 'Request approved, added to calendar, and requestor notified!');
     }
 
 
@@ -175,12 +170,17 @@ class TimeOffRequestController extends Controller
 
         $approve = TimeOffRequest::findOrFail($id);
 
+        $user = $approve->user_id;
+        $useremail = User::where('id', $user)->first();
 
         $approve->status = $request->input('status');
         $approve->save();
 
+        $timeOffAction = ['action' => 'denied'];
 
-        return redirect()->back()->with('success', 'Request denied.  Not added to calendar.');
+        $useremail->notify(new TimeOffAction($timeOffAction));
+
+        return redirect()->back()->with('success', 'Request denied and was not added to calendar.  Requestor notified.');
     }
 
 

@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class User extends Authenticatable
 {
@@ -23,6 +25,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'hourly',
+        'outside_sales'
     ];
 
     /**
@@ -35,6 +39,14 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+
+    protected static function booted()
+    {
+        static::addGlobalScope('active', function (Builder $builder) {
+            $builder->where('active', 1); 
+        });
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -46,6 +58,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function freightlog()
+    {
+        return $this->hasMany(FreightLog::class, 'salesrep', 'id');
     }
 
     public function isAdmin(): bool

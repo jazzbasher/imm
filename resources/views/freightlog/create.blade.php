@@ -29,20 +29,17 @@
                       <div class="form-group">
 						  <label for="salesrep">Sales Rep</label>
 						  <select class="form-control" id="salesrep" name="salesrep" required>
+
 						    <option value="" selected disabled>Select...</option>
-						    <option value="Ashley Martin">Ashley Martin</option>
-						    <option value="Billy Warren">Billy Warren</option>
-						    <option value="Carl Knowlton">Carl Knowlton</option>
-						    <option value="Cody Fountain">Cody Fountain</option>
-						    <option value="Flight Safety">Flight Safety</option>
-						    <option value="Heath Hampton">Heath Hampton</option>
-						    <option value="Herbert Bedgood">Herbert Bedgood</option>
-						    <option value="House Account">House Account</option>
-						    <option value="Hunter Tipton">Hunter Tipton</option>
-						    <option value="Jack Lassiter">Jack Lassiter</option>
-						    <option value="Jason Coffee">Jason Coffee</option>
-						    <option value="Richard Flores">Richard Flores</option>
-						    <option value="Richard Oakes">Richard Oakes</option>						    
+
+
+						    @foreach($salespeople as $k => $v)
+            <option value="{{ $v }}">
+                {{ $k }}
+            </option>
+        @endforeach
+
+
 						  </select>
 						</div>
                       <div class="form-group">

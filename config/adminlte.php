@@ -363,7 +363,7 @@ return [
           'can'   => 'admin' 
         ],
         [
-            'text' => 'Time Clock Reporting',
+            'text' => 'Attendance Reporting',
              'url' => 'admin/settings',
              'icon' => 'fas fa-user-clock',
              'icon_color' => 'success',

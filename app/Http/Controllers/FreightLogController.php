@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\FreightLog;
+use App\Models\User;
 use Carbon\Carbon;
 
 class FreightLogController extends Controller
@@ -12,7 +13,13 @@ class FreightLogController extends Controller
     public function index()
     {
    
-        $logs = FreightLog::orderBy('date', 'desc')->with('user')->get();
+        $logs = FreightLog::whereBetween('date', [ Carbon::now()->startOfMonth(),
+                        Carbon::now() ])->orderBy('date', 'desc')->with('user')->with('outsidesales')->get();
+    
+        $currentmonth = now()->format('F');
+
+        $viewparam = 1;
+
         
         $heads = ['Date', 'Customer', 'Buyer', 'Sales Rep', 'PO', 'Amount', 'Order #', 'Notes', 'Added', ['label' => 'Edit', 'no-export' => true, 'width' => 2]];
 
@@ -28,7 +35,7 @@ class FreightLogController extends Controller
                 Carbon::parse($log->date)->format('Y/m/d'),
                 $log->customer_id,
                 ucwords(strtolower($log->buyer)),
-                ucwords(strtolower($log->salesrep)),
+                $log->outsidesales->name,
                 $log->po,
                 $log->amount,
                 $log->order_no,
@@ -41,17 +48,121 @@ class FreightLogController extends Controller
         $config = [
             'data' => $data,
             'order' => [[0, 'desc']],
-            'pageLength' => 50,
-            'columns' => [null, null, null, null, null, null, null, null, null,['orderable' => false]],
+            'lengthChange' => false,
+            'paging' => false,
+            'info' => false,
+            'columns' => [null, ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false],['orderable' => false]],
         ];
 
-        return view('freightlog.index', compact('heads', 'config'));
+        return view('freightlog.index', compact('heads', 'config', 'currentmonth', 'viewparam'));
     }
+
+
+
+
+
+
+    public function lastmonth()
+    {
+   
+        $logs = FreightLog::whereBetween('date', [ Carbon::now()->subMonth()->startOfMonth(),
+                        Carbon::now()->subMonth()->endOfMonth() ])->orderBy('date', 'desc')->with('user')->with('outsidesales')->get();
+
+        $currentmonth = now()->subMonth()->format('F');
+
+        $viewparam = 2;
+
+        
+        $heads = ['Date', 'Customer', 'Buyer', 'Sales Rep', 'PO', 'Amount', 'Order #', 'Notes', 'Added', ['label' => 'Edit', 'no-export' => true, 'width' => 2]];
+
+        $data = [];
+
+        foreach ($logs as $log) {
+            if(isset($log->user->name)) {
+                $user = strtok($log->user->name, " ");
+            } else {
+                $user = $log->initials;
+            }
+            $data[] = [
+                Carbon::parse($log->date)->format('Y/m/d'),
+                $log->customer_id,
+                ucwords(strtolower($log->buyer)),
+                $log->outsidesales->name,
+                $log->po,
+                $log->amount,
+                $log->order_no,
+                $log->notes,
+                $user,
+                '<a class=btn btn-link" style="color: #018786;" href="/freightlog/edit/' . $log->id . '"><i class="fas fa-pencil-alt"/></a>',
+            ];
+        }
+
+        $config = [
+            'data' => $data,
+            'order' => [[0, 'desc']],
+            'lengthChange' => false,
+            'paging' => false,
+            'info' => false,
+            'columns' => [null, ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false],['orderable' => false]],
+        ];
+
+        return view('freightlog.index', compact('heads', 'config', 'currentmonth', 'viewparam'));
+    }
+
+
+
 
 
     public function create()
     {
-        return view('freightlog.create');
+        $salespeople = User::where('outside_sales', 1)->orderBy('name', 'asc')->pluck('id', 'name');
+
+
+        return view('freightlog.create', compact('salespeople'));
+    }
+
+
+
+
+    public function edit($id)
+    {
+
+        $logs = FreightLog::where('id', $id)->with('outsidesales')->get();
+        $salespeople = User::where('outside_sales', 1)->orderBy('name', 'asc')->pluck('id', 'name');
+ 
+        if($logs->isNotEmpty()) {
+
+            return view('freightlog.edit', compact('logs', 'id', 'salespeople'));
+
+        } else {
+
+            return redirect()->route('freightlog')->with('error','That freight log not found');
+        }
+
+
+    }
+
+
+
+    public function updatelog(Request $request, $id)
+    {
+        
+        $request->validate([
+            'customer_id' => 'required|string',
+            'buyer' => 'required|string',
+            'salesrep' => 'required|string',
+            'po' => 'required|string',
+            'amount' => 'required|numeric|between:0.01,999999.99',
+            'order_no' => 'required|string',
+            'notes'   => 'nullable'
+        ]);
+
+
+        $updatelog = FreightLog::find($id);
+        $updatelog->update($request->all());
+
+        return redirect()->route('freightlog')->with('success', 'Freight Charge Updated Successfully');
+
     }
 
 
@@ -79,6 +190,9 @@ class FreightLogController extends Controller
 
         return redirect()->route('freightlog')->with('success','Freght Charge Succesfully Added!');
     }
+
+
+
     
 }
 

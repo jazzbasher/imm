@@ -7,18 +7,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class TimeOffRequested extends Notification
+class TimeOffAction extends Notification
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public $timeOffRequest;
+    public $timeOffAction;
 
-    public function __construct($timeOffRequest)
+    public function __construct($timeOffAction)
     {
-        $this->timeOffRequest = $timeOffRequest;
+        $this->timeOffAction = $timeOffAction;
     }
 
     /**
@@ -28,7 +28,7 @@ class TimeOffRequested extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail', 'database']; // Emails manager and logs in DB
+         return ['mail', 'database']; // Emails employee and logs in DB
     }
 
     /**
@@ -37,9 +37,10 @@ class TimeOffRequested extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->line($this->timeOffRequest['user'] . ' has submitted a new time-off request from ' . $this->timeOffRequest['from'] . ' to ' . $this->timeOffRequest['to'])
-            ->action('Review Request', url('/manager/requests'))
-            ->salutation('Thanks');
+            ->subject('Time-off request ' . $this->timeOffAction['action'])
+            ->greeting('Hi ' . $notifiable->name)
+            ->line('Your time-off request has been ' . $this->timeOffAction['action'])
+           ->salutation('Thanks');
     }
 
     /**
@@ -50,8 +51,7 @@ class TimeOffRequested extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'user' => $this->timeOffRequest['user'],
-            'message' => 'New time off request from ' . $this->timeOffRequest['from']
+            //
         ];
     }
 }

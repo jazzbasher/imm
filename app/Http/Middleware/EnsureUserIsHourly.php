@@ -22,7 +22,7 @@ class EnsureUserIsHourly
 
         
         // abort(403, 'You are not an hourly employee.');
-        return redirect()->route('calendar')->with('error', 'You are not an hourly employee.');
+        return redirect()->back()->with('error', 'You are not an hourly employee.');
     }
 
 
