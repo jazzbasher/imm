@@ -59,7 +59,7 @@
 
                <div id="starttime" style="display: none; text-align: right;">
         <label for="starttime">Start Time</label>
-        <input type="time" name="starttime" value="{{ old('starttime') }}" id="eventtime">
+        <input type="time" name="starttime"  id="eventtime">
     </div>
 
 
@@ -74,7 +74,7 @@
 
            <div id="endtime" style="display: none; text-align: right;">
         <label for="endtime">End Time</label>
-        <input type="time" name="endtime" value="{{ old('endtime') }}" id="eventtimetwo">
+        <input type="time" name="endtime"  id="eventtimetwo">
     </div>
 
 
@@ -103,7 +103,7 @@
                 <label for="title">Type</label>
                 	<select name="type"  class="form-control">
                     <option value="1" @selected(old('type') === '1')>Vacation</option>
-                    <option value="2" @selected(old('type') === '2')>Sick Leave</option>
+                    <option value="2" @selected(old('type') === '2')>Illness</option>
                 </select>
              </div>
 
@@ -199,11 +199,12 @@
     let end = new Date(endDateVal);
 
     // Swap dates if start is later than end to avoid negative values
-    if (start > end) {
+
+   {{--  if (start > end) {
         let temp = start;
         start = end;
         end = temp;
-    }
+    } --}}
 
     let workDays = 0;
     
@@ -250,9 +251,14 @@ document.addEventListener('DOMContentLoaded', function () {
         let endTimestamp = new Date(dummyDate + endTimeVal).getTime();
 
         // Account for shifts crossing midnight (e.g., 10:00 PM to 06:00 AM)
-        if (endTimestamp < startTimestamp) {
-            endTimestamp += 24 * 60 * 60 * 1000; // Add exactly 24 hours in milliseconds
-        }
+
+
+       {{--  if (endTimestamp < startTimestamp) {
+            endTimestamp += 24 * 60 * 60 * 1000; 
+            // Add exactly 24 hours in milliseconds
+        } --}}
+
+
 
         // Subtract timestamps to find millisecond difference
         const diffInMilliseconds = endTimestamp - startTimestamp;

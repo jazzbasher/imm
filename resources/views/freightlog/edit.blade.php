@@ -32,7 +32,7 @@
                       <div class="form-group">
                         <label for="salesrep">Sales Rep</label>
                         <select class="form-control" id="salesrep" name="salesrep" required>
-        
+                    
                             @foreach($salespeople as $k => $v)
                                 <option value="{{ $v }}" @selected(old('salesrep', $log->salesrep) == $v)>
                                     {{ $k }}

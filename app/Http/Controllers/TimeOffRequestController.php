@@ -63,7 +63,7 @@ class TimeOffRequestController extends Controller
             'partialstartdata' => 'required_if:allDay,0|date|nullable',
             'allDay' => 'required|boolean',
             'starttime' => 'required_if:allDay,0|nullable',
-            'endtime' => 'required_if:allDay,0|nullable',
+            'endtime' => 'required_if:allDay,0|after:starttime|nullable',
             'type'   => 'nullable',
             'user_id' => 'required',
             'reason'  => 'nullable'
@@ -71,6 +71,7 @@ class TimeOffRequestController extends Controller
 
             'starttime.required_if' => 'A start time must be entered if partial day selected',
             'endtime.required_if' => 'An end time must be entered if partial day selected',
+            'endtime.after' => 'The end time must be after start time if partial day selected',
             'partialstartdata.required_if' => 'A date must be entered with time if partial day selected',
 
         ]);
@@ -180,7 +181,7 @@ class TimeOffRequestController extends Controller
 
         $useremail->notify(new TimeOffAction($timeOffAction));
 
-        return redirect()->back()->with('success', 'Request denied and was not added to calendar.  Requestor notified.');
+        return redirect()->back()->with('deny', 'Request successfully denied and NOT added to calendar.  Requestor notified.');
     }
 
 

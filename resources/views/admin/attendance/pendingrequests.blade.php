@@ -69,7 +69,7 @@
                       	@if($request->allDay == 1)
                           {{ ((\Carbon\Carbon::parse($request->start)->diffInDays(\Carbon\Carbon::parse($request->end)) + 1) * 8) }}
                         @elseif($request->allDay == 0)
-                        {{ \Carbon\Carbon::parse($request->start)->diffInBusinessHours(\Carbon\Carbon::parse($request->end)) }}
+                        {{ \Carbon\Carbon::parse($request->start)->diffInHours(\Carbon\Carbon::parse($request->end)) }}
                         @endif
                       </td>
                        <td>

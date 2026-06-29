@@ -63,7 +63,7 @@ return [
     |
     */
 
-    'logo' => '<span class="text-sm"><b>Industrial Mill & Maintenance</b></span>',
+    'logo' => '<span class="text-sm"><b>Connect</b></span>',
     'logo_img' => 'vendor/adminlte/dist/img/IMMlogo2.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -363,8 +363,8 @@ return [
           'can'   => 'admin' 
         ],
         [
-            'text' => 'Attendance Reporting',
-             'url' => 'admin/settings',
+            'text' => 'Attendance Dashboard',
+             'url' => '/dashboard/attendance',
              'icon' => 'fas fa-user-clock',
              'icon_color' => 'success',
              'can'   => 'admin' 

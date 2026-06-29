@@ -6,6 +6,7 @@ use App\Http\Controllers\VendorsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TimeOffRequestController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
@@ -95,6 +96,18 @@ Route::get('/api/events', [TimeOffRequestController::class, 'getEvents']);
         Route::patch('/manager/requests/approve/{id}', [TimeOffRequestController::class, 'adminapprove'])->name('request.approve');
 
         Route::patch('/manager/requests/reject/{id}', [TimeOffRequestController::class, 'adminreject'])->name('request.reject');
+
+        Route::get('/payperiod', [TimeClockController::class, 'report'])->name('payperiod.report');
+
+        Route::get('/dashboard/attendance', [DashboardController::class, 'attendancedash'])->name('dashboard.attendance');
+
+        Route::get('/dashboard/attendance/payperiod/{period}', [DashboardController::class, 'payperiodattendance'])->name('attendance.periodreport');
+
+        Route::get('/dashboard/attendance/{period}/{id}', [DashboardController::class, 'userattendance'])->name('attendance.details');
+
+         Route::get('/dashboard/timeclock/{id}', [TimeClockController::class, 'clockeventdetail'])->name('clockevent.details');
+
+
 
         // Route::get('/bustime', [TimeOffRequestController::class, 'businesstime']);
 

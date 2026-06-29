@@ -24,7 +24,6 @@ class TimeClockController extends Controller
             ->get();
 
 
-
         return view('timeclock.index', compact('currentAttendance', 'history'));
     }
 
@@ -52,4 +51,23 @@ class TimeClockController extends Controller
             return redirect()->back()->with('status', 'Successfully clocked in!');
         }
     }
+
+
+    public function report()
+    {
+       $payperiod = getPayPeriodDates('2026-06-09');
+
+       $test = TimeClock::where('user_id', 1)->whereBetween('clock_in', [$payperiod['start_date'], $payperiod['end_date']])->get();
+
+    dd($test);
+
+    }
+
+    public function clockeventdetail($id)
+    {
+        dd($id);
+    }
+
+
+
 }

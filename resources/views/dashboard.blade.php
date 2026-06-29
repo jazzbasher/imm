@@ -8,9 +8,9 @@
 @stop
 
 @section('content')
-  <h1>Dashboard</h1>
+  <h2>IMM Connect Dashboard</h2>
     
-    <p>Yada Yada Yada.</p>
+    <p>WIP coming soon...</p>
 @stop
 
 @section('css')

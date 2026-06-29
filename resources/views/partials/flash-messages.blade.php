@@ -20,6 +20,16 @@
     </div>
 @endif
 
+@if (session()->has('deny'))
+    <div id="flash-message" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <h5><i class="icon fas fa-ban"></i> Success!</h5>
+        {{ session('deny') }}
+        <button type="text" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+@endif
+
 {{-- Validation Errors Alert --}}
 @if ($errors->any())
     <div id="flash-message" class="alert alert-danger alert-dismissible fade show" role="alert">
