@@ -325,7 +325,7 @@ return [
             'text' => 'Freight Log',
             'url' => '/freightlog',
             'icon' => 'fas fa-shipping-fast',
-            'icon_color' => 'danger',
+            'icon_color' => 'primary',
         ],
         [
             'text' => 'Vendors',
@@ -345,7 +345,7 @@ return [
             'text' => 'Time-Off Calendar',
             'url' => '/calendar',
             'icon' => 'far fa-fw fa-calendar-alt',
-            'icon_color' => 'cyan',
+            'icon_color' => 'info',
         ],
         [
             'text' => 'Time Clock',
@@ -363,10 +363,17 @@ return [
           'can'   => 'admin' 
         ],
         [
+            'text' => 'Freight Report',
+             'url' => '/admin/freight',
+             'icon' => 'fas fa-shipping-fast',
+             'icon_color' => 'secondary',
+             'can'   => 'admin' 
+        ],
+        [
             'text' => 'Attendance Dashboard',
              'url' => '/dashboard/attendance',
              'icon' => 'fas fa-user-clock',
-             'icon_color' => 'success',
+             'icon_color' => 'white',
              'can'   => 'admin' 
         ],
 
@@ -485,6 +492,16 @@ return [
                 'type' => 'js',
                 'asset' => true,
                 'location' => 'js/flash-remove.js',
+                ],
+            ],
+        ],
+        'CustomCss' => [
+        'active' => true,
+        'files' => [
+                [
+                'type' => 'css',
+                'asset' => true,
+                'location' => 'css/breadcrumb-nav.css',
                 ],
             ],
         ],

@@ -5,6 +5,33 @@
 @section('content')
 @include('partials.flash-messages')
  <section class="content">
+
+
+
+<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventTitle">Event</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Description:</strong> <span id="eventDescription"></span></p>
+                <p><strong>Start Time:</strong> <span id="eventStart"></span></p>
+                <p><strong>End Time:</strong> <span id="eventEnd"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
       <div class="card">
         <div class="card-header">
           {{-- <a type="button" href="{{ route('timeoff.requestform') }}" class="btn btn-tool" title="New Leave Request">
@@ -42,6 +69,8 @@
             displayEventTime: true, 
             displayEventEnd: true, 
             eventColor: '#ffc107',
+            {{-- allDay: true, --}}
+            {{-- nextDayThreshold: '00:00:00', --}}
             eventTextColor: 'black',
             eventTimeFormat: { 
                 hour: 'numeric',
@@ -63,10 +92,58 @@
             },
               
             events: '/api/events', 
+
+
             
             eventClick: function(info) {
-            alert('Event: ' + info.event.title);
-            // Bootstrap $('#modalId').modal('show') here
+
+            var eventObj = info.event;
+
+            // 1. Populate standard properties
+            $('#eventTitle').text(eventObj.title + " On Leave");
+
+            if(eventObj.allDay === true) {
+
+                $('#eventStart').text(eventObj.start.toLocaleDateString());
+
+            } else {
+
+                $('#eventStart').text(eventObj.start.toLocaleString());
+            }
+
+            
+            
+            if (eventObj.end) {
+
+                if(eventObj.allDay === true) {
+
+                    let nativeDate = new Date(eventObj.end);
+                    nativeDate.setDate(nativeDate.getDate() - 1);
+
+                    $('#eventEnd').text(nativeDate.toLocaleDateString());
+
+                } else {
+
+                    $('#eventEnd').text(eventObj.end.toLocaleString());
+
+                }
+
+            } else {
+                $('#eventEnd').text('N/A');
+            }
+
+            // 2. Populate custom columns through extendedProps
+            if (eventObj.extendedProps && eventObj.extendedProps.reason) {
+                $('#eventDescription').text(eventObj.extendedProps.reason);
+            } else {
+                $('#eventDescription').text('No description provided.');
+            }
+
+            // 3. Open the Bootstrap 4 modal
+            $('#eventModal').modal('show');
+
+
+
             }
 
         });

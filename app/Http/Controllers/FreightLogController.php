@@ -12,11 +12,14 @@ class FreightLogController extends Controller
 
     public function index()
     {
+
+
+        $currentpayperiod = getPayPeriodDates(now());
+        $lastperiodbegin = Carbon::parse($currentpayperiod['start_date'])->subDays(7);
+        $previouspayperiod = getPayPeriodDates($lastperiodbegin);
    
-        $logs = FreightLog::whereBetween('date', [ Carbon::now()->startOfMonth(),
-                        Carbon::now() ])->orderBy('date', 'desc')->with('user')->with('outsidesales')->get();
+        $logs = FreightLog::whereBetween('date', [$currentpayperiod['start_date'], $currentpayperiod['end_date']])->orderBy('date', 'desc')->with('user')->with('outsidesales')->get();
     
-        $currentmonth = now()->format('F');
 
         $viewparam = 1;
 
@@ -54,7 +57,7 @@ class FreightLogController extends Controller
             'columns' => [null, ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false],['orderable' => false]],
         ];
 
-        return view('freightlog.index', compact('heads', 'config', 'currentmonth', 'viewparam'));
+        return view('freightlog.index', compact('heads', 'config', 'currentpayperiod', 'viewparam'));
     }
 
 
@@ -64,11 +67,12 @@ class FreightLogController extends Controller
 
     public function lastmonth()
     {
+        $currentpayperiod = getPayPeriodDates(now());
+        $lastperiodbegin = Carbon::parse($currentpayperiod['start_date'])->subDays(7);
+        $previouspayperiod = getPayPeriodDates($lastperiodbegin);
    
-        $logs = FreightLog::whereBetween('date', [ Carbon::now()->subMonth()->startOfMonth(),
-                        Carbon::now()->subMonth()->endOfMonth() ])->orderBy('date', 'desc')->with('user')->with('outsidesales')->get();
+        $logs = FreightLog::whereBetween('date', [$previouspayperiod['start_date'], $previouspayperiod['end_date']])->orderBy('date', 'desc')->orderBy('date', 'desc')->with('user')->with('outsidesales')->get();
 
-        $currentmonth = now()->subMonth()->format('F');
 
         $viewparam = 2;
 
@@ -106,7 +110,7 @@ class FreightLogController extends Controller
             'columns' => [null, ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false],['orderable' => false]],
         ];
 
-        return view('freightlog.index', compact('heads', 'config', 'currentmonth', 'viewparam'));
+        return view('freightlog.index', compact('heads', 'config', 'previouspayperiod', 'viewparam'));
     }
 
 
@@ -189,6 +193,27 @@ class FreightLogController extends Controller
         $freightadd = FreightLog::create($request->all());
 
         return redirect()->route('freightlog')->with('success','Freght Charge Succesfully Added!');
+    }
+
+
+
+    public function adminreport()
+    {
+        $currentpayperiod = getPayPeriodDates(now());
+        $lastperiodbegin = Carbon::parse($currentpayperiod['start_date'])->subDays(7);
+        $previouspayperiod = getPayPeriodDates($lastperiodbegin);
+
+         $logs = FreightLog::selectRaw('salesrep, SUM(amount) AS total')->whereBetween('date', [$previouspayperiod['start_date'], $previouspayperiod['end_date']])->with('outsidesales')->groupBy('salesrep')->orderBy('total', 'DESC')->get();
+
+
+         $itemized = FreightLog::whereBetween('date', [$previouspayperiod['start_date'], $previouspayperiod['end_date']])->with('outsidesales')->get();
+
+$keyed = $itemized->groupBy('outsidesales.name');
+
+
+   return view('admin.freight.freightreport', compact('logs', 'previouspayperiod', 'keyed'));
+
+
     }
 
 

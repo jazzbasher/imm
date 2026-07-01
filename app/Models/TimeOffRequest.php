@@ -15,6 +15,11 @@ class TimeOffRequest extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function manager()
+    {
+        return $this->belongsTo(User::class, 'manager_id', 'id');
+    }
+
     public function requesttype()
     {
         return $this->hasOne(TimeOffType::class, 'type_id', 'type');

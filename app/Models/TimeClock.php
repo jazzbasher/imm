@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class TimeClock extends Model
 {
     protected $table = 'timeclock';
-    protected $fillable = ['user_id', 'clock_in', 'clock_out'];
+    protected $fillable = ['user_id', 'clock_in', 'clock_out', 'lunch_in', 'lunch_out'];
 
     // Relate attendance back to the User
     public function user(): BelongsTo

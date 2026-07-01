@@ -1,0 +1,15 @@
+.navbar-dark .breadcrumb {
+    background-color: transparent !important;
+    padding: 0 !important;
+    margin-bottom: 0 !important;
+    margin-top: 8px !important;
+    margin-right: 20px !important;
+  }
+
+.navbar-dark .breadcrumb-item a {
+    color: rgba(255, 255, 255, 0.55) !important; /* Muted dark theme color */
+}
+
+.navbar-dark .breadcrumb-item.active {
+    color: rgba(255, 255, 255, 0.9) !important;
+}

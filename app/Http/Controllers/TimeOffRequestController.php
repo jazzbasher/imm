@@ -27,12 +27,22 @@ class TimeOffRequestController extends Controller
 
 
         $formattedEvents = $events->map(function ($event) {
+            
+            if($event->allDay === 1) {
+
+                $alld = Carbon::parse($event->end)->addDay()->toIso8601String();
+
+            } else {
+
+                $alld = Carbon::parse($event->end)->toIso8601String();
+            }
+
             return [
                 'id'    => $event->id,
                 'title' => $event->title,
                 // Format to ISO 8601 string (e.g., 2026-06-15T14:30:00)
                 'start' => Carbon::parse($event->start)->toIso8601String(), 
-                'end'   => Carbon::parse($event->end)->toIso8601String(),
+                'end'   => $alld,
                 'allDay'=> $event->allDay,
              
             ];
@@ -196,5 +206,62 @@ class TimeOffRequestController extends Controller
     }
 
 
+    public function calendardetail($id, $period, $user)
+    {
+        $cals = TimeOffRequest::where('id', $id)->with('user')->with('manager')->with('requesttype')->get();
+
+        return view('admin.attendance.calendardetails', compact('cals', 'period', 'user'));
+    }
+
+
+    public function editleaverequest(Request $request, $id, $period, $user)
+    {
+
+
+        $allday = $request->input('allDay');
+
+        $request->merge([
+            'start' => str_replace('T', ' ', $request->input('start')),
+            'end' => str_replace('T', ' ', $request->input('end')),
+        ]);
+
+
+        if($allday == 0) {
+
+            $request->validate([
+                'start' => 'required|date_format:Y-m-d H:i',
+                'end' => 'required|date_format:Y-m-d H:i|after_or_equal:start'
+            ]);
+
+        } else {
+
+            $request->validate([
+                'start' => 'required|date_format:Y-m-d',
+                'end' => 'required|date_format:Y-m-d|after_or_equal:start'
+            ]);
+
+        }
+        
+        
+
+        $updateleave = TimeOffRequest::find($id);
+        $updateleave->update($request->all());
+
+         return redirect()->route('attendance.details', ['period' => $period, 'id' => $user])->with('success', 'Leave Request Updated Successfully');
+
+    }
+
+
+    public function destroy(Request $request, $period, $user)
+    {
+        $id = $request->input('id');
+        $destroy = TimeOffRequest::findOrFail($id);
+        $destroy->delete();
+
+
+        return redirect()->route('attendance.details', ['period' => $period, 'id' => $user])->with('success', 'Leave Request Deleted');
+    }
+
+ 
    
 }

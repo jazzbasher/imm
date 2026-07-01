@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TimeOffRequestController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FreightLogController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
@@ -31,17 +32,17 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/freightlog', [App\Http\Controllers\FreightLogController::class, 'index'])->name('freightlog');
+Route::get('/freightlog', [FreightLogController::class, 'index'])->name('freightlog');
 
-Route::get('/freightlog/previousmonth', [App\Http\Controllers\FreightLogController::class, 'lastmonth'])->name('freightlog.lastmonth');
+Route::get('/freightlog/previousmonth', [FreightLogController::class, 'lastmonth'])->name('freightlog.lastmonth');
 
-Route::get('/freightlog/create', [App\Http\Controllers\FreightLogController::class, 'create'])->name('freightlog.create');
+Route::get('/freightlog/create', [FreightLogController::class, 'create'])->name('freightlog.create');
 
-Route::post('/freightlog/create/store', [App\Http\Controllers\FreightLogController::class, 'store'])->name('freightlog.store');
+Route::post('/freightlog/create/store', [FreightLogController::class, 'store'])->name('freightlog.store');
 
-Route::get('/freightlog/edit/{id}', [App\Http\Controllers\FreightLogController::class, 'edit'])->name('freightlog.edit');
+Route::get('/freightlog/edit/{id}', [FreightLogController::class, 'edit'])->name('freightlog.edit');
 
-Route::post('/freightlog/updaterecord/{id}', [App\Http\Controllers\FreightLogController::class, 'updatelog'])->name('freightlog.zz');
+Route::post('/freightlog/updaterecord/{id}', [FreightLogController::class, 'updatelog'])->name('freightlog.zz');
 
 Route::get('/vendors', [App\Http\Controllers\VendorsController::class, 'index'])->name('vendors');
 
@@ -97,7 +98,7 @@ Route::get('/api/events', [TimeOffRequestController::class, 'getEvents']);
 
         Route::patch('/manager/requests/reject/{id}', [TimeOffRequestController::class, 'adminreject'])->name('request.reject');
 
-        Route::get('/payperiod', [TimeClockController::class, 'report'])->name('payperiod.report');
+        // Route::get('/payperiod', [TimeClockController::class, 'report'])->name('payperiod.report');
 
         Route::get('/dashboard/attendance', [DashboardController::class, 'attendancedash'])->name('dashboard.attendance');
 
@@ -105,7 +106,19 @@ Route::get('/api/events', [TimeOffRequestController::class, 'getEvents']);
 
         Route::get('/dashboard/attendance/{period}/{id}', [DashboardController::class, 'userattendance'])->name('attendance.details');
 
-         Route::get('/dashboard/timeclock/{id}', [TimeClockController::class, 'clockeventdetail'])->name('clockevent.details');
+         Route::get('/admin/timeclock/{id}/{period}/{user}', [TimeClockController::class, 'clockeventdetail'])->name('clockevent.details');
+
+         Route::get('/admin/leaverequest/{id}/{period}/{user}', [TimeOffRequestController::class, 'calendardetail'])->name('calendar.details');
+
+         Route::post('/admin/timeclock/editpunch/{id}/{period}/{user}', [TimeClockController::class, 'editpunch'])->name('edit.timepunch');
+
+         Route::post('/admin/timeclock/destroy/{period}/{user}', [TimeClockController::class, 'destroy'])->name('destroy.timepunch');
+
+         Route::post('/admin/leaverequest/edit/{id}/{period}/{user}', [TimeOffRequestController::class, 'editleaverequest'])->name('edit.leaverequest');
+
+         Route::post('/admin/leaverequest/destroy{period}/{user}', [TimeOffRequestController::class, 'destroy'])->name('destroy.leaverequest');
+
+         Route::get('/admin/freight', [FreightLogController::class, 'adminreport'])->name('freightlog.report');
 
 
 

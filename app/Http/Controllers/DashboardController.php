@@ -36,7 +36,7 @@ class DashboardController extends Controller
 
 
         /******************************************************************************************** *
-        * ***************************        Last Pay Period      ******************************** *
+        * ***************************           Last Pay Period      ******************************** *
         * ********************************************************************************************/
 
 
@@ -59,9 +59,6 @@ class DashboardController extends Controller
 
         return view('admin.attendance.dashboard', compact('thispayperiod', 'calendarevents', 'totalclockhours', 'lastpayperiod', 'lastcalendarevents', 'lasttotalclockhours'));
     }
-
-
-
 
 
 
@@ -107,9 +104,6 @@ class DashboardController extends Controller
         $longclocks = TImeClock::selectRaw('user_id, COUNT(*) as longclocks')->whereBetween('clock_in', [$payperiod['start_date'], $payperiod['end_date']])->whereNotNull('clock_out')->whereRaw("TIMESTAMPDIFF(HOUR, clock_in, clock_out) >= ?", [$targethours])->with('user')->groupBy('user_id')->get();
 
 
-        // $clockedlunches = TimeClock::whereBetween('lunch_in', [$payperiod['start_date'], $payperiod['end_date']])->whereNotNull('lunch_out')->with('user')->get();
-
-
         $clockindups = TImeClock::selectRaw('user_id, DATE(clock_in) as date, COUNT(DISTINCT DATE(clock_in)) as clockdups')->whereBetween('clock_in', [$payperiod['start_date'], $payperiod['end_date']])->with('user')->groupBy('user_id', 'date')->havingRaw('COUNT(*) > 1')->get();
 
 
@@ -145,8 +139,6 @@ class DashboardController extends Controller
         });
 
 
-
-    
         
         /***********************************************************************/
         /**********   TimeClock logic, groupby user and total hours  ***********/
@@ -158,16 +150,13 @@ class DashboardController extends Controller
             $end = Carbon::parse($punch->clock_out);
 
 
-            // if($punch->lunch_in && $punch->lunch_out) {
-
-            if($punch->user->lunchcode === 3) { 
+            if($punch->user->lunch_code == 3) { 
 
                 if($punch->lunch_in && $punch->lunch_out) { 
 
                 $lunchin = Carbon::parse($punch->lunch_in);
                 $lunchout = Carbon::parse($punch->lunch_out);
 
-                // $lunchsubtract = round($lunchin->diffInHours($lunchout),2);
                 $lunchsubtract = round($lunchin->floatDiffInHours($lunchout),2);
 
                 $punch->lunchhours = $lunchsubtract;
@@ -175,40 +164,41 @@ class DashboardController extends Controller
                 } else {
 
                     $punch->lunchhours = 0;
+                    $lunchsubtract = 0;
                 }
 
-            } elseif($punch->user->lunchcode === 2) { 
+            } elseif($punch->user->lunch_code == 2) { 
 
                 $punch->lunchhours = 1;
+                $lunchsubtract = 1;
 
-            } elseif($punch->user->lunchcode === 1 || $punch->user->lunchcode === 0) {
+            } elseif($punch->user->lunch_code == 1 || $punch->user->lunch_code == 0) {
 
                 $punch->lunchhours = 0;
+                $lunchsubtract = 0;
             }
 
             
-            $hoursPassed = $start->floatDiffInHours($end, true);
+            $hoursPassed = $start->diffInHours($end, true);
                      
             $punch->ttlhours = round($hoursPassed, 2);
+
+            $punch->nethours = $hoursPassed - $lunchsubtract;
 
             
             return $punch;
         });
 
 
-
-       // working on this and is working code.  Returns hours clocked minus lunch grouped by user
-
-
+        /***********************************************************************/
+        //         Returns hours clocked minus lunch grouped by user
 
 
         $grpsumclock = $timewithhours->groupBy('user.name')
             ->map(function ($group) {
                 return [
-
-                    // 'net_clockedhours' => $group->sum('ttlhours') - $group->sum('lunchhours')
-                    'net_clockedhours' => $group->sum('ttlhours')
-
+                    'net_clockedhours' => $group->sum('ttlhours'),
+                    'nethours' => $group->sum('nethours')
                 ];
         });
 
@@ -216,55 +206,30 @@ class DashboardController extends Controller
             ->map(function ($group) {
                 return [
                     'net_calendarhours' => $group->sum('cldrhours')
-  
                 ];
         });
-
 
         $grplongclocks = $longclocks->groupBy('user.name')
             ->map(function ($group) {
                 return [
                     'net_longclocks' => $group->sum('longclocks')
-
                 ];
         });
-
 
         $grpclockdups = $clockindups->groupBy('user.name')
             ->map(function ($group) {
                 return [
                     'net_clockdups' => $group->sum('clockdups')
- 
                 ];
         });
 
 
-
-
-$merged = $grpsumclock->mergeRecursive($grpsumcalendar)->mergeRecursive($grplongclocks)->mergeRecursive($grpclockdups);
-
-// if(is_a($merged, 'Illuminate\Database\Eloquent\Collection')) {
-//     die('yes');
-// } else {
-//     die('no');
-// }
-
+        $merged = $grpsumclock->mergeRecursive($grpsumcalendar)->mergeRecursive($grplongclocks)->mergeRecursive($grpclockdups);
 
 
         return view('admin.attendance.summary', compact('merged', 'period'));
-
         
     }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -310,17 +275,20 @@ $merged = $grpsumclock->mergeRecursive($grpsumcalendar)->mergeRecursive($grplong
 
         if($userhourly === 1) {
 
-        $usertimeclockdata = TimeClock::where('user_id', $uid)->whereBetween('clock_in', [$payperiod['start_date'], $payperiod['end_date']])->whereNotNull('clock_out')->with('user')->orderBy('clock_in', 'ASC')->get();
+            $usertimeclockdata = TimeClock::where('user_id', $uid)->whereBetween('clock_in', [$payperiod['start_date'], $payperiod['end_date']])->whereNotNull('clock_out')->with('user')->orderBy('clock_in', 'ASC')->get();
 
-        $clockindups = TImeClock::where('user_id', $uid)->selectRaw('DATE(clock_in) as date, COUNT(DISTINCT DATE(clock_in)) as clockdups')->whereBetween('clock_in', [$payperiod['start_date'], $payperiod['end_date']])->groupBy('date')->havingRaw('COUNT(*) > 1')->get();
-
+            $clockindups = TImeClock::where('user_id', $uid)->selectRaw('DATE(clock_in) as date, COUNT(DISTINCT DATE(clock_in)) as clockdups')->whereBetween('clock_in', [$payperiod['start_date'], $payperiod['end_date']])->groupBy('date')->havingRaw('COUNT(*) > 1')->get();
 
         } else {
+
             $usertimeclockdata = collect();
             $clockindups = collect();
-
         }
 
+
+        /***********************************************************************/
+        /*************              Time Clock Section               ***********/
+        /***********************************************************************/
 
 
         if($usertimeclockdata->isNotEmpty()) {
@@ -338,7 +306,7 @@ $merged = $grpsumclock->mergeRecursive($grpsumcalendar)->mergeRecursive($grplong
                     $lunchin = Carbon::parse($punch->lunch_in);
                     $lunchout = Carbon::parse($punch->lunch_out);
 
-                    $lunchsubtract = $lunchin->diffInHours($lunchout);
+                    $lunchsubtract = round($lunchin->floatDiffInHours($lunchout),2);
 
                     } else {
 
@@ -382,12 +350,9 @@ $merged = $grpsumclock->mergeRecursive($grpsumcalendar)->mergeRecursive($grplong
 
 
 
-
-
-
-
-
-
+        /***********************************************************************/
+        /*************        Calendar/Leave Request Section         ***********/
+        /***********************************************************************/
 
 
         $calendardata = TimeOffRequest::where('user_id', $uid)->whereBetween('start', [$payperiod['start_date'], $payperiod['end_date']])->where('status', 1)->with('user')->orderBy('start', 'ASC')->get();
@@ -428,7 +393,7 @@ $merged = $grpsumclock->mergeRecursive($grpsumcalendar)->mergeRecursive($grplong
         }
 
 
-        return view('admin.attendance.userattendance', compact('usertimeclock', 'userhourly', 'userlunchcode', 'username', 'periodstart', 'periodend', 'userlunchdesc', 'usercalendarhours', 'clockindups'));
+        return view('admin.attendance.userattendance', compact('usertimeclock', 'userhourly', 'userlunchcode', 'username', 'periodstart', 'periodend', 'userlunchdesc', 'usercalendarhours', 'clockindups', 'period'));
 
 
     }

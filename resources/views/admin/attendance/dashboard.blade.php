@@ -2,6 +2,10 @@
 
 @section('title', 'Attendance Dash')
 
+@section('content_top_nav_right')
+            {{ Breadcrumbs::render('attendancedash') }}
+@endsection
+
 @section('content')
 @include('partials.flash-messages')
 

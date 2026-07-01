@@ -4,11 +4,14 @@
 
 @section('plugins.Datatables', true)
 
+@section('content_top_nav_right')
+            {{ Breadcrumbs::render('payperiodsummary', $period) }}
+@endsection
+
 @section('content')
 @include('partials.flash-messages')
 
     @php
-    // Define table headers
     $heads = [
         'Name',
         'Clocked Net Hours',
@@ -17,7 +20,6 @@
         ['label' => 'View', 'no-export' => true, 'width' => 5],
     ];
 
-    // Optional JQuery configurations passed into the plugin
     $config = [
         'order' => [[0, 'asc']],
         'lengthChange' => false,
@@ -26,7 +28,6 @@
     ];
     @endphp
 
-    {{-- Render Component --}}
     <div class="card border border-dark p-2 m-1" style="background-color: #343C45; border-style: solid;">
         <div class="card-body">
             <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" striped hoverable bordered compressed>
@@ -36,15 +37,12 @@
                             {{ $k }}
                         </td>
                         <td>
-                            @isset($times["net_clockedhours"])
-                                {{ sprintf('%02d:%02d', floor($times["net_clockedhours"]), round(($times["net_clockedhours"] - floor($times["net_clockedhours"])) * 60)) }}
-
-                                
+                            @isset($times["nethours"])
+                                {{ sprintf('%02d:%02d', floor($times["nethours"]), round(($times["nethours"] - floor($times["nethours"])) * 60)) }}                             
                             @else
                                 0
                             @endisset
                         </td>
-
                         <td>
                             @isset($times["net_calendarhours"])
                                 {{ $times["net_calendarhours"] }}
@@ -54,15 +52,10 @@
                         </td> 
                         <td>
                             {{ ($times["net_longclocks"] ?? 0) + ($times["net_clockdups"] ?? 0)  }}
-
-                        </td>                                                                
-                        
-                        <td>                          
-                            
+                        </td>                                                                                       
+                        <td>                                                      
                             <a class="text-decoration-none" href="{{ route('attendance.details', ['period' => $period, 'id' => $k]) }}"> 
-                              <i class="far fa-eye" style="color: #778CF7;"></i></a>
-
-
+                            <i class="far fa-eye" style="color: #778CF7;"></i></a>
                         </td>
                     </tr>
                 @endforeach

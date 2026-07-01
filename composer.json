@@ -8,6 +8,7 @@
     "require": {
         "php": "^8.2",
         "cmixin/business-time": "^2.0",
+        "diglactic/laravel-breadcrumbs": "^10.1",
         "guzzlehttp/guzzle": "^7.10",
         "innoge/laravel-msgraph-mail": "^1.5",
         "jeroennoten/laravel-adminlte": "^3.16",
