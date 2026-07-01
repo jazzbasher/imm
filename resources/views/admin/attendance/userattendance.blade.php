@@ -35,7 +35,7 @@
     ];
     @endphp
 
-    <div class="card border border-dark p-2 m-1" style="background-color: #343C45; border-style: solid;">
+    <div class="card border border-dark p-2" style="background-color: #343C45; border-style: solid;">
         <div class="card-body">
             <div class="row">                   
                 <div class="col-3">

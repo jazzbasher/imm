@@ -23,11 +23,11 @@ class TimeOffRequestController extends Controller
         // FullCalendar automatically sends 'start' and 'end' query parameters
         $events = TimeOffRequest::where('start', '>=', $request->start)
                        ->where('end', '<=', $request->end)->where('status', 1)
-                       ->get(['id', 'title', 'start', 'end', 'allDay']);
+                       ->get(['id', 'title', 'start', 'end', 'reason', 'allDay']);
 
 
         $formattedEvents = $events->map(function ($event) {
-            
+
             if($event->allDay === 1) {
 
                 $alld = Carbon::parse($event->end)->addDay()->toIso8601String();
@@ -40,6 +40,7 @@ class TimeOffRequestController extends Controller
             return [
                 'id'    => $event->id,
                 'title' => $event->title,
+                'reason' => $event->reason,
                 // Format to ISO 8601 string (e.g., 2026-06-15T14:30:00)
                 'start' => Carbon::parse($event->start)->toIso8601String(), 
                 'end'   => $alld,

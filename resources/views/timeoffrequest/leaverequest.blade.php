@@ -22,7 +22,6 @@
              <div class="form-group">
         <label>Select Duration</label>
         
-        <!-- Option 1: Free -->
         <div class="form-check">
             <input type="radio" 
                    id="allday" 
@@ -33,7 +32,6 @@
             <label for="allday">All Day (or mutliple days)</label>
         </div>
 
-        <!-- Option 2: Pro -->
         <div class="form-check">
             <input type="radio" 
                    id="partial" 
@@ -59,7 +57,7 @@
 
                <div id="starttime" style="display: none; text-align: right;">
         <label for="starttime">Start Time</label>
-        <input type="time" name="starttime"  id="eventtime">
+        <input type="time" name="starttime"  id="eventtime" onclick="this.showPicker()" onfocus="this.showPicker()">
     </div>
 
 
@@ -74,7 +72,7 @@
 
            <div id="endtime" style="display: none; text-align: right;">
         <label for="endtime">End Time</label>
-        <input type="time" name="endtime"  id="eventtimetwo">
+        <input type="time" name="endtime"  id="eventtimetwo" onclick="this.showPicker()" onfocus="this.showPicker()">
     </div>
 
 
@@ -108,8 +106,8 @@
              </div>
 
             <div class="form-group">
-                    <label for="title">Notes (Optional)</label>
-                     <textarea class="form-control" id="reason" name="reason" rows="3" placeholder="Type comments here..." autocomplete="off">{{ old('reason') }}</textarea>
+                    <label for="title">Notes (Optional with 50 character limit)</label>
+                     <textarea class="form-control" id="reason" name="reason" maxlength="50" rows="2" placeholder="Short and sweet note here..." autocomplete="off">{{ old('reason') }}</textarea>
                           {{-- <input type="text" class="form-control" id="comments" name="comments" autocomplete="off"> --}}
             </div>
             <input type="hidden" name="user_id" value="{{ auth()->id() }}">

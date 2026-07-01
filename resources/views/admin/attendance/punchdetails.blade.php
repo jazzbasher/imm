@@ -9,7 +9,7 @@
 @section('content')
 @include('partials.flash-messages')
 
-  <section class="content" style="margin-top: 5px;">
+  <section class="content">
     <div class="container-fluid">
       <div class="row g-6 justify-content-center">         
         <div class="col-md-6">   

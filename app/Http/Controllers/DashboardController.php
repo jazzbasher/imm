@@ -169,8 +169,17 @@ class DashboardController extends Controller
 
             } elseif($punch->user->lunch_code == 2) { 
 
-                $punch->lunchhours = 1;
-                $lunchsubtract = 1;
+                if($start->diffInHours($end, true) > 4) {
+
+                    $punch->lunchhours = 1;
+                    $lunchsubtract = 1;
+
+                } else {
+
+                    $punch->lunchhours = 0;
+                    $lunchsubtract = 0;
+                }
+                
 
             } elseif($punch->user->lunch_code == 1 || $punch->user->lunch_code == 0) {
 

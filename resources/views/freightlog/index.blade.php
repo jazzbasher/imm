@@ -14,9 +14,9 @@
     </div>
     <div class="col-4">
         @if($viewparam == 1)
-            <h3>Log Entries for {{ \Carbon\Carbon::parse($currentpayperiod['start_date'])->format('m/d/y') }} - {{ \Carbon\Carbon::parse($currentpayperiod['end_date'])->format('m/d/y') }}</h3>
+            <h4>Log Entries for {{ \Carbon\Carbon::parse($currentpayperiod['start_date'])->format('m/d/y') }} - {{ \Carbon\Carbon::parse($currentpayperiod['end_date'])->format('m/d/y') }}</h4>
         @else
-            <h3>Log Entries for {{ \Carbon\Carbon::parse($previouspayperiod['start_date'])->format('m/d/y') }} - {{ \Carbon\Carbon::parse($previouspayperiod['end_date'])->format('m/d/y') }}</h3>  
+            <h4>Log Entries for {{ \Carbon\Carbon::parse($previouspayperiod['start_date'])->format('m/d/y') }} - {{ \Carbon\Carbon::parse($previouspayperiod['end_date'])->format('m/d/y') }}</h4>  
         @endif   
     </div>
     <div class = "col-4">

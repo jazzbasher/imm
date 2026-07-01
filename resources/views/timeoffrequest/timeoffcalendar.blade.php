@@ -18,9 +18,9 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p><strong>Description:</strong> <span id="eventDescription"></span></p>
-                <p><strong>Start Time:</strong> <span id="eventStart"></span></p>
-                <p><strong>End Time:</strong> <span id="eventEnd"></span></p>
+                <p><strong>From:</strong> <span id="eventStart"></span></p>
+                <p><strong>Through:</strong> <span id="eventEnd"></span></p>
+                <p><strong>Notes:</strong> <span id="eventDescription"></span></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -69,6 +69,7 @@
             displayEventTime: true, 
             displayEventEnd: true, 
             eventColor: '#ffc107',
+            eventBorderColor: 'black',
             {{-- allDay: true, --}}
             {{-- nextDayThreshold: '00:00:00', --}}
             eventTextColor: 'black',
@@ -108,7 +109,12 @@
 
             } else {
 
-                $('#eventStart').text(eventObj.start.toLocaleString());
+                let formattedStartTime = eventObj.start.toLocaleString([], {
+                        dateStyle: 'short',
+                        timeStyle: 'short'
+                        });
+
+                $('#eventStart').text(formattedStartTime);
             }
 
             
@@ -124,7 +130,12 @@
 
                 } else {
 
-                    $('#eventEnd').text(eventObj.end.toLocaleString());
+                    let formattedEndTime = eventObj.end.toLocaleString([], {
+                        dateStyle: 'short',
+                        timeStyle: 'short'
+                        });
+
+                    $('#eventEnd').text(formattedEndTime);
 
                 }
 

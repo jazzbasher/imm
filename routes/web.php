@@ -78,6 +78,8 @@ Route::get('/api/events', [TimeOffRequestController::class, 'getEvents']);
 
         Route::post('/attendance/toggle', [TimeCLockController::class, 'toggle'])->name('attendance.toggle');
 
+        Route::post('/lunch/toggle', [TimeCLockController::class, 'lunchtoggle'])->name('lunch.toggle');
+
     }); /*** <- ends HOURLY middleware  -> ***/
 
 

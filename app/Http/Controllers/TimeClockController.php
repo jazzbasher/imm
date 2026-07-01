@@ -12,20 +12,45 @@ class TimeClockController extends Controller
 {
     public function index()
     {
+        $currentpayperiod = getPayPeriodDates(now());
+        $lastperiodbegin = Carbon::parse($currentpayperiod['start_date'])->subDays(7);
+        $previouspayperiod = getPayPeriodDates($lastperiodbegin);
+
         $user = Auth::user();
         
         // Find if the user is currently clocked in
         $currentAttendance = TimeClock::where('user_id', $user->id)
-            ->whereNull('clock_out')
-            ->first();
+            ->whereNull('clock_out')->first();
+
+       
+       $lunchstatus = 200;
+
+        if(!is_null($currentAttendance)) { 
+
+            if(is_null($currentAttendance->lunch_in) && is_null($currentAttendance->lunch_out)) {
+
+                $lunchstatus = 0;
+
+            } elseif(!is_null($currentAttendance->lunch_in) && is_null($currentAttendance->lunch_out)) {
+
+                $lunchstatus = 1;
+
+            } elseif(!is_null($currentAttendance->lunch_in) && !is_null($currentAttendance->lunch_out)) {
+
+                $lunchstatus = 2;
+
+            } else {
+
+                $lunchstatus = 100;
+            }
+        }
+   
 
         // Get past attendance logs
-        $history = TimeClock::where('user_id', $user->id)
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $history = TimeClock::where('user_id', $user->id)->whereBetween('clock_in', [$currentpayperiod['start_date'], $currentpayperiod['end_date']])->orderBy('created_at', 'desc')->get();
 
 
-        return view('timeclock.index', compact('currentAttendance', 'history'));
+        return view('timeclock.index', compact('currentAttendance', 'lunchstatus', 'history'));
     }
 
 
@@ -55,6 +80,45 @@ class TimeClockController extends Controller
     }
 
 
+    public function lunchtoggle(Request $request)
+    {
+
+        $user = Auth::user();
+
+        if($user->lunch_code === 2)
+        {
+
+
+                // Check for an active session
+                $lunch = TimeClock::where('user_id', $user->id)
+                    ->whereNull('clock_out')->first();
+
+
+
+
+                if (is_null($lunch->lunch_in)) {
+
+      
+                        // Clock Out
+                        $lunch->update([
+                            'lunch_in' => Carbon::now()
+                        ]);
+
+                        return redirect()->back()->with('status', 'Enjoy Your Lunch!');
+                } else {
+        
+                        // Clock In
+                        $lunch->update([
+                            'lunch_out' => Carbon::now()
+                        ]);
+
+                        return redirect()->back()->with('status', 'Welcome Back!');
+                }
+
+
+
+        }
+    }
     // public function report()
     // {
     //    $payperiod = getPayPeriodDates('2026-06-09');
@@ -64,6 +128,10 @@ class TimeClockController extends Controller
     // dd($test);
 
     // }
+
+
+
+
 
     public function clockeventdetail($id, $period, $user)
     {
