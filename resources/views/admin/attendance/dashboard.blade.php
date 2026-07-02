@@ -97,6 +97,115 @@
                 </div>             
             </div>
         </div>
+
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card h-70">
+                    <div class="card-header">
+                        <h3 class="card-title">Current Statuses</h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="width: 30%"></th>
+                                    <th  style="width: 60%"></th>
+                                     <th  style="width: 5%"></th>
+                                    <th  style="width: 5%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Clocked-In Users</td>
+                                    <td class="align-middle">
+                                        <div class="progress progress-xs">
+                                            <div class="progress-bar bg-success d-flex align-items-center" role="progressbar" aria-valuenow="{{ $percentclocked }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $percentclocked }}%"></div>
+                                        </div>
+                                    </td>
+                                    <td><small>{{ $countclocked }}/{{ $hourlyusers }}</small></td>
+                                    <td><span class="badge bg-danger">{{ $percentclocked }}%</span></td>
+                                </tr>
+                                <tr>
+                                    <td>On-Leave Today</td>
+                                    <td class="align-middle">
+                                        @foreach($leaveusers as $user)
+                                            <small>{{ $user }} </small>
+                                        @endforeach
+                                    </td>
+                                    <td>here</td>
+                                    <td><span class="badge text-bg-warning">70%</span></td>
+                                </tr>
+                                <tr>
+                                    <td>OT Last 7 Days</td>
+                                    <td class="align-middle">
+                                        @foreach($otcheck as $ot)
+                                            <small>{{ \Illuminate\Support\Str::words($ot->user->name, 1, '') }}<span class="badge bg-warning align-middle ml-1 mr-1">{{ $ot->cnt }} </span></small>
+                                        @endforeach
+                                    </td>
+                                    <td>here</td>
+                                    <td><span class="badge text-bg-warning">70%</span></td>
+                                </tr>
+                    
+                          
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+                <div class="col-md-6">
+                   <div class="card h-70">
+                        <div class="card-header border-0">
+                            <h5 class="card-title" style="font-size: 16px;"> Test Six</h5>
+                            <div class="card-tools">
+                              <a href="#" class="btn btn-sm btn-tool">
+                                <i class="bi bi-download"></i>
+                              </a>
+                              <a href="#" class="btn btn-sm btn-tool">
+                                <i class="bi bi-list"></i>
+                              </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                        
+
+                        <div class="table-responsive">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>  </td>
+        <td>  </td>
+        <td>
+          
+        </td>
+      </tr>
+      <tr>
+        <td>  </td>
+        <td></td>
+        <td>
+         
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+                    </div>
+                  
+                </div>             
+            </div>
+        </div>
+
+
       </div>
     </section>
 

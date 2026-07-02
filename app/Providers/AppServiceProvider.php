@@ -53,7 +53,7 @@ class AppServiceProvider extends ServiceProvider
                 'icon' => 'fas fa-fw fa-bell',    // AdminLTE Icon
                 'label' => $data,        // The query count
                 'label_color' => $labelcolor,        // Badge color (e.g., danger, success, info)
-                'icon_color' => 'warning',
+                'icon_color' => 'cyan',
                 'can'  => 'admin', // This locks the item
             ]);
         });

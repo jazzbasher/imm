@@ -22,10 +22,13 @@ class TimeClockController extends Controller
         $currentAttendance = TimeClock::where('user_id', $user->id)
             ->whereNull('clock_out')->first();
 
-       
+       // Declare variable and set a value to prevent blade errors
        $lunchstatus = 200;
 
-        if(!is_null($currentAttendance)) { 
+
+        // check if user is currently clocked in and if so, determine lunch status and logic for lunch clocks
+
+        if($user->lunch_code === 3 && !is_null($currentAttendance)) { 
 
             if(is_null($currentAttendance->lunch_in) && is_null($currentAttendance->lunch_out)) {
 
@@ -68,14 +71,14 @@ class TimeClockController extends Controller
             $attendance->update([
                 'clock_out' => Carbon::now()
             ]);
-            return redirect()->back()->with('status', 'Successfully clocked out!');
+            return redirect()->back()->with('success', 'Successfully clocked out!');
         } else {
             // Clock In
             TimeClock::create([
                 'user_id' => $user->id,
                 'clock_in' => Carbon::now()
             ]);
-            return redirect()->back()->with('status', 'Successfully clocked in!');
+            return redirect()->back()->with('success', 'Successfully clocked in!');
         }
     }
 
@@ -85,7 +88,7 @@ class TimeClockController extends Controller
 
         $user = Auth::user();
 
-        if($user->lunch_code === 2)
+        if($user->lunch_code === 3)
         {
 
 
@@ -104,7 +107,7 @@ class TimeClockController extends Controller
                             'lunch_in' => Carbon::now()
                         ]);
 
-                        return redirect()->back()->with('status', 'Enjoy Your Lunch!');
+                        return redirect()->back()->with('success', 'Enjoy Your Lunch!');
                 } else {
         
                         // Clock In
@@ -112,7 +115,7 @@ class TimeClockController extends Controller
                             'lunch_out' => Carbon::now()
                         ]);
 
-                        return redirect()->back()->with('status', 'Welcome Back!');
+                        return redirect()->back()->with('success', 'Welcome Back!');
                 }
 
 

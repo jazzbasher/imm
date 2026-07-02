@@ -54,6 +54,7 @@ class FreightLogController extends Controller
             'lengthChange' => false,
             'paging' => false,
             'info' => false,
+            'language' => ['emptyTable' => 'There are no freight charges for the selected payperiod', 'zeroRecords' => 'There are no freight charges for the selected payperiod'],
             'columns' => [null, ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false],['orderable' => false]],
         ];
 

@@ -7,18 +7,77 @@ use App\Models\TimeOffRequest;
 use App\Models\TimeClock;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
     public function attendancedash()
     {
+        
+        $thispayperiod = getPayPeriodDates(now());
+
+
+        /******************************************************************************************** *
+        * ***************************        Current Statuses        ******************************** *
+        * ********************************************************************************************/
+
+
+        $hourlyusers = User::where('active', 1)->where('hourly', 1)->where('is_admin', 0)->count();
+
+        $clockedusers = User::where('active', 1)->where('hourly', 1)->where('is_admin', 0)->whereHas('timeclock', function($query) {
+            $query->whereDate('clock_in', today());
+        })->pluck('name');
+
+        $countclocked = $clockedusers->count();
+
+
+        // catch for no hourly users to prevent division by zero. Returns zero if hourly users not counted.
+        if($hourlyusers > 0) {
+
+            $percentclocked = number_format(($countclocked / $hourlyusers) * 100,0);
+
+        } else {
+
+            $percentclocked = 0;
+        }
 
         
+
+
+
+        $leaveusers = User::selectRaw("id,SUBSTRING_INDEX(name, ' ', 1) as name")->where('active', 1)->whereHas('leaverequest', function($query) {
+            $query->whereDate('start', '<=', today())->whereDate('end', '>=', today());
+        })->pluck('name', 'id');
+
+
+        $countleavetoday = $leaveusers->count();
+
+
+
+        /************************   Check for Overtime over last week  ***************************/
+
+        // 550 = 550 minutes equals 9 hours 10 minutes for users who dont clock for lunch
+        $otnoclock = TimeClock::selectRaw('user_id, COUNT(*) as cnt')->whereRaw('TIMESTAMPDIFF(MINUTE, clock_in, clock_out) > ?', [550])->groupBy('user_id')->having('cnt', '>', 0)->where('clock_in', '>=', Carbon::now()->subDays(7))->whereHas('user', function ($query) {
+                $query->where('lunch_code', '!=', 3);})->with('user')->get();
+
+        // 490 = 8 hours 10 minutes for users who do clock for lunch
+        $otclock = TimeClock::selectRaw('user_id, COUNT(*) as cnt')->whereRaw('TIMESTAMPDIFF(MINUTE, clock_in, clock_out) > ?', [490])->groupBy('user_id')->having('cnt', '>', 0)->where('clock_in', '>=', Carbon::now()->subDays(7))->whereHas('user', function ($query) {
+                $query->where('lunch_code', '=', 3);})->with('user')->get();
+
+    
+        // merge/union both collections for blade foreach display
+
+        $otcheck = $otnoclock->concat($otclock);
+
+
+
+
+
         /******************************************************************************************** *
         * ***************************        Current Pay Period      ******************************** *
         * ********************************************************************************************/
 
-        $thispayperiod = getPayPeriodDates(now());
+       
 
 
         $calendarevents = TimeOffRequest::whereBetween('start', [$thispayperiod['start_date'], $thispayperiod['end_date']])->where('status', 1)->count();
@@ -32,6 +91,10 @@ class DashboardController extends Controller
             
             return $end->diffInHours($start, true);
         });
+
+       
+    
+
 
 
 
@@ -57,7 +120,7 @@ class DashboardController extends Controller
             return $end->diffInHours($start, true);
         });
 
-        return view('admin.attendance.dashboard', compact('thispayperiod', 'calendarevents', 'totalclockhours', 'lastpayperiod', 'lastcalendarevents', 'lasttotalclockhours'));
+        return view('admin.attendance.dashboard', compact('thispayperiod', 'calendarevents', 'totalclockhours', 'lastpayperiod', 'lastcalendarevents', 'lasttotalclockhours', 'hourlyusers', 'countclocked', 'clockedusers', 'percentclocked', 'leaveusers', 'countleavetoday', 'otcheck'));
     }
 
 
@@ -101,7 +164,7 @@ class DashboardController extends Controller
         $calendar = TimeOffRequest::whereBetween('start', [$payperiod['start_date'], $payperiod['end_date']])->where('status', 1)->with('user')->get();
 
 
-        $longclocks = TImeClock::selectRaw('user_id, COUNT(*) as longclocks')->whereBetween('clock_in', [$payperiod['start_date'], $payperiod['end_date']])->whereNotNull('clock_out')->whereRaw("TIMESTAMPDIFF(HOUR, clock_in, clock_out) >= ?", [$targethours])->with('user')->groupBy('user_id')->get();
+        $longclocks = TImeClock::selectRaw('user_id, COUNT(*) as longclocks')->whereBetween('clock_in', [$payperiod['start_date'], $payperiod['end_date']])->whereNotNull('clock_out')->whereRaw('TIMESTAMPDIFF(MINUTE, clock_in, clock_out) >= ?', [550])->with('user')->groupBy('user_id')->get();
 
 
         $clockindups = TImeClock::selectRaw('user_id, DATE(clock_in) as date, COUNT(DISTINCT DATE(clock_in)) as clockdups')->whereBetween('clock_in', [$payperiod['start_date'], $payperiod['end_date']])->with('user')->groupBy('user_id', 'date')->havingRaw('COUNT(*) > 1')->get();
@@ -169,7 +232,7 @@ class DashboardController extends Controller
 
             } elseif($punch->user->lunch_code == 2) { 
 
-                if($start->diffInHours($end, true) > 4) {
+                if($start->diffInHours($end, true) > 6) {
 
                     $punch->lunchhours = 1;
                     $lunchsubtract = 1;
@@ -325,7 +388,7 @@ class DashboardController extends Controller
 
                 } elseif($userlunchcode === 2) { 
 
-                    if($start->diffInHours($end, true) > 4) {
+                    if($start->diffInHours($end, true) > 6) {
 
                         $lunchsubtract = 1;
                     } else {

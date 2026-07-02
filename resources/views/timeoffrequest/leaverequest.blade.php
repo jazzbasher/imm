@@ -57,7 +57,7 @@
 
                <div id="starttime" style="display: none; text-align: right;">
         <label for="starttime">Start Time</label>
-        <input type="time" name="starttime"  id="eventtime" onclick="this.showPicker()" onfocus="this.showPicker()">
+        <input type="time" name="starttime"  id="eventtime">
     </div>
 
 
@@ -72,7 +72,7 @@
 
            <div id="endtime" style="display: none; text-align: right;">
         <label for="endtime">End Time</label>
-        <input type="time" name="endtime"  id="eventtimetwo" onclick="this.showPicker()" onfocus="this.showPicker()">
+        <input type="time" name="endtime"  id="eventtimetwo">
     </div>
 
 

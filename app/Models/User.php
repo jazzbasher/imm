@@ -80,5 +80,15 @@ class User extends Authenticatable
         return $this->hasOne(TimeClockLunchCode::class, 'lunch_id', 'lunch_code');
     }
 
+    public function timeclock()
+    {
+        return $this->hasMany(TimeClock::class, 'user_id', 'id');
+    }
+
+    public function leaverequest()
+    {
+        return $this->hasMany(TimeOffRequest::class, 'user_id', 'id');
+    }
+
 
 }

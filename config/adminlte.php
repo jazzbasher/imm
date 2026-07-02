@@ -373,7 +373,7 @@ return [
             'text' => 'Attendance Dashboard',
              'url' => '/dashboard/attendance',
              'icon' => 'fas fa-user-clock',
-             'icon_color' => 'white',
+             'icon_color' => 'yellow',
              'can'   => 'admin' 
         ],
 

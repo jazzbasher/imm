@@ -39,7 +39,7 @@
         <div class="card-body">
             <div class="row">                   
                 <div class="col-3">
-                    <h4><i class="far fa-clock text-warning pr-1"></i>{{ $username }}</h4>
+                    <h4><i class="far fa-clock text-warning pr-1"></i> {{ $username }}</h4>
                 </div>
                 <div class="col-3">
                     <small>{{ $userlunchdesc }}</small>
