@@ -59,10 +59,10 @@ Route::get('/api/events', [TimeOffRequestController::class, 'getEvents']);
 
 
 
-    Route::get('/send-test-email', function () {
-        Mail::raw('This email was sent via the Mailgun HTTP API!', function ($message) {
-            $message->to('mbartlett@industrialmill.com')
-                    ->subject('MS Graph Test');  });  return 'Email sent successfully!';  });
+    // Route::get('/send-test-email', function () {
+    //     Mail::raw('This email was sent via the Mailgun HTTP API!', function ($message) {
+    //         $message->to('mbartlett@industrialmill.com')
+    //                 ->subject('MS Graph Test');  });  return 'Email sent successfully!';  });
 
 
 
@@ -92,7 +92,14 @@ Route::get('/api/events', [TimeOffRequestController::class, 'getEvents']);
     Route::middleware(['admin'])->group(function () {
 
         Route::get('/admin/users/create', [UserController::class, 'create'])->name('admin.users.create');
+
         Route::post('/admin/users', [UserController::class, 'store'])->name('admin.users.store');
+
+        Route::get('/admin/users/manage', [UserController::class, 'manageusers'])->name('admin.manageusers');
+
+        Route::get('/admin/user/edit/{id}', [UserController::class, 'edituser'])->name('admin.edituser');
+
+        Route::patch('admin/users/update/{id}', [UserController::class, 'updateuser'])->name('admin.userupdate');
 
         Route::get('/manager/requests', [TimeOffRequestController::class, 'pendingrequests'])->name('manager.requests');
 

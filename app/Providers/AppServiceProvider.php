@@ -47,7 +47,7 @@ class AppServiceProvider extends ServiceProvider
             }
 
             // 2. Find the existing item by its "text" or "key" value and update it
-            $event->menu->add([
+            $event->menu->addAfter('attendance-dashboard', [
                 'text' => 'Leave Requests',      // Name in navbar
                 'url'  => 'manager/requests', // Link
                 'icon' => 'fas fa-fw fa-bell',    // AdminLTE Icon

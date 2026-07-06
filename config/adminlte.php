@@ -374,7 +374,15 @@ return [
              'url' => '/dashboard/attendance',
              'icon' => 'fas fa-user-clock',
              'icon_color' => 'yellow',
+             'key' => 'attendance-dashboard',
              'can'   => 'admin' 
+        ],
+        [
+            'text' => 'User Management',
+            'url' => '/admin/users/manage/',
+            'icon' => 'far fa-user-circle',
+            'icon_color' => 'danger',
+            'can' => 'admin'
         ],
 
         // ['header' => 'account_settings'],

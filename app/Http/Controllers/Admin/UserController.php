@@ -39,10 +39,27 @@ class UserController extends Controller
 
     public function manageusers()
     {
-        $users = User::all();
+        // House Account and Flight Safety exists for dynamic freight log. Exclude them from User query
+        $excludenonusers = ['House Account', 'Flight Safety'];
+        $users = User::whereNotIn('name', $excludenonusers)->get();
 
         return view('admin.users.manage', compact('users'));
 
+    }
+
+
+    public function edituser($id)
+    {
+        $user = User::where('id', $id)->get();
+
+
+        return view('admin.users.edit', compact('user'));
+    }
+
+
+    public function userupdate($id)
+    {
+        dd($id);
     }
 
     public function editPassword(User $user)
@@ -67,6 +84,11 @@ class UserController extends Controller
             ->route('admin.users.manage')
             ->with('success', "Password for {$user->name} has been updated successfully.");
     }
+
+    // public function usermgmt()
+    // {
+    //     $users = User::all();
+    // }
 
 
 }

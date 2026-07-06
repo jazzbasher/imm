@@ -25,7 +25,7 @@ class DashboardController extends Controller
         $hourlyusers = User::where('active', 1)->where('hourly', 1)->where('is_admin', 0)->count();
 
         $clockedusers = User::where('active', 1)->where('hourly', 1)->where('is_admin', 0)->whereHas('timeclock', function($query) {
-            $query->whereDate('clock_in', today());
+            $query->whereNotNull('clock_in')->whereNull('clock_out');
         })->pluck('name');
 
         $countclocked = $clockedusers->count();
@@ -57,11 +57,11 @@ class DashboardController extends Controller
         /************************   Check for Overtime over last week  ***************************/
 
         // 550 = 550 minutes equals 9 hours 10 minutes for users who dont clock for lunch
-        $otnoclock = TimeClock::selectRaw('user_id, COUNT(*) as cnt')->whereRaw('TIMESTAMPDIFF(MINUTE, clock_in, clock_out) > ?', [550])->groupBy('user_id')->having('cnt', '>', 0)->where('clock_in', '>=', Carbon::now()->subDays(7))->whereHas('user', function ($query) {
+        $otnoclock = TimeClock::selectRaw('user_id, COUNT(*) as cnt')->whereRaw('TIMESTAMPDIFF(MINUTE, clock_in, clock_out) > ?', [550])->groupBy('user_id')->having('cnt', '>', 0)->where('clock_in', '>=', Carbon::now()->subDays(7)->startOfDay())->whereHas('user', function ($query) {
                 $query->where('lunch_code', '!=', 3);})->with('user')->get();
 
         // 490 = 8 hours 10 minutes for users who do clock for lunch
-        $otclock = TimeClock::selectRaw('user_id, COUNT(*) as cnt')->whereRaw('TIMESTAMPDIFF(MINUTE, clock_in, clock_out) > ?', [490])->groupBy('user_id')->having('cnt', '>', 0)->where('clock_in', '>=', Carbon::now()->subDays(7))->whereHas('user', function ($query) {
+        $otclock = TimeClock::selectRaw('user_id, COUNT(*) as cnt')->whereRaw('TIMESTAMPDIFF(MINUTE, clock_in, clock_out) > ?', [490])->groupBy('user_id')->having('cnt', '>', 0)->where('clock_in', '>=', Carbon::now()->subDays(7)->startOfDay())->whereHas('user', function ($query) {
                 $query->where('lunch_code', '=', 3);})->with('user')->get();
 
     
