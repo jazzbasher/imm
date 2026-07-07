@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\TimeClockLunchCode;
+use Illuminate\Validation\Rule;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -52,13 +54,32 @@ class UserController extends Controller
     {
         $user = User::where('id', $id)->get();
 
+        $lunchselects = TimeCLockLunchCode::all();
 
-        return view('admin.users.edit', compact('user'));
+        return view('admin.users.edit', compact('user', 'lunchselects'));
     }
 
 
-    public function userupdate($id)
+    public function updateuser(Request $request, $id)
     {
+      
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => 'required', 'string', 'email', 'max:255',
+            'outside_sales'   => ['required'],
+            'hourly'   => 'required|boolean',
+            'lunch_code' => [
+               Rule::when($request->boolean('hourly'), [
+                'required',
+                Rule::in([1,2,3])
+            ]),
+            ],
+
+        ]);
+
+dd($request);
+
         dd($id);
     }
 

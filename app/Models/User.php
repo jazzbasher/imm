@@ -60,11 +60,7 @@ class User extends Authenticatable
         ];
     }
 
-    public function freightlog()
-    {
-        return $this->hasMany(FreightLog::class, 'salesrep', 'id');
-    }
-
+ 
     public function isAdmin(): bool
     {
         return (bool) $this->is_admin; 
@@ -75,6 +71,11 @@ class User extends Authenticatable
         return (bool) $this->hourly; 
     }
 
+    public function freight(): bool
+    {
+        return (bool) $this->freightlog; 
+    }
+
     public function lunchcode()
     {
         return $this->hasOne(TimeClockLunchCode::class, 'lunch_id', 'lunch_code');
@@ -83,6 +84,11 @@ class User extends Authenticatable
     public function timeclock()
     {
         return $this->hasMany(TimeClock::class, 'user_id', 'id');
+    }
+
+     public function freightlog()
+    {
+        return $this->hasMany(FreightLog::class, 'salesrep', 'id');
     }
 
     public function leaverequest()

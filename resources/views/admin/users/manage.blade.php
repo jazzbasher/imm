@@ -36,7 +36,7 @@
         <x-adminlte-datatable id="tableusers" :heads="$heads" :config="$config" striped hoverable bordered compressed>
           @foreach($users as $user)
             <tr>
-              <td>
+              <td class="text-nowrap">
                 {{ $user->name }}
               </td>
               <td>

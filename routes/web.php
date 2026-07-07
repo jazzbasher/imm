@@ -32,17 +32,6 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/freightlog', [FreightLogController::class, 'index'])->name('freightlog');
-
-Route::get('/freightlog/previousmonth', [FreightLogController::class, 'lastmonth'])->name('freightlog.lastmonth');
-
-Route::get('/freightlog/create', [FreightLogController::class, 'create'])->name('freightlog.create');
-
-Route::post('/freightlog/create/store', [FreightLogController::class, 'store'])->name('freightlog.store');
-
-Route::get('/freightlog/edit/{id}', [FreightLogController::class, 'edit'])->name('freightlog.edit');
-
-Route::post('/freightlog/updaterecord/{id}', [FreightLogController::class, 'updatelog'])->name('freightlog.zz');
 
 Route::get('/vendors', [App\Http\Controllers\VendorsController::class, 'index'])->name('vendors');
 
@@ -82,6 +71,28 @@ Route::get('/api/events', [TimeOffRequestController::class, 'getEvents']);
 
     }); /*** <- ends HOURLY middleware  -> ***/
 
+
+
+      /******************************************************************************************** *
+    * ***************************         Freightlog users only      ******************************** *
+    * ********************************************************************************************/
+
+
+    Route::middleware(['freight'])->group(function () {
+
+        Route::get('/freightlog', [FreightLogController::class, 'index'])->name('freightlog');
+
+        Route::get('/freightlog/previousmonth', [FreightLogController::class, 'lastmonth'])->name('freightlog.lastmonth');
+
+        Route::get('/freightlog/create', [FreightLogController::class, 'create'])->name('freightlog.create');
+
+        Route::post('/freightlog/create/store', [FreightLogController::class, 'store'])->name('freightlog.store');
+
+        Route::get('/freightlog/edit/{id}', [FreightLogController::class, 'edit'])->name('freightlog.edit');
+
+        Route::post('/freightlog/updaterecord/{id}', [FreightLogController::class, 'updatelog'])->name('freightlog.zz');
+
+    }); /*** <- ends FREIGHTLOG middleware  -> ***/
 
 
     /******************************************************************************************** *

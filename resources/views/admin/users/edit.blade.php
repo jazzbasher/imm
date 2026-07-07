@@ -20,8 +20,9 @@
                   <h4>{{ $employee->name }}</h4>
                 </div>
                     
-                <form action="{{ route('admin.userupdate', ['id' => $employee->id]) }}" method="patch">
+                <form action="{{ route('admin.userupdate', ['id' => $employee->id]) }}" method="POST">
                 @csrf
+                @method('PATCH')
 
                   <div class="form-group">
                     <label for="title">Name</label>
@@ -35,24 +36,57 @@
 
 
                     <div class="form-group">
-                      <label for="title">Freight Log?</label>
-                        <input type="text" class="form-control" id="freightlog" name="freightlog" value="{{ $employee->freightlog }}" autocomplete="off">
+                      <label class="pr-4"><span class="pr-4">Freightlog Entry?</span>
+                        <input class="p-3" type="radio" id="freightlog" name="freightlog" value="1" 
+                          @checked(old('freightlog', $employee->freightlog) == 1)>Yes
+                      </label>
+                      <label>
+                        <input class="p-3" type="radio" id="freightlog" name="freightlog" value="0" 
+                          @checked(old('freightlog', $employee->freightlog) == 0)>No
+                      </label>
                     </div>
+
+
                     <div class="form-group">
-                      <label for="title">Outside Sales?</label>
-                        <input type="text" class="form-control" id="outside_sales" name="outside_sales" value="{{ $employee->outside_sales }}" autocomplete="off">
+                      <label class="pr-4"><span class="pr-4">Is Outside Sales?</span>
+                        <input class="p-3" type="radio" id="outside_sales" name="outside_sales" value="1" 
+                          @checked(old('outside_sales', $employee->outside_sales) == 1)>Yes
+                      </label>
+                      <label>
+                        <input class="p-3" type="radio" id="outside_sales" name="outside_sales" value="0" 
+                          @checked(old('outside_sales', $employee->outside_sales) == 0)>No
+                      </label>
                     </div>
 
 
                   <div class="form-group">
-                    <label for="title">Hourly?</label>
-                      <input type="text" class="form-control" id="hourly" name="hourly" value="{{ $employee->hourly }}" autocomplete="off">
+                      <label class="pr-4"><span class="pr-4">Is Hourly (clock)?</span>
+                        <input class="p-3" type="radio" id="hourly" name="hourly" value="1" 
+                          @checked(old('hourly', $employee->hourly) == 1)>Yes
+                      </label>
+                      <label>
+                        <input class="p-3" type="radio" id="hourly" name="hourly" value="0" 
+                          @checked(old('hourly', $employee->hourly) == 0)>No
+                      </label>
+                    </div>
+
+
+                  
+                    <div class="form-group">
+                    <label for="title">Clock In/Out Lunch?</label>
+                    <select name="lunch_code" id="lunch_code" class="form-control">
+                        <option value="" disabled selected hidden>Select lunch option</option>
+                       @foreach($lunchselects as $lunchselect)
+                            <option value="{{ $lunchselect->lunch_id }}" 
+                                {{ old('lunch_code', $employee->lunch_code) == $lunchselect->lunch_id ? 'selected' : '' }}>
+                                {{ $lunchselect->description }}
+                            </option>
+                        @endforeach
+                    </select>
                   </div>
 
-                  <div class="form-group">
-                    <label for="title">Lunch Code</label>
-                      <input type="text" class="form-control" id="lunch_code" name="lunch_code" value="{{ $employee->lunch_code }}" autocomplete="off">
-                  </div>
+                 
+
                   <br/>
                    
                   <a href="{{ url()->previous() }}" class="btn btn-secondary mr-5">Cancel</a>
