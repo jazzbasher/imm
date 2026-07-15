@@ -26,7 +26,10 @@ class User extends Authenticatable
         'email',
         'password',
         'hourly',
-        'outside_sales'
+        'freightlog',
+        'lunch_code',
+        'outside_sales',
+        'active',
     ];
 
     /**

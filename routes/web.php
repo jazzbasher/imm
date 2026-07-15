@@ -8,6 +8,7 @@ use App\Http\Controllers\TimeOffRequestController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FreightLogController;
+use App\Http\Controllers\APRemittanceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
@@ -139,6 +140,9 @@ Route::get('/api/events', [TimeOffRequestController::class, 'getEvents']);
          Route::post('/admin/leaverequest/destroy{period}/{user}', [TimeOffRequestController::class, 'destroy'])->name('destroy.leaverequest');
 
          Route::get('/admin/freight', [FreightLogController::class, 'adminreport'])->name('freightlog.report');
+
+
+         Route::get('/remit', [APRemittanceController::class,  'report'])->name('remit.report');
 
 
 

@@ -66,21 +66,37 @@ class UserController extends Controller
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => 'required', 'string', 'email', 'max:255',
+            'email' => 'required', 'email', 'unique:users,email,' .$id,
             'outside_sales'   => ['required'],
+            'freightlog' => 'required|boolean',
             'hourly'   => 'required|boolean',
             'lunch_code' => [
                Rule::when($request->boolean('hourly'), [
                 'required',
-                Rule::in([1,2,3])
-            ]),
-            ],
+                    Rule::in([1,2,3])
+                    ]),
+                ],
 
         ]);
 
-dd($request);
+        $user = User::findOrFail($id);
 
-        dd($id);
+        $user->fill($validated);
+
+        if($user->isCLean()) {
+
+            return redirect()->back()->with('error', 'No changes were made');
+
+        } else {
+
+            $user->save();
+
+            return redirect()->route('admin.manageusers')->with('success', 'User Information Updated');
+        }
+
+
+
+
     }
 
     public function editPassword(User $user)
