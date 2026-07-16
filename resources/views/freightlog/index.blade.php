@@ -30,5 +30,5 @@
 
     @section('plugins.Datatables', true)
 
-    <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" striped compact hoverable bordered compressed/>
+    <x-adminlte-datatable id="table1" class="with-buttons" :heads="$heads" :config="$config" striped compact with-buttons hoverable bordered compressed/>
 @stop

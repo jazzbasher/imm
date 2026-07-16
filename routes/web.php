@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FreightLogController;
 use App\Http\Controllers\APRemittanceController;
+use App\Http\Controllers\POSReportController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
@@ -33,6 +34,8 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('default');
+
 
 Route::get('/vendors', [App\Http\Controllers\VendorsController::class, 'index'])->name('vendors');
 
@@ -44,6 +47,17 @@ Route::post('/timeoff/leavestore', [App\Http\Controllers\TimeOffRequestControlle
 
 Route::get('/calendar', [TimeOffRequestController::class, 'index'])->name('calendar');
 Route::get('/api/events', [TimeOffRequestController::class, 'getEvents']);
+
+
+// Route::get('/remitform', [APRemittanceController::class,  'view'])->name('remit.dateform');
+Route::get('/remitreport', [APRemittanceController::class,  'view'])->name('remit.dateform');
+Route::post('/remitreport', [APRemittanceController::class,  'export'])->name('remit.report'); //change class to export
+
+Route::get('/sandvik', [POSReportController::class, 'view'])->name('sandvikpos.form');
+Route::post('/sandvik', [POSReportController::class, 'export'])->name('sandvik.report');
+
+
+
 
 // Route::get('/notify', [TimeOffRequestController::class, 'submitforapproval']);
 
@@ -142,7 +156,9 @@ Route::get('/api/events', [TimeOffRequestController::class, 'getEvents']);
          Route::get('/admin/freight', [FreightLogController::class, 'adminreport'])->name('freightlog.report');
 
 
-         Route::get('/remit', [APRemittanceController::class,  'report'])->name('remit.report');
+      
+         // Route::get('/remitreport', [APRemittanceController::class,  'view'])->name('remit.dateform');
+         // Route::post('/remitreport', [APRemittanceController::class,  'export'])->name('remit.report'); 
 
 
 
