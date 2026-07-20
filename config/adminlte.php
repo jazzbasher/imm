@@ -329,9 +329,16 @@ return [
         ],
         [
             'text' => 'Vendors',
-            'url' => '/vendors',
             'icon' => 'fas fa-users',
             'icon_color' => 'warning',
+            'submenu' => [
+                 [
+                     'text' => 'Price List',
+                     'url' => '/vendors/pricelist',
+                     'icon' => 'fas fa-clipboard-list',
+                     'icon_color' => 'white',
+                 ],
+             ],
         ],
         ['header' => 'TIME AND LEAVE'],
         // [

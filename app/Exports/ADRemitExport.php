@@ -62,6 +62,7 @@ class ADRemitExport implements WithEvents
                             $sheet->setCellValue('E' . $currentRow, $remit->invoice_amount);
                             $sheet->setCellValue('F' . $currentRow, number_format($remit->invoice_amount - $remit->terms_amount_taken, 2, '.', ''));
                             $sheet->setCellValue('G' . $currentRow, $remit->terms_amount_taken);
+                            $sheet->setCellValue('H' . $currentRow, '0');
                             
                             $currentRow++;
                         }

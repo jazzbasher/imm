@@ -49,12 +49,29 @@ Route::get('/calendar', [TimeOffRequestController::class, 'index'])->name('calen
 Route::get('/api/events', [TimeOffRequestController::class, 'getEvents']);
 
 
+Route::get('/pricelistupload', [VendorsController::class, 'showForm']);
+Route::post('/pricelistupload', [VendorsController::class, 'storeFile'])->name('pricelist.upload');
+
+Route::get('/vendors/pricelist', [VendorsController::class, 'lennoxpricelist'])->name('pricelist.lennox');
+
+
+
+
+
+
+
+
+
 // Route::get('/remitform', [APRemittanceController::class,  'view'])->name('remit.dateform');
 Route::get('/remitreport', [APRemittanceController::class,  'view'])->name('remit.dateform');
 Route::post('/remitreport', [APRemittanceController::class,  'export'])->name('remit.report'); //change class to export
 
 Route::get('/sandvik', [POSReportController::class, 'view'])->name('sandvikpos.form');
-Route::post('/sandvik', [POSReportController::class, 'export'])->name('sandvik.report');
+Route::post('/sandvik', [POSReportController::class, 'sandvikexport'])->name('sandvik.report');
+
+
+Route::get('/3m', [POSReportController::class, 'mmmpos'])->name('mmm.form');
+Route::post('/3m', [POSReportController::class, 'mmmexport'])->name('mmm.report');
 
 
 

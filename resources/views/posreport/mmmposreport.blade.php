@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Sandvik POS Report')
+@section('title', '3M POS Report')
 
 @section('content')
 @include('partials.flash-messages')
@@ -13,13 +13,13 @@
             <div class="card-body text-center">
    
                 <div class="rounded-circle bg-primary-subtle  d-inline-flex align-items-center justify-content-center mb-3">
-                  <h4>Sandvik POS Report</h4>
+                  <h4>3M POS Report</h4>
                 </div>    
-                <form action="{{ route('sandvik.report') }}" method="POST">
+                <form action="{{ route('mmm.report') }}" method="POST">
                 @csrf
                 @method('POST')
                 <div>
-                <button type="submit" name="dateparam" value="lastmonth" class="btn  btn-danger">All Sandvik POS For Last Month</button>
+                <button type="submit" name="dateparam" value="lastmonth" class="btn  btn-danger">All 3M POS For Last Month</button>
               </div>
               <br/>
 
