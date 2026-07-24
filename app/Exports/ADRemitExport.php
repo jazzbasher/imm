@@ -50,13 +50,13 @@ class ADRemitExport implements WithEvents
                     ->whereNotNull('check_no')
                     ->whereDate('check_date', $this->date)
                     ->whereHas('vendor')
-                    ->with(['vendor', 'address'])
+                    ->with(['vendor', 'admap'])
                     ->orderBy('vendor_id')
                     ->chunk(200, function ($remits) use ($sheet, &$currentRow) {
                         foreach ($remits as $remit) {
                             // Inject values explicitly into matching columns
                             $sheet->setCellValue('A' . $currentRow, $remit->vendor->vendor_name);
-                            $sheet->setCellValue('B' . $currentRow, (int)preg_replace('/[^0-9]/', '', $remit->address->mail_address1));
+                            $sheet->setCellValue('B' . $currentRow, $remit->admap->supplier_id);
                             $sheet->setCellValue('C' . $currentRow, strval($remit->invoice_no));
                             $sheet->setCellValue('D' . $currentRow, Carbon::parse($remit->invoice_date)->format('m/d/Y'));
                             $sheet->setCellValue('E' . $currentRow, $remit->invoice_amount);

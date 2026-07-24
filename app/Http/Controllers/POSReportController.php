@@ -71,13 +71,17 @@ class POSReportController extends Controller
 
     public function mmmpos()
     {
-        // $start = '2026-06-01';
-        // $end = '2026-06-30';
+    //     $start = '2026-06-01';
+    //     $end = '2026-06-30';
 
 
-        // $mmm = EpicorSalesHistory::select('company_id', 'customer_id','ship2_name', 'ship2_address1', 'ship2_address2', 'ship2_city', 'ship2_state', 'ship2_postal_code', 'ship2_country', 'item_id', 'item_desc', 'invoice_date', 'invoice_no', 'qty_shipped', 'unit_of_measure', 'unit_price', 'extended_price')->where('supplier_id', '13202')->whereBetween(DB::raw('CAST(invoice_date AS DATE)'), [$start, $end])->orderBy('invoice_date', 'ASC')->get();
+    //     $mmm = EpicorSalesHistory::leftJoin('p21_item_view', function ($join) {
+    //     $join->on('p21_sales_history_view.item_id', '=', 'p21_item_view.item_id')
+    //          ->on('p21_sales_history_view.unit_of_measure', '=', 'p21_item_view.unit_of_measure')
+    //          ->on('p21_sales_history_view.supplier_id', '=', 'p21_item_view.supplier_id');
+    // })->select('company_id', 'customer_id','ship2_name', 'ship2_address1', 'ship2_address2', 'ship2_city', 'ship2_state', 'ship2_postal_code', 'ship2_country', 'p21_sales_history_view.item_id', 'p21_sales_history_view.item_desc', 'invoice_date', 'invoice_no', 'qty_shipped', 'p21_sales_history_view.unit_of_measure', 'unit_price', 'extended_price', 'p21_item_view.supplier_part_no', 'p21_item_view.upc_code')->where('p21_sales_history_view.supplier_id', '13202')->whereBetween(DB::raw('CAST(invoice_date AS DATE)'), [$start, $end])->get();
 
-        // dd($mmm);
+    //     dd($mmm);
 
         return view('posreport.mmmposreport');
     }

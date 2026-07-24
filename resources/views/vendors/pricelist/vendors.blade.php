@@ -7,8 +7,8 @@
 
 <section class="content">
   <div class="container-fluid">
-    <div class="row g-6 justify-content-center">         
-      <div class="col-md-6">   
+    <div class="row g-6 justify-content-left">         
+      <div class="col-md-3">   
         <div class="card">
           <div class="card-body text-center">
               <div class="rounded-circle bg-primary-subtle  d-inline-flex align-items-center justify-content-center mb-3">
@@ -17,7 +17,7 @@
 
               <div class="list-group">
                 <a href="{{ Storage::disk('public')->url($pricelist->file_path) }}" target="_blank" class="list-group-item list-group-item-action active">
-                  Lennox
+                  Lenox
                 </a>
                 <a href="#" class="list-group-item list-group-item-action active">Dapibus ac facilisis in</a>
                 <a href="#" class="list-group-item list-group-item-action active">Morbi leo risus</a>

@@ -52,7 +52,7 @@ Route::get('/api/events', [TimeOffRequestController::class, 'getEvents']);
 Route::get('/pricelistupload', [VendorsController::class, 'showForm']);
 Route::post('/pricelistupload', [VendorsController::class, 'storeFile'])->name('pricelist.upload');
 
-Route::get('/vendors/pricelist', [VendorsController::class, 'lennoxpricelist'])->name('pricelist.lennox');
+Route::get('/vendors/pricelist', [VendorsController::class, 'lenoxpricelist'])->name('pricelist.lennox');
 
 
 

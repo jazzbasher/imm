@@ -28,7 +28,7 @@ class VendorsController extends Controller
 
         // 2. Store the file in the "uploads" folder on the "public" disk
         if ($request->hasFile('document')) {
-            $path = $request->file('document')->store('documents/pricelist/lennox', 'public');
+            $path = $request->file('document')->store('documents/pricelist/lenox', 'public');
 
 // working on the below
             Media::create([
@@ -48,9 +48,9 @@ class VendorsController extends Controller
 
 
 
-    public function lennoxpricelist()
+    public function lenoxpricelist()
     {
-        $pricelist = Media::where('file_path', 'LIKE', 'documents/pricelist/lennox/%')->latest()->first();
+        $pricelist = Media::where('file_path', 'LIKE', 'documents/pricelist/lenox/%')->latest()->first();
 
         return view('vendors.pricelist.vendors', compact('pricelist'));
 

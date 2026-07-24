@@ -368,16 +368,28 @@ return [
         ],
         ['header' => 'ACCOUNTING'],
         [
+            'text' => 'AD Trustee Mapping',
+            'url' => '/adtrusteemap',
+            'icon' => 'fas fa-map-marker-alt',
+            'icon_color' => 'red',
+        ],
+        [
             'text' => 'AD Remit Report',
             'url' => '/remitreport',
             'icon' => 'fas fa-chart-line',
             'icon_color' => 'cyan',
         ],
         [
-            'text' => 'POS Report',
+            'text' => 'Sandvik POS',
             'url' => '/sandvik',
-            'icon' => 'fas fa-cart-arrow-down',
-            'icon_color' => 'pink',
+            'icon' => 'fas fa-chart-pie',
+            'icon_color' => 'green',
+        ],
+        [
+            'text' => '3M POS',
+            'url' => '/3m',
+            'icon' => 'fas fa-poll',
+            'icon_color' => 'plum',
         ],
          ['header' => 'ADMIN',
           'can'   => 'admin' 

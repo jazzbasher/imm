@@ -19,12 +19,27 @@ class APRemittanceController extends Controller
     }
 
 
+    public function map()
+    {
+
+        //
+        
+    }
+
+
 
 
 
     public function export(Request $request)
     {
         $date = $request->input('date');
+
+
+//         $remitreport = EpicorOEHDR::select('vendor_id','invoice_no', 'invoice_date', 'invoice_amount', 'terms_amount_taken')->whereDate('check_date', $date)->whereHas('vendor')->with('vendor')->with('address')->with('admap')->take(10)->get();
+
+
+// dd($remitreport);
+
         
         // Pass parameters to the Export class
         return Excel::download(new ADRemitExport($date), "adremit_{$date}.xlsx", \Maatwebsite\Excel\Excel::XLSX);
