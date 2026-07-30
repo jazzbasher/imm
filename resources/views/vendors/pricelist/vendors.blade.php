@@ -16,9 +16,13 @@
               </div>   
 
               <div class="list-group">
-                <a href="{{ Storage::disk('public')->url($pricelist->file_path) }}" target="_blank" class="list-group-item list-group-item-action active">
-                  Lenox
+                @if(!empty($lenoxbandsaw->file_path) && Storage::disk('public')->exists($lenoxbandsaw->file_path))
+                <a href="{{ Storage::disk('public')->url($lenoxbandsaw->file_path) }}" target="_blank" class="list-group-item list-group-item-action active">
+                  Lenox Welded Band Saw
                 </a>
+                @else
+                <a href="#bandsawnotfound" class="list-group-item list-group-item-action active">Lenox Welded Band Saw needs upload</a>
+                @endif
                 <a href="#" class="list-group-item list-group-item-action active">Dapibus ac facilisis in</a>
                 <a href="#" class="list-group-item list-group-item-action active">Morbi leo risus</a>
                 <a href="#" class="list-group-item list-group-item-action active">Porta ac consectetur ac</a>
@@ -31,4 +35,13 @@
   </div>
 </section>
 
+
 @stop
+
+@push('css')
+<style>
+  a:hover {
+      color: #f4fc03 !important; /* Forces the rule over default Bootstrap behavior */
+  }
+</style>
+@endpush

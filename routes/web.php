@@ -59,10 +59,17 @@ Route::get('/vendors/pricelist', [VendorsController::class, 'lenoxpricelist'])->
 
 
 
+    /******************************************************************************************** *
+    * ***************************         Accounting only        ******************************** *
+    * ********************************************************************************************/
 
 
+Route::middleware(['accounting'])->group(function () {
 
 // Route::get('/remitform', [APRemittanceController::class,  'view'])->name('remit.dateform');
+
+Route::get('/adtrusteemap', [APRemittanceController::class, 'map'])->name('remit.mapping');
+
 Route::get('/remitreport', [APRemittanceController::class,  'view'])->name('remit.dateform');
 Route::post('/remitreport', [APRemittanceController::class,  'export'])->name('remit.report'); //change class to export
 
@@ -73,7 +80,7 @@ Route::post('/sandvik', [POSReportController::class, 'sandvikexport'])->name('sa
 Route::get('/3m', [POSReportController::class, 'mmmpos'])->name('mmm.form');
 Route::post('/3m', [POSReportController::class, 'mmmexport'])->name('mmm.report');
 
-
+}); /*** <- ends ACCOUNTING middleware  -> ***/
 
 
 // Route::get('/notify', [TimeOffRequestController::class, 'submitforapproval']);

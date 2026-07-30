@@ -16,7 +16,7 @@ class VendorsController extends Controller
 
     public function showForm()
     {
-        return view('vendors.pricelist.pricelistform');
+        return view('vendors.pricelist.pricelistform'); 
     }
 
     public function storeFile(Request $request)
@@ -28,10 +28,11 @@ class VendorsController extends Controller
 
         // 2. Store the file in the "uploads" folder on the "public" disk
         if ($request->hasFile('document')) {
-            $path = $request->file('document')->store('documents/pricelist/lenox', 'public');
+            $lenox = $request->file('document')->store('documents/pricelist/lenox', 'public');
 
 // working on the below
             Media::create([
+                'identifier' => 'lenox.pricelist.bandsaw',
                 'file_path' => $path,
                 'original_name' => $request->file('document')->getClientOriginalName(),
                 'mime_type' => $request->file('document')->getMimeType(),
@@ -50,9 +51,10 @@ class VendorsController extends Controller
 
     public function lenoxpricelist()
     {
-        $pricelist = Media::where('file_path', 'LIKE', 'documents/pricelist/lenox/%')->latest()->first();
+        $lenoxbandsaw = Media::where('identifier', 'lenox.pricelist.bandsaw')->latest()->first();
 
-        return view('vendors.pricelist.vendors', compact('pricelist'));
+
+        return view('vendors.pricelist.vendors', compact('lenoxbandsaw'));
 
     }
 

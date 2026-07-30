@@ -33,18 +33,14 @@ class ADRemitExport implements WithEvents
                     return;
                 }
 
-                // Wrap the template path into the package's expected TemporaryFile type
                 $temporaryFile = new LocalTemporaryFile($templatePath);
                 
-                // FIX: Pass both the temporary file AND the writer type format
                 $event->writer->reopen($temporaryFile, Excel::XLSX);
 
-                // Get the active sheet delegate from the writer to manipulate the layout
                 $sheet = $event->writer->getDelegate()->getActiveSheet();
 
                 $currentRow = 2;
 
-                // Process database chunks safely
                 EpicorOEHDR::query()
                     ->select('vendor_id', 'invoice_no', 'invoice_date', 'invoice_amount', 'terms_amount_taken')
                     ->whereNotNull('check_no')

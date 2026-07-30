@@ -20,7 +20,6 @@ class POSmmmExport implements WithEvents
     protected $end;
     protected $startRow;
 
-
    
     public function __construct(string $start, $end)
     {
@@ -35,28 +34,20 @@ class POSmmmExport implements WithEvents
 
 
             BeforeWriting::class => function(BeforeWriting $event) {
-                // Path to your existing layout file
-                // $start = '2026-06-01';
-                //  $end = '2026-07-01';
+
                 $templatePath = storage_path('app/template/mmm_esker_template.xlsx');
 
                 if (!file_exists($templatePath)) {
                     return;
                 }
 
-                // Wrap the template path into the package's expected TemporaryFile type
                 $temporaryFile = new LocalTemporaryFile($templatePath);
                 
-                // FIX: Pass both the temporary file AND the writer type format
                 $event->writer->reopen($temporaryFile, Excel::XLSX);
 
-                // Get the active sheet delegate from the writer to manipulate the layout
                 $sheet = $event->writer->getDelegate()->getActiveSheet();
 
                 $currentRow = 2;
-
-                // Process database chunks safely
-                // EpicorSalesHistory::query()->select('company_id', 'customer_id','ship2_name', 'ship2_address1', 'ship2_address2', 'ship2_city', 'ship2_state', 'ship2_postal_code', 'ship2_country', 'item_id', 'item_desc', 'invoice_date', 'invoice_no', 'qty_shipped', 'unit_of_measure', 'unit_price', 'extended_price')->where('supplier_id', '13202')->whereBetween(DB::raw('CAST(invoice_date AS DATE)'), [$this->start, $this->end])->orderBy('invoice_date', 'ASC')
 
                 EpicorSalesHistory::query()->leftJoin('p21_item_view', function ($join) {
         $join->on('p21_sales_history_view.item_id', '=', 'p21_item_view.item_id')
@@ -73,17 +64,29 @@ class POSmmmExport implements WithEvents
                                 // $unitcog = $pos->cogs_amount;
                                 $unitcog = '-' . $pos->cogs_amount / ($pos->qty_shipped / $pos->unit_size);
                             }
+
+                            // if(!empty($pos->upc_code)) {
+                            //     $product = $pos->upc_code;
+
+                            // } else if(!empty($pos->supplier_part_no)) {
+                            //     $product = $pos->supplier_part_no;
+
+                            // } else {
+                            //     $product = $pos->item_id;    
+                            // }
+
                             // Inject values explicitly into matching columns
                             $sheet->setCellValue('A' . $currentRow, 'Industrial Mill & Maintenance Supply');
-                            $sheet->setCellValue('B' . $currentRow, '006173082');
+                            $sheet->setCellValue('B' . $currentRow, '16123881');
                             $sheet->setCellValue('C' . $currentRow, $pos->ship_to_id);
                             $sheet->setCellValue('D' . $currentRow, $pos->ship2_name);
                             $sheet->setCellValue('E' . $currentRow, $pos->ship2_address1 . ' ' . $pos->ship2_address2);
                             $sheet->setCellValue('F' . $currentRow, $pos->ship2_city);
                             $sheet->setCellValue('G' . $currentRow, $pos->ship2_state);
                             $sheet->setCellValue('H' . $currentRow, $pos->ship2_postal_code);
-                            $sheet->setCellValue('I' . $currentRow, $pos->ship2_country);
+                            $sheet->setCellValue('I' . $currentRow, 'US');
                             $sheet->setCellValue('J' . $currentRow, $pos->item_id);
+
                             $sheet->setCellValue('K' . $currentRow, $pos->item_desc);
                             $sheet->setCellValue('L' . $currentRow, Carbon::parse($pos->invoice_date)->format('Ymd'));
                             $sheet->setCellValue('M' . $currentRow, $pos->invoice_no);
@@ -92,9 +95,7 @@ class POSmmmExport implements WithEvents
                             $sheet->setCellValue('P' . $currentRow, $unitcog);                     
                             $sheet->setCellValue('Q' . $currentRow, $pos->cogs_amount);
                             $sheet->setCellValue('R' . $currentRow, 'USD');
-                        
-
-     
+                           
                             
                             $currentRow++;
                         }

@@ -340,6 +340,20 @@ return [
                  ],
              ],
         ],
+        [
+            'text' => 'Proof Of Delivery',
+            'url' => 'https://drive.google.com/drive/folders/1D32QuriJgq52dosHPXmyK5QIjWbRyOLi',
+            'target' => '_blank',
+            'icon' => 'fas fa-dolly',
+            'icon_color' => 'lime',
+        ],
+        [
+            'text' => 'Forms',
+            'url' => 'https://drive.google.com/drive/folders/13pNsIFAfWvNTfgd7tDMyn9gkMFmkJUhZ',
+            'target' => '_blank',
+            'icon' => 'fas fa-edit',
+            'icon_color' => 'orange',
+        ],
         ['header' => 'TIME AND LEAVE'],
         // [
         //     'text' => 'Leave Request',
@@ -368,10 +382,31 @@ return [
         ],
         ['header' => 'ACCOUNTING'],
         [
-            'text' => 'AD Trustee Mapping',
-            'url' => '/adtrusteemap',
-            'icon' => 'fas fa-map-marker-alt',
+            'text' => 'Accounting Tools',
+            'icon' => 'fas fa-wrench',
             'icon_color' => 'red',
+            'submenu' => [
+                 [
+                     'text' => 'AD Trustee Mapping',
+                     'url' => '/adtrusteemap',
+                     'icon' => 'fas fa-map-marker-alt',
+                     'icon_color' => 'yellow',
+                 ],
+                 [
+                     'text' => 'Online CC Processing',
+                     'url' => 'https://paytrace.com/login.pay',
+                     'target' => '_blank',
+                     'icon' => 'far fa-credit-card',
+                     'icon_color' => 'white',
+                 ],
+                 [
+                     'text' => 'Charlottes Web',
+                     'url' => 'https://drive.google.com/drive/folders/13k8toZLTcfWVM5MXNzGmnH1royQnqm2y',
+                     'target' => '_blank',
+                     'icon' => 'fas fa-spider',
+                     'icon_color' => 'gray',
+                 ],
+             ],
         ],
         [
             'text' => 'AD Remit Report',
@@ -542,6 +577,16 @@ return [
                     'type' => 'js',
                     'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',
+                ],
+                 [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js',
                 ],
                 [
                     'type' => 'css',

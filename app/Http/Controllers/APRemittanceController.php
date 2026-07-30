@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\EpicorOEHDR;
+use App\Models\ADSupplierMap;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Exports\ADRemitExport;
@@ -22,8 +23,44 @@ class APRemittanceController extends Controller
     public function map()
     {
 
-        //
-        
+        $mapping = ADSupplierMap::with('vendor')->get();
+
+
+        $heads = ['VendorID', 'AD-ID', 'ProphetName', 'ADName', ['label' => 'Edit', 'no-export' => true, 'width' => 2]];
+
+        $data = [];
+
+        foreach ($mapping as $map) {
+if(empty($map->vendor->vendor_name)) {
+
+    dd($map);
+}
+            $data[] = [
+
+                $map->vendor_id,
+                $map->supplier_id,
+                $map->vendor->vendor_name,
+                $map->ad_vendorname,
+                '<a class=btn btn-link" style="color: #018786;" href="/freightlog/edit/' . $map->vendor_id . '"><i class="fas fa-pencil-alt"/></a>',
+            ];
+        }
+
+        $config = [
+            'data' => $data,
+            'order' => [[2, 'asc']],
+            'responsive' => true,
+            'lengthChange' => true,
+            'lengthMenu' => [[25, 50,-1], [25, 50, "All"]],
+            'dom' => 'lBfrtip',
+            'buttons' => ["excel", "pdf", "print"],
+  
+            'language' => ['emptyTable' => 'There are no AD Mapping Results', 'zeroRecords' => 'There are no AD Mapping Results'],
+            'columns' => [null, null, null, null,['orderable' => false]],
+
+        ];
+
+        return view('admap.advendormap', compact('heads', 'config'));
+
     }
 
 
@@ -33,19 +70,9 @@ class APRemittanceController extends Controller
     public function export(Request $request)
     {
         $date = $request->input('date');
-
-
-//         $remitreport = EpicorOEHDR::select('vendor_id','invoice_no', 'invoice_date', 'invoice_amount', 'terms_amount_taken')->whereDate('check_date', $date)->whereHas('vendor')->with('vendor')->with('address')->with('admap')->take(10)->get();
-
-
-// dd($remitreport);
-
-        
-        // Pass parameters to the Export class
+      
         return Excel::download(new ADRemitExport($date), "adremit_{$date}.xlsx", \Maatwebsite\Excel\Excel::XLSX);
     }
-
-
 
 
 
@@ -60,8 +87,6 @@ class APRemittanceController extends Controller
 
 
         $remitreport = EpicorOEHDR::select('vendor_id','invoice_no', 'invoice_date', 'invoice_amount', 'terms_amount_taken')->whereNotNull('check_no')->whereDate('check_date', $reportdate)->whereHas('vendor')->with('vendor')->with('address')->get();
-
-
 
 
          $heads = ['Supplier Name', 'Supplier Acct ID', 'Invoice Number', 'Invoice Date', 'Original Invoice Amount', 'Remittance Amount', 'Member Discount Taken'];
@@ -109,10 +134,7 @@ class APRemittanceController extends Controller
                 ]
         ];
 
-
-
          return view('remit.remitreport', compact('heads', 'config', 'reportdate'));
-
 
 
     }
