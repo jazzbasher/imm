@@ -8,6 +8,8 @@ class ADSupplierMap extends Model
 {
     protected $connection = 'mysql';
     protected $table = 'adtrustee_map';
+    protected $primaryKey = 'vendor_id';
+    protected $fillable = ['vendor_id', 'supplier_id', 'ad_vendorname'];
 
 
     public function vendor()

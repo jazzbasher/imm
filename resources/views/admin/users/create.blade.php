@@ -98,6 +98,30 @@
                                    required autocomplete="new-password">
                         </div>
                         <div class="mb-3">
+                            <label for="branch" class="form-label">Branch</label>
+                            <input type="branch" 
+                                   class="form-control @error('branch') is-invalid @enderror" 
+                                   id="branch" 
+                                   name="branch" 
+                                   value="{{ old('branch') }}" 
+                                   autocomplete="branch">
+                            @error('branch')
+                                <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="extension" class="form-label">Extension</label>
+                            <input type="extension" 
+                                   class="form-control @error('extension') is-invalid @enderror" 
+                                   id="extension" 
+                                   name="extension" 
+                                   value="{{ old('extension') }}" 
+                                   autocomplete="extension">
+                            @error('extension')
+                                <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label d-block">Outside Sales?</label>
 
                             <div class="form-check form-check-inline">
@@ -109,6 +133,35 @@
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="outside_sales" id="is_sales" value="1">
                                 <label class="form-check-label" for="is_sales">Yes</label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label d-block">Freightlog Entry?</label>
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="freightlog" id="not_freightlog" value="0"
+                                @checked(old('freightlog', 0) === 0)>
+                                <label class="form-check-label" for="not_freightlog">No</label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="freightlog" id="is_freightlog" value="1">
+                                <label class="form-check-label" for="is_freightlog">Yes</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label d-block">Accounting?</label>
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="accounting" id="not_accounting" value="0"
+                                @checked(old('accounting', 0) === 0)>
+                                <label class="form-check-label" for="not_sales">No</label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="accounting" id="is_accounting" value="1">
+                                <label class="form-check-label" for="is_accounting">Yes</label>
                             </div>
                         </div>
 

@@ -22,16 +22,24 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'branch' => ['nullable', 'integer'],
+            'extension' => ['nullable', 'integer'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'freightlog' => ['required'],
             'outside_sales'   => ['required'],
+            'accounting'  => ['required'],
             'hourly'   => ['required'],
         ]);
   
         User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
+            'branch' => $validated['branch'],
+            'extension' => $validated['extension'],
             'password' => Hash::make($validated['password']),
+            'freightlog' => $validated['freightlog'],
             'outside_sales' => $validated['outside_sales'],
+            'accounting'  => $validated['accounting'],
             'hourly' => $validated['hourly'],
         ]);
 
@@ -67,8 +75,11 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => 'required', 'email', 'unique:users,email,' .$id,
+            'branch' => 'nullable|integer',
+            'extension' => 'nullable|integer',
             'outside_sales'   => ['required'],
             'freightlog' => 'required|boolean',
+            'accounting' => 'required|boolean',
             'hourly'   => 'required|boolean',
             'lunch_code' => [
                Rule::when($request->boolean('hourly'), [
@@ -97,6 +108,19 @@ class UserController extends Controller
 
 
 
+    }
+
+    public function destroyuser(Request $request, $id)
+    {
+        $request->merge([
+            'active' => 0,
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->update($request->all());
+        $user->save();
+
+        return redirect()->route('admin.manageusers')->with('success', 'User Inactivated');
     }
 
     public function editPassword(User $user)

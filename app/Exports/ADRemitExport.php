@@ -50,6 +50,10 @@ class ADRemitExport implements WithEvents
                     ->orderBy('vendor_id')
                     ->chunk(200, function ($remits) use ($sheet, &$currentRow) {
                         foreach ($remits as $remit) {
+
+                            if(empty($remit->admap->supplier_id)) {
+                                dd('Missing AD Supplier ID for ' . $remit->vendor->vendor_id . ' ' .  $remit->vendor->vendor_name);
+                            }
                             // Inject values explicitly into matching columns
                             $sheet->setCellValue('A' . $currentRow, $remit->vendor->vendor_name);
                             $sheet->setCellValue('B' . $currentRow, $remit->admap->supplier_id);

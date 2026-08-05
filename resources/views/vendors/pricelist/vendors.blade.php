@@ -38,10 +38,3 @@
 
 @stop
 
-@push('css')
-<style>
-  a:hover {
-      color: #f4fc03 !important; /* Forces the rule over default Bootstrap behavior */
-  }
-</style>
-@endpush

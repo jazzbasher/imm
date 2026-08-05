@@ -21,18 +21,36 @@ class VendorsController extends Controller
 
     public function storeFile(Request $request)
     {
-        // 1. Validate the file (e.g., max 2MB, must be pdf, png, or jpg)
+        
+        // $request->validate([
+        //     'document' => 'required|file|mimes:pdf,png,jpg|min:10|max:22048',
+        // ]);
+
+        
+        // if ($request->hasFile('document')) {
+        //     $lenox = $request->file('document')->store('documents/pricelist/lenox', 'public');
+
+
+        //     Media::create([
+        //         'identifier' => 'lenox.pricelist.bandsaw',
+        //         'file_path' => $path,
+        //         'original_name' => $request->file('document')->getClientOriginalName(),
+        //         'mime_type' => $request->file('document')->getMimeType(),
+        //         'file_size' => $request->file('document')->getSize(),
+        //     ]);
+
+
         $request->validate([
-            'document' => 'required|file|mimes:pdf,png,jpg|min:10|max:22048',
+            'document' => 'required|file|mimes:pdf,png,jpg,xls,xlsx,csv,docx,txt|min:10|max:22048',
         ]);
 
-        // 2. Store the file in the "uploads" folder on the "public" disk
+        
         if ($request->hasFile('document')) {
-            $lenox = $request->file('document')->store('documents/pricelist/lenox', 'public');
+            $path = $request->file('document')->store('documents/warehouse', 'public');
 
-// working on the below
+
             Media::create([
-                'identifier' => 'lenox.pricelist.bandsaw',
+                'identifier' => 'warehouse.vehiclemaintenance',
                 'file_path' => $path,
                 'original_name' => $request->file('document')->getClientOriginalName(),
                 'mime_type' => $request->file('document')->getMimeType(),

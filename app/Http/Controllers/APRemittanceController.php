@@ -31,17 +31,20 @@ class APRemittanceController extends Controller
         $data = [];
 
         foreach ($mapping as $map) {
-if(empty($map->vendor->vendor_name)) {
+            if(empty($map->vendor->vendor_name)) {
 
-    dd($map);
-}
+                $vendorname = '!!! Vendor ID does not exist in Prophet !!!';
+            } else {
+                $vendorname = $map->vendor->vendor_name;
+            }
+
             $data[] = [
 
                 $map->vendor_id,
                 $map->supplier_id,
-                $map->vendor->vendor_name,
+                $vendorname,
                 $map->ad_vendorname,
-                '<a class=btn btn-link" style="color: #018786;" href="/freightlog/edit/' . $map->vendor_id . '"><i class="fas fa-pencil-alt"/></a>',
+                '<a class=btn btn-link" style="color: #018786;" href="/admap/edit/' . $map->vendor_id . '"><i class="fas fa-pencil-alt"/></a>',
             ];
         }
 
@@ -64,6 +67,64 @@ if(empty($map->vendor->vendor_name)) {
     }
 
 
+    public function admapedit($vendor)
+    {
+        $advendor = ADSupplierMap::where('vendor_id', $vendor)->get();
+
+        return view('admap.editvendor', compact('advendor'));
+       
+    }
+
+
+    public function admapupdate(Request $request, $id)
+    {
+        $request->validate([
+            'supplier_id' => 'required|numeric',
+            'ad_vendorname' => 'required|string'
+           
+        ]);
+
+
+        $updatetrustee = ADSupplierMap::find($id);
+        $updatetrustee->update($request->all());
+
+        return redirect()->route('remit.mapping')->with('success', 'Vendor Mapping Updated Successfully');
+
+    }
+
+
+    public function admapcreate()
+    {
+        return view('admap.createvendor');
+    }
+
+
+    public function store(Request $request)
+    {
+         
+        $validated = $request->validate([
+            'vendor_id' => ['required', 'numeric', 'unique:adtrustee_map,vendor_id'],
+            'supplier_id' => ['required', 'numeric', 'unique:adtrustee_map,supplier_id'],
+            'ad_vendorname' => ['required', 'string', 'min:2'],
+
+        ]);
+  
+        ADSupplierMap::create([
+            'vendor_id' => $validated['vendor_id'],
+            'supplier_id' => $validated['supplier_id'],
+            'ad_vendorname' => $validated['ad_vendorname'],
+        ]);
+
+        
+        return redirect()->route('remit.mapping')->with('success', 'Vendor mapping added successfully!');
+    }
+
+    public function admapdestroy($id)
+    {
+        dd($id);
+    }
+
+
 
 
 
@@ -79,6 +140,8 @@ if(empty($map->vendor->vendor_name)) {
     public function report(Request $request) 
 
     {
+        // This is not the report itself which exports to excel.  That is found in App/Exports/ADRemitExport
+        
         $request->validate([
             'date' => 'required|date_format:Y-m-d',
         ]);

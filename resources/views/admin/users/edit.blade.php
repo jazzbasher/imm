@@ -30,6 +30,14 @@
                       <input type="text" class="form-control" id="email" name="email" value="{{ $employee->email }}" autocomplete="off">
                   </div>
                   <div class="form-group">
+                    <label for="title">Branch</label>
+                      <input type="text" class="form-control" id="branch" name="branch" value="{{ $employee->branch }}" autocomplete="off">
+                  </div>
+                  <div class="form-group">
+                    <label for="title">Extension</label>
+                      <input type="text" class="form-control" id="extension" name="extension" value="{{ $employee->extension }}" autocomplete="off">
+                  </div>
+                  <div class="form-group">
                     <label class="pr-4"><span class="pr-4">Freightlog Entry?</span>
                       <input class="p-3" type="radio" id="freightlog" name="freightlog" value="1" 
                           @checked(old('freightlog', $employee->freightlog) == 1)>Yes
@@ -47,6 +55,16 @@
                     <label>
                       <input class="p-3" type="radio" id="outside_sales" name="outside_sales" value="0" 
                           @checked(old('outside_sales', $employee->outside_sales) == 0)>No
+                    </label>
+                  </div>
+                  <div class="form-group">
+                    <label class="pr-4"><span class="pr-4">Is Accounting?</span>
+                      <input class="p-3" type="radio" id="accounting" name="accounting" value="1" 
+                          @checked(old('accounting', $employee->accounting) == 1)>Yes
+                    </label>
+                    <label>
+                      <input class="p-3" type="radio" id="accounting" name="accounting" value="0" 
+                          @checked(old('accounting', $employee->accounting) == 0)>No
                     </label>
                   </div>
                   <div class="form-group">
@@ -78,7 +96,7 @@
                 </form>
               </div>
               <div class="card-footer">
-                <form action="#" method="POST" onsubmit="return confirm('This action will permanantly inactivate this user.  Are you sure??');">
+                <form action="{{ route('admin.userdestroy', ['id' => $employee->id]) }}" method="POST" onsubmit="return confirm('This action will permanantly inactivate this user.  Are you sure??');">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="id" value ="{{ $employee->id }}">
                     <button type="submit" class="btn btn-link"><small style="color:red;">Inactivate This User</small></button>

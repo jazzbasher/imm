@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FreightLogController;
 use App\Http\Controllers\APRemittanceController;
 use App\Http\Controllers\POSReportController;
+use App\Http\Controllers\EpicorReportController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
@@ -49,10 +50,17 @@ Route::get('/calendar', [TimeOffRequestController::class, 'index'])->name('calen
 Route::get('/api/events', [TimeOffRequestController::class, 'getEvents']);
 
 
-Route::get('/pricelistupload', [VendorsController::class, 'showForm']);
-Route::post('/pricelistupload', [VendorsController::class, 'storeFile'])->name('pricelist.upload');
+Route::get('/vendors/pricelistupload', [VendorsController::class, 'showForm']);
+Route::post('/vendors/pricelistupload', [VendorsController::class, 'storeFile'])->name('pricelist.upload');
 
 Route::get('/vendors/pricelist', [VendorsController::class, 'lenoxpricelist'])->name('pricelist.lennox');
+
+
+Route::get('/deenareport', [EpicorReportController::class, 'lineitemview'])->name('epicorreport.form');
+
+// Route::get('/altdeenareport', [EpicorReportController::class, 'lineitemview'])->name('epicorreport.form');
+
+Route::post('/deenareport', [EpicorReportController::class, 'deena'])->name('epicorreport.post');
 
 
 
@@ -69,6 +77,11 @@ Route::middleware(['accounting'])->group(function () {
 // Route::get('/remitform', [APRemittanceController::class,  'view'])->name('remit.dateform');
 
 Route::get('/adtrusteemap', [APRemittanceController::class, 'map'])->name('remit.mapping');
+Route::get('/admap/edit/{vendor}', [APRemittanceController::class, 'admapedit'])->name('remit.editadmap');
+Route::patch('/admap/update/{id}', [APRemittanceController::class, 'admapupdate'])->name('admap.vendorupdate');
+Route::post('/admap/destroy/{id}', [APRemittanceController::class, 'admapdestroy'])->name('admap.vendordestroy');
+Route::get('/adtrusteemap/create', [APRemittanceController::class, 'admapcreate'])->name('admap.create');
+Route::post('/adtrusteemap/create', [APRemittanceController::class, 'store'])->name('remit.create');
 
 Route::get('/remitreport', [APRemittanceController::class,  'view'])->name('remit.dateform');
 Route::post('/remitreport', [APRemittanceController::class,  'export'])->name('remit.report'); //change class to export
@@ -150,6 +163,8 @@ Route::post('/3m', [POSReportController::class, 'mmmexport'])->name('mmm.report'
         Route::get('/admin/user/edit/{id}', [UserController::class, 'edituser'])->name('admin.edituser');
 
         Route::patch('admin/users/update/{id}', [UserController::class, 'updateuser'])->name('admin.userupdate');
+
+        Route::post('admin/users/destroy/{id}', [UserController::class, 'destroyuser'])->name('admin.userdestroy');
 
         Route::get('/manager/requests', [TimeOffRequestController::class, 'pendingrequests'])->name('manager.requests');
 

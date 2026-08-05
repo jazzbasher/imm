@@ -25,9 +25,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'branch',
+        'extension',
         'hourly',
         'freightlog',
         'lunch_code',
+        'accounting',
         'outside_sales',
         'active',
     ];
@@ -103,6 +106,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(TimeOffRequest::class, 'user_id', 'id');
     }
+
+
+    public function location()
+    {
+        return $this->hasOne(Branch::class, 'branch_id', 'branch');
+    }
+
 
 
 }
