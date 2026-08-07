@@ -59,6 +59,14 @@ class TimeOffRequestController extends Controller
         return view('timeoffrequest.leaverequest');
     }
 
+    public function adminrequest()
+    {
+        $employees = User::where('active', 1)->whereNotIn('name', ['House Account', 'Flight Safety'])->orderBy('name', 'ASC')->pluck('name', 'id');
+
+        return view('admin.attendance.employeetimeoff', compact('employees'));
+    }
+
+
 
 
 
@@ -126,6 +134,80 @@ class TimeOffRequestController extends Controller
 
 
     }
+
+
+    // ***************  ADMIN Store of Employee time off ********************** //
+    // ***************  No approval routing or notification needed ************ //
+
+    public function adminrequeststore(Request $request)
+    {
+        $allday = $request->input('allDay');
+ 
+        $request->validate([
+            'user_id' => 'required'
+        ]);
+
+        $usr = $request->input('user_id');
+
+        $empname = User::where('id', $usr)->value('name');
+
+
+
+         $request->validate([
+            'start' => 'required_if:allDay,1|date|nullable',
+            'end' => 'required_if:allDay,1|date|after_or_equal:start|nullable',
+            'partialstartdata' => 'required_if:allDay,0|date|nullable',
+            'allDay' => 'required|boolean',
+            'starttime' => 'required_if:allDay,0|nullable',
+            'endtime' => 'required_if:allDay,0|after:starttime|nullable',
+            'type'   => 'nullable',
+            'reason'  => 'nullable',
+            'manager_id'  => 'required'
+        ], [
+
+            'starttime.required_if' => 'A start time must be entered if partial day selected',
+            'endtime.required_if' => 'An end time must be entered if partial day selected',
+            'endtime.after' => 'The end time must be after start time if partial day selected',
+            'partialstartdata.required_if' => 'A date must be entered with time if partial day selected',
+
+        ]);
+
+         $from = Carbon::parse($request->input('start'))->format('m/d/y');
+         $to = Carbon::parse($request->input('end'))->format('m/d/y');
+
+        if($allday == 0)
+        {
+            $start = $request->input('partialstartdata') . ' ' . $request->input('starttime') . ':00';
+            $end = $request->input('partialstartdata') . ' ' . $request->input('endtime') . ':00';
+
+            $request->merge([
+                'start' => $start,
+                'end'   => $end,
+            ]);
+        }
+
+
+        $request->merge([
+            'title' => $empname,
+            'allDay' => $allday,
+            'status' => 1
+        ]);
+
+
+    
+
+        $timeoffsubmit = TimeOffRequest::create($request->all());
+
+         
+
+        return redirect()->route('calendar')->with('success','Employee leave added to calendar!');
+
+
+    }
+
+
+
+
 
     public function pendingrequests()
     {

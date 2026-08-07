@@ -388,7 +388,7 @@ return [
                     'submenu' => [
                         [
                             'text' => 'Drum Labels',
-                            'url' => '#',
+                            'url' => '/warehouse/drumlabels',
                             'icon' => 'fas fa-database',
                             'icon_color' => 'light',
                         ],

@@ -34,10 +34,16 @@
 
       <div class="card">
         <div class="card-header">
-          {{-- <a type="button" href="{{ route('timeoff.requestform') }}" class="btn btn-tool" title="New Leave Request">
-              <i class="fas fa-plus"></i> New Request
-            </a> --}}
+            <div class="row">
+                <div class="col-md-3">
             <a href="{{ route('timeoff.requestform') }}"><button type="button" class="btn btn-warning text-nowrap"><i class="fas fa-plus mr-2"></i>New Leave Request</button></a>
+        </div>
+            @if(auth()->check() && auth()->user()->isAdmin())
+            <div class="col-md-6">
+                <a  href="{{ route('timeoff.adminrequest') }}"><button type="button" class="btn btn-primary text-nowrap"><i class="fas fa-plus mr-2"></i>Enter Leave For Employee</button></a>
+            </div>
+            @endif
+        </div>
           <div class="card-tools">
             
           </div>

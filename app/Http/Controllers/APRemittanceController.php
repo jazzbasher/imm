@@ -104,7 +104,7 @@ class APRemittanceController extends Controller
          
         $validated = $request->validate([
             'vendor_id' => ['required', 'numeric', 'unique:adtrustee_map,vendor_id'],
-            'supplier_id' => ['required', 'numeric', 'unique:adtrustee_map,supplier_id'],
+            'supplier_id' => ['required', 'numeric'],
             'ad_vendorname' => ['required', 'string', 'min:2'],
 
         ]);

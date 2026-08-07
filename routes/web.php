@@ -11,6 +11,7 @@ use App\Http\Controllers\FreightLogController;
 use App\Http\Controllers\APRemittanceController;
 use App\Http\Controllers\POSReportController;
 use App\Http\Controllers\EpicorReportController;
+use App\Http\Controllers\WarehouseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
@@ -61,6 +62,9 @@ Route::get('/deenareport', [EpicorReportController::class, 'lineitemview'])->nam
 // Route::get('/altdeenareport', [EpicorReportController::class, 'lineitemview'])->name('epicorreport.form');
 
 Route::post('/deenareport', [EpicorReportController::class, 'deena'])->name('epicorreport.post');
+
+Route::get('/warehouse/drumlabels', [WarehouseController::class, 'drumlabels'])->name('warehouse.drumlabels');
+
 
 
 
@@ -191,6 +195,10 @@ Route::post('/3m', [POSReportController::class, 'mmmexport'])->name('mmm.report'
          Route::post('/admin/leaverequest/edit/{id}/{period}/{user}', [TimeOffRequestController::class, 'editleaverequest'])->name('edit.leaverequest');
 
          Route::post('/admin/leaverequest/destroy{period}/{user}', [TimeOffRequestController::class, 'destroy'])->name('destroy.leaverequest');
+
+         Route::get('/timeoff/adminrequest', [App\Http\Controllers\TimeOffRequestController::class, 'adminrequest'])->name('timeoff.adminrequest');
+
+         Route::post('/timeoff/adminrequest', [App\Http\Controllers\TimeOffRequestController::class, 'adminrequeststore'])->name('adminrequest.store');
 
          Route::get('/admin/freight', [FreightLogController::class, 'adminreport'])->name('freightlog.report');
 
