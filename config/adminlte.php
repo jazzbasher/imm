@@ -394,7 +394,7 @@ return [
                         ],
                         [
                             'text' => 'Misc Forms',
-                            'url' => '#',
+                            'url' => '/warehouse/miscdocs',
                             'icon' => 'fas fa-file-excel',
                             'icon_color' => 'green',
                         ],

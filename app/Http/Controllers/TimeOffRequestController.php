@@ -137,7 +137,7 @@ class TimeOffRequestController extends Controller
 
 
     // ***************  ADMIN Store of Employee time off ********************** //
-    // ***************  No approval routing or notification needed ************ //
+    // ************  No approval routing or notification performed ************ //
 
     public function adminrequeststore(Request $request)
     {

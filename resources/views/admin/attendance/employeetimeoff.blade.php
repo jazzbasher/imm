@@ -15,7 +15,7 @@
                   <div class="col-10 col-md-8 col-lg-6">
                     <h3>Admin Portal | Enter Leave For Employee</h3>
         
-                    <form action="{{ route('adminrequest.store') }}" method="POST">
+                    <form action="{{ route('adminrequest.store') }}" method="POST" class="mt-5">
                         @csrf
 
                         <div class="form-group">
@@ -112,7 +112,7 @@
                         <input type="hidden" name="manager_id" value="{{ auth()->id() }}">
                             <br>
                             <a href="{{ url()->previous() }}" class="btn btn-secondary mr-5">Cancel</a>
-                            <button type="submit" class="btn btn-primary">Submit Request</button>
+                            <button type="submit" class="btn btn-primary">Add To Calendar</button>
                     </form>
                   </div>
                 </div>

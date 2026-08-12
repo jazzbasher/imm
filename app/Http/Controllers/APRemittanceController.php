@@ -7,6 +7,7 @@ use App\Models\EpicorOEHDR;
 use App\Models\ADSupplierMap;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use App\Exports\SPRemitExport;
 use App\Exports\ADRemitExport;
 use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -26,7 +27,7 @@ class APRemittanceController extends Controller
         $mapping = ADSupplierMap::with('vendor')->get();
 
 
-        $heads = ['VendorID', 'AD-ID', 'ProphetName', 'ADName', ['label' => 'Edit', 'no-export' => true, 'width' => 2]];
+        $heads = ['VendorID', 'AD-ID', 'ProphetName', 'ADName', 'ISC', 'SP', ['label' => 'Edit', 'no-export' => true, 'width' => 2]];
 
         $data = [];
 
@@ -38,12 +39,27 @@ class APRemittanceController extends Controller
                 $vendorname = $map->vendor->vendor_name;
             }
 
+            if($map->is_isc == true) {
+                    $isc = '<i class="fas fa-check text-success"></i>';
+                } else {
+                    $isc = '';
+                }
+
+            if($map->is_sp == true) {
+                    $sp = '<i class="fas fa-check text-success"></i>';
+                } else {
+                    $sp = '';
+                }
+
+
             $data[] = [
 
                 $map->vendor_id,
                 $map->supplier_id,
                 $vendorname,
                 $map->ad_vendorname,
+                $isc,
+                $sp,
                 '<a class=btn btn-link" style="color: #018786;" href="/admap/edit/' . $map->vendor_id . '"><i class="fas fa-pencil-alt"/></a>',
             ];
         }
@@ -58,7 +74,7 @@ class APRemittanceController extends Controller
             'buttons' => ["excel", "pdf", "print"],
   
             'language' => ['emptyTable' => 'There are no AD Mapping Results', 'zeroRecords' => 'There are no AD Mapping Results'],
-            'columns' => [null, null, null, null,['orderable' => false]],
+            'columns' => [null, null, null, null, null, null, ['orderable' => false]],
 
         ];
 
@@ -132,7 +148,16 @@ class APRemittanceController extends Controller
     {
         $date = $request->input('date');
       
-        return Excel::download(new ADRemitExport($date), "adremit_{$date}.xlsx", \Maatwebsite\Excel\Excel::XLSX);
+        return Excel::download(new ADRemitExport($date), "isc_remit_{$date}.xlsx", \Maatwebsite\Excel\Excel::XLSX);
+    }
+
+
+
+    public function serviceprovider(Request $request)
+    {
+        $date = $request->input('date');
+      
+        return Excel::download(new SPRemitExport($date), "sp_remit_{$date}.xlsx", \Maatwebsite\Excel\Excel::XLSX);
     }
 
 
@@ -148,27 +173,48 @@ class APRemittanceController extends Controller
 
         $reportdate = $request->input('date');
 
+        $origin = 'Industrial, Safety and Construction';
+        // $remitreport = EpicorOEHDR::select('vendor_id','invoice_no', 'invoice_date', 'invoice_amount', 'terms_amount_taken')->whereNotNull('check_no')->whereDate('check_date', $reportdate)->whereHas('vendor')->with('vendor')->with('address')->get();
 
-        $remitreport = EpicorOEHDR::select('vendor_id','invoice_no', 'invoice_date', 'invoice_amount', 'terms_amount_taken')->whereNotNull('check_no')->whereDate('check_date', $reportdate)->whereHas('vendor')->with('vendor')->with('address')->get();
+
+         $remitreport = EpicorOEHDR::select('vendor_id')->selectRaw('SUM(invoice_amount - terms_amount_taken) as total')->selectRaw('COUNT(*) as invoicecount')->whereNotNull('check_no')->whereDate('check_date', $reportdate)->whereHas('vendor')->with('vendor')->with('admap')->groupBy('vendor_id')->get();
 
 
-         $heads = ['Supplier Name', 'Supplier Acct ID', 'Invoice Number', 'Invoice Date', 'Original Invoice Amount', 'Remittance Amount', 'Member Discount Taken'];
+
+         $totalinvoices = 0;
+         $totalremittance = 0;
+         $spcount = 0;
+
+
+
+
+         $heads = ['Supplier Name', 'AD Supplier ID', 'Number of Invoices', 'Total Remittance'];
 
 
         $data = [];
 
         foreach ($remitreport as $remit) {
+
+            if($remit->admap->is_isc == true) {
+
+
+
+            $totalinvoices += $remit['invoicecount'];
+            $totalremittance += $remit['total'];
             
             $data[] = [
                 $remit->vendor->vendor_name,
-                (int)preg_replace('/[^0-9]/', '', $remit->address->mail_address1),
-                strval($remit->invoice_no),
-                Carbon::parse($remit->invoice_date)->format('m/d/Y'),
-                $remit->invoice_amount,
-                number_format($remit->invoice_amount - $remit->terms_amount_taken, 2, '.', ''),
-                $remit->terms_amount_taken
+                $remit->admap->supplier_id,
+                $remit->invoicecount,
+                number_format($remit->total, 2, '.', ',')
                
             ];
+
+            } elseif ($remit->admap->is_sp == true) {
+
+                $spcount += $remit['invoicecount'];
+
+            }
         }
 
         $config = [
@@ -178,29 +224,90 @@ class APRemittanceController extends Controller
             'paging' => false,
             'info' => true,
             'language' => ['emptyTable' => 'There are no results for the date you selected', 'zeroRecords' => 'There are no results for the date you selected'],
-            'columns' => [null, null, null, null, null, null, null],
+            'columns' => [null, null, null, null],
             'buttons' =>  [
-                        [ 
-                            'extend' => 'excelHtml5',
-                            'text' => '<i class="fas fa-file-excel text-success"></i>',
-                            'title' => '',
-                            'className' => 'btn btn-success',
-                            'titleAttr' => 'Excel Export',
-                            'filename' => 'AD_Remit_' . $reportdate, 
-                        ],
-                        [ 
-                            'extend' => 'print',
-                            'text' => '<i class="fas fa-print text-warning"></i>',
-                            'className' => 'btn btn-success',
-                            'titleAttr' => 'Print',
-                        ],
+                 
+                ]
+
+        ];
+
+         return view('remit.remitreport', compact('heads', 'config', 'reportdate', 'totalinvoices', 'totalremittance', 'spcount', 'origin'));
+
+    }
+
+
+
+    public function spreport($reportdate)
+    {
+        // $request->validate([
+        //     'date' => 'required|date_format:Y-m-d',
+        // ]);
+
+        // $reportdate = $request->input('date');
+
+
+        // $remitreport = EpicorOEHDR::select('vendor_id','invoice_no', 'invoice_date', 'invoice_amount', 'terms_amount_taken')->whereNotNull('check_no')->whereDate('check_date', $reportdate)->whereHas('vendor')->with('vendor')->with('address')->get();
+
+        $origin = 'Service Provider Program';
+
+
+         $remitreport = EpicorOEHDR::select('vendor_id')->selectRaw('SUM(invoice_amount - terms_amount_taken) as total')->selectRaw('COUNT(*) as invoicecount')->whereNotNull('check_no')->whereDate('check_date', $reportdate)->whereHas('vendor')->with('vendor')->with('admap')->groupBy('vendor_id')->get();
+
+
+
+         $totalinvoices = 0;
+         $totalremittance = 0;
+         $spcount = 0;
+
+
+
+
+         $heads = ['Service Provider Name', 'AD Supplier ID', 'Number of Invoices', 'Total Remittance'];
+
+
+        $data = [];
+
+        foreach ($remitreport as $remit) {
+
+            if($remit->admap->is_sp == true) {
+
+
+
+            $totalinvoices += $remit['invoicecount'];
+            $totalremittance += $remit['total'];
+            
+            $data[] = [
+                $remit->vendor->vendor_name,
+                $remit->admap->supplier_id,
+                $remit->invoicecount,
+                number_format($remit->total, 2, '.', ',')
+               
+            ];
+
+            } elseif ($remit->admap->is_isc == true) {
+
+                $spcount += $remit['invoicecount'];
+
+            }
+        }
+
+        $config = [
+            'data' => $data,
+            'order' => [[0, 'asc'],[2,'asc']],
+            'lengthChange' => false,
+            'paging' => false,
+            'info' => true,
+            'language' => ['emptyTable' => 'There are no results for the date you selected', 'zeroRecords' => 'There are no results for the date you selected'],
+            'columns' => [null, null, null, null],
+            'buttons' =>  [
+                 
                 ]
         ];
 
-         return view('remit.remitreport', compact('heads', 'config', 'reportdate'));
-
+         return view('remit.remitreport', compact('heads', 'config', 'reportdate', 'totalinvoices', 'totalremittance', 'spcount', 'origin'));
 
     }
+    
 
 
     

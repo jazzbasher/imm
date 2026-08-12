@@ -64,6 +64,7 @@ Route::get('/deenareport', [EpicorReportController::class, 'lineitemview'])->nam
 Route::post('/deenareport', [EpicorReportController::class, 'deena'])->name('epicorreport.post');
 
 Route::get('/warehouse/drumlabels', [WarehouseController::class, 'drumlabels'])->name('warehouse.drumlabels');
+Route::get('/warehouse/miscdocs', [WarehouseController::class, 'miscdocs'])->name('warehouse.miscdocs');
 
 
 
@@ -88,7 +89,12 @@ Route::get('/adtrusteemap/create', [APRemittanceController::class, 'admapcreate'
 Route::post('/adtrusteemap/create', [APRemittanceController::class, 'store'])->name('remit.create');
 
 Route::get('/remitreport', [APRemittanceController::class,  'view'])->name('remit.dateform');
-Route::post('/remitreport', [APRemittanceController::class,  'export'])->name('remit.report'); //change class to export
+
+// change the below class report to view datatable view and export to Exports/ADRemitExport direct download
+Route::post('/remitreport', [APRemittanceController::class,  'report'])->name('remit.report'); //change class to export
+Route::post('/iscremitdownload', [APRemittanceController::class,  'export'])->name('remit.export');
+Route::post('/spremitdownload', [APRemittanceController::class,  'serviceprovider'])->name('remit.serviceprovider');
+Route::get('/spreport/{reportdate}', [APRemittanceController::class, 'spreport'])->name('remit.spreport');
 
 Route::get('/sandvik', [POSReportController::class, 'view'])->name('sandvikpos.form');
 Route::post('/sandvik', [POSReportController::class, 'sandvikexport'])->name('sandvik.report');

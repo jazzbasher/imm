@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Excel;
 use Carbon\Carbon;
 
-class ADRemitExport implements WithEvents
+class SPRemitExport implements WithEvents
 {
     
     protected $date;
@@ -55,7 +55,7 @@ class ADRemitExport implements WithEvents
                                 dd('Missing AD Supplier ID for ' . $remit->vendor->vendor_id . ' ' .  $remit->vendor->vendor_name);
                             }
 
-                            if($remit->admap->is_isc == true) {
+                            if($remit->admap->is_sp == true) {
 
 
                             // Inject values explicitly into matching columns
@@ -71,7 +71,7 @@ class ADRemitExport implements WithEvents
                             $currentRow++;
                         }
                     }
-                });
+                    });
             },
         ];
     }
@@ -79,10 +79,10 @@ class ADRemitExport implements WithEvents
 
 
 
+
+
+
 }
-
-
-
 
 
 
