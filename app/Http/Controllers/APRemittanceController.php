@@ -147,8 +147,9 @@ class APRemittanceController extends Controller
     public function export(Request $request)
     {
         $date = $request->input('date');
+        $formatteddate = carbon::parse($date)->format('mdY');
       
-        return Excel::download(new ADRemitExport($date), "isc_remit_{$date}.xlsx", \Maatwebsite\Excel\Excel::XLSX);
+        return Excel::download(new ADRemitExport($date), "PaymentDetails_{$formatteddate}.xls", \Maatwebsite\Excel\Excel::XLS);
     }
 
 

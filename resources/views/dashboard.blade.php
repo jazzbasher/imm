@@ -13,7 +13,7 @@
       <div class="card">
         <div class="row">
           <div class="col-12 col-sm-12 col-md-12"> 
-                  <img src="{{ url('/images/landinghero2.jpg') }}" class="img-fluid" >
+                  <img src="{{ asset('/images/homehero.jpg') }}" class="img-fluid" >
                 
             </div>
           </div>

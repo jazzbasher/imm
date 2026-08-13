@@ -34,7 +34,7 @@ class EpicorOEHDR extends Model
 
     public function admap()
     {
-        return $this->hasOne(ADsupplierMap::class, 'vendor_id', 'vendor_id');
+        return $this->hasOne(ADSupplierMap::class, 'vendor_id', 'vendor_id');
     }
 
 
