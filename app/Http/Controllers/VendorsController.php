@@ -46,11 +46,14 @@ class VendorsController extends Controller
 
         
         if ($request->hasFile('document')) {
-            $path = $request->file('document')->store('documents/warehouse', 'public');
+
+            $path = $request->file('document')->store('documents/pricelist/lenox', 'public');
+            // $path = $request->file('document')->store('documents/warehouse', 'public');
 
 
             Media::create([
-                'identifier' => 'warehouse.vehiclemaintenance',
+                'identifier' => 'lenox.pricelist.bandsaw',
+                // 'identifier' => 'warehouse.vehiclemaintenance',
                 'file_path' => $path,
                 'original_name' => $request->file('document')->getClientOriginalName(),
                 'mime_type' => $request->file('document')->getMimeType(),
