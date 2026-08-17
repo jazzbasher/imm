@@ -57,9 +57,9 @@ Route::post('/vendors/pricelistupload', [VendorsController::class, 'storeFile'])
 Route::get('/vendors/pricelist', [VendorsController::class, 'lenoxpricelist'])->name('pricelist.lennox');
 
 
-Route::get('/deenareport', [EpicorReportController::class, 'lineitemview'])->name('epicorreport.form');
+// Deena report built in P21 report studio and removing from here.  Left in case it meets future need
+// Route::get('/deenareport', [EpicorReportController::class, 'lineitemview'])->name('epicorreport.form');
 
-// Route::get('/altdeenareport', [EpicorReportController::class, 'lineitemview'])->name('epicorreport.form');
 
 Route::post('/deenareport', [EpicorReportController::class, 'deena'])->name('epicorreport.post');
 

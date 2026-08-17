@@ -415,12 +415,12 @@ return [
         //     'icon' => 'fas fa-edit',
         //     'icon_color' => 'orange',
         // ],
-        [
-            'text' => 'Deena',
-            'url' => '/deenareport',
-            'icon' => 'far fa-chart-bar',
-            'icon_color' => 'fuchsia',
-        ],
+        // [
+        //     'text' => 'Deena',
+        //     'url' => '/deenareport',
+        //     'icon' => 'far fa-chart-bar',
+        //     'icon_color' => 'fuchsia',
+        // ],
         ['header' => 'TIME AND LEAVE'],
         // [
         //     'text' => 'Leave Request',
@@ -500,7 +500,7 @@ return [
             'text' => 'Freight Report',
              'url' => '/admin/freight',
              'icon' => 'fas fa-shipping-fast',
-             'icon_color' => 'secondary',
+             'icon_color' => 'fuchsia',
              'can'   => 'admin' 
         ],
         [
