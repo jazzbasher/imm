@@ -1,40 +1,59 @@
 @extends('adminlte::page')
 
-@section('title', 'Price List Upload')
+@section('title', 'Vendor Pricelists')
+
 
 @section('content')
 @include('partials.flash-messages')
 
-<section class="content">
-  <div class="container-fluid">
-    <div class="row g-6 justify-content-left">         
-      <div class="col-md-3">   
-        <div class="card">
-          <div class="card-body text-center">
-              <div class="rounded-circle bg-primary-subtle  d-inline-flex align-items-center justify-content-center mb-3">
-                <h4>Vendors Price List</h4>
-              </div>   
+    <section class="content">
+      <div class="container-fluid px-0">
+        <div class="row justify-content-center">
 
-              <div class="list-group">
-                @if(!empty($lenoxbandsaw->file_path) && Storage::disk('public')->exists($lenoxbandsaw->file_path))
-                <a href="{{ Storage::disk('public')->url($lenoxbandsaw->file_path) }}" target="_blank" class="list-group-item list-group-item-action active">
-                  Lenox Welded Band Saw
-                </a>
-                @else
-                <a href="#bandsawnotfound" class="list-group-item list-group-item-action active">Lenox Welded Band Saw needs upload</a>
-                @endif
-                <a href="#" class="list-group-item list-group-item-action active">Dapibus ac facilisis in</a>
-                <a href="#" class="list-group-item list-group-item-action active">Morbi leo risus</a>
-                <a href="#" class="list-group-item list-group-item-action active">Porta ac consectetur ac</a>
-                <a href="#" class="list-group-item list-group-item-action active">Vestibulum at eros</a>
+            <div class="col-md-6 mb-4">
+                <div class="card h-70">
+                    <div class="card-header border-0">
+                        <h3 class="card-title">Lenox Welded Band Saw</h3> 
+                    </div>
+                    <div class="card-body text-center">
+                        <img src="{{ asset('images/thumbnails/lenoxpricelistthumb.png') }}" class="img-thumbnail w-25" alt="Small Thumbnail">
+                        </div>
+                        
+                        <div class="card-footer text-muted text-small text-center" style="background-color: #40545C;">
+                        @if(!empty($lenoxbandsaw->file_path) && Storage::disk('public')->exists($lenoxbandsaw->file_path))
+                            <a href="{{ Storage::disk('public')->url($lenoxbandsaw->file_path) }}" target="_blank" class="small-box-footer text-white">View <i class="fas fa-arrow-circle-up"></i></a>
+                        @else
+                            <a href="#bandsawnotfound" class="list-group-item list-group-item-action active">Lenox Welded Band Saw needs upload</a>
+                        @endif    
+                    </div>
+                  </div>
+                </div>
               </div>
-          </div>
+              <div class="row justify-content-center">
+                <div class="col-md-6 mb-4">
+                   <div class="card h-70">
+                        <div class="card-header border-0">
+                            <h3 class="card-title">Placeholder for another vendor pricelist</h3> 
+                        </div>
+                        <div class="card-body text-center">
+                        <img src="{{ asset('images/thumbnails/maintenancethumb.png') }}" class="img-thumbnail w-25" alt="Small Thumbnail">
+                        
+                    </div>
+                    <div class="card-footer text-muted text-small text-center" style="background-color: #40545C;">
+                        <a href="#" class="small-box-footer text-white">View <i class="fas fa-arrow-circle-up"></i></a>    
+                    </div>
+                </div>             
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
 
+      </div>
+    </section>
 
 @stop
 
+@section('css')
+@stop
+
+@section('js')
+
+@stop
