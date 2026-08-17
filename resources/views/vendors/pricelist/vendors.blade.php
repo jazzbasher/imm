@@ -21,7 +21,7 @@
                         
                         <div class="card-footer text-muted text-small text-center" style="background-color: #40545C;">
                         @if(!empty($lenoxbandsaw->file_path) && Storage::disk('public')->exists($lenoxbandsaw->file_path))
-                            <a href="{{ Storage::disk('public')->url($lenoxbandsaw->file_path) }}" target="_blank" class="small-box-footer text-white">View <i class="fas fa-arrow-circle-up"></i></a>
+                            <a href="{{ Storage::disk('public')->url($lenoxbandsaw->file_path) }}" target="_blank" class="small-box-footer text-white">View <i class="far fa-eye"></i></a>
                         @else
                             <a href="#bandsawnotfound" class="list-group-item list-group-item-action active">Lenox Welded Band Saw needs upload</a>
                         @endif    
@@ -40,7 +40,7 @@
                         
                     </div>
                     <div class="card-footer text-muted text-small text-center" style="background-color: #40545C;">
-                        <a href="#" class="small-box-footer text-white">View <i class="fas fa-arrow-circle-up"></i></a>    
+                        <a href="#" class="small-box-footer text-white">View <i class="far fa-eye"></i></a>    
                     </div>
                 </div>             
             </div>
