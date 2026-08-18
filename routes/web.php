@@ -12,6 +12,7 @@ use App\Http\Controllers\APRemittanceController;
 use App\Http\Controllers\POSReportController;
 use App\Http\Controllers\EpicorReportController;
 use App\Http\Controllers\WarehouseController;
+use App\Http\Controllers\ContactController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
@@ -56,12 +57,11 @@ Route::post('/vendors/pricelistupload', [VendorsController::class, 'storeFile'])
 
 Route::get('/vendors/pricelist', [VendorsController::class, 'lenoxpricelist'])->name('pricelist.lennox');
 
+Route::get('/internal/contacts', [ContactController::class, 'view'])->name('contacts.view');
 
 // Deena report built in P21 report studio and removing from here.  Left in case it meets future need
 // Route::get('/deenareport', [EpicorReportController::class, 'lineitemview'])->name('epicorreport.form');
-
-
-Route::post('/deenareport', [EpicorReportController::class, 'deena'])->name('epicorreport.post');
+// Route::post('/deenareport', [EpicorReportController::class, 'deena'])->name('epicorreport.post');
 
 Route::get('/warehouse/drumlabels', [WarehouseController::class, 'drumlabels'])->name('warehouse.drumlabels');
 Route::get('/warehouse/miscdocs', [WarehouseController::class, 'miscdocs'])->name('warehouse.miscdocs');

@@ -20,6 +20,7 @@
         </div>
          <div class="row">
           <div class="col-12 col-sm-6 col-md-3">
+            <a href="{{ route('contacts.view') }}">
             <div class="info-box">
               <span class="info-box-icon bg-warning elevation-1"><i class="far fa-address-book"></i></span>
               <div class="info-box-content">
@@ -27,6 +28,7 @@
                 </span>
               </div>
             </div>
+          </a>
           </div>
           <div class="col-12 col-sm-6 col-md-3">
             <a href="{{ route('calendar') }}">
