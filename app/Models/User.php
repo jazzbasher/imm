@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 
 class User extends Authenticatable
@@ -96,6 +97,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(TimeClock::class, 'user_id', 'id');
     }
+
+    public function latestClock(): HasOne
+    {
+        // By default, this looks at the 'created_at' column
+        return $this->hasOne(TimeClock::class,  'user_id', 'id')->latestOfMany();
+    }
+
 
      public function freightlog()
     {

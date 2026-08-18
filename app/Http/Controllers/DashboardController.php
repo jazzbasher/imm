@@ -24,11 +24,14 @@ class DashboardController extends Controller
 
         $hourlyusers = User::where('active', 1)->where('hourly', 1)->where('is_admin', 0)->count();
 
-        $clockedusers = User::where('active', 1)->where('hourly', 1)->where('is_admin', 0)->whereHas('timeclock', function($query) {
+        $clockedusers = User::where('active', 1)->where('hourly', 1)->whereHas('timeclock', function($query) {
             $query->whereNotNull('clock_in')->whereNull('clock_out');
-        })->pluck('name');
+        })->with('latestClock')->get();
+
+
 
         $countclocked = $clockedusers->count();
+
 
 
         // catch for no hourly users to prevent division by zero. Returns zero if hourly users not counted.

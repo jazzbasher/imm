@@ -106,7 +106,7 @@
                         <h3 class="card-title">Current Statuses</h3>
                     </div>
                     <div class="card-body p-0">
-                        <table class="table table-striped table-hover">
+                        <table class="table table-striped table-hover"> 
                             <thead>
                                 <tr>
                                     <th style="width: 30%"></th>
@@ -157,13 +157,13 @@
                 <div class="col-md-6">
                    <div class="card h-70">
                     <div class="card-header">
-                        <h3 class="card-title">Future Development Metrics</h3>
+                        <h3 class="card-title">Who Is Clocked-In?</h3>
                     </div>
                     <div class="card-body p-0">
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th style="width: 30%"></th>
+                                    <th style="width: 90%"></th>
                                     <th  style="width: 60%"></th>
                                      <th  style="width: 5%"></th>
                                     <th  style="width: 5%"></th>
@@ -171,8 +171,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Tiffany's Metric One</td>
-                                    
+                                    @foreach($clockedusers as $clocked)
+                                    <td>{{ $clocked->name }} - {{ \Carbon\Carbon::make($clocked->latestClock->clock_in)?->format('m/d h:m a') }}</td>
+                                    @endforeach
                                     
                                 </tr>
                                 <tr>
