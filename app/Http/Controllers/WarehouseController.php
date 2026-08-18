@@ -18,8 +18,8 @@ class WarehouseController extends Controller
 
     public function miscdocs()
     {
-        $shippingchecklist = Media::where('identifier', 'warehouse.shippingchecklist')->value('file_path');
-        $vehiclemaintenance = Media::where('identifier', 'warehouse.vehiclemaintenance')->value('file_path');
+        $shippingchecklist = Media::where('identifier', 'warehouse.shippingchecklist')->latest()->value('file_path');
+        $vehiclemaintenance = Media::where('identifier', 'warehouse.vehiclemaintenance')->latest()->value('file_path');
 
 
         return view('warehouse.miscdocuments', compact('shippingchecklist', 'vehiclemaintenance'));
