@@ -178,6 +178,8 @@ Route::post('/3m', [POSReportController::class, 'mmmexport'])->name('mmm.report'
 
         Route::get('/manager/requests', [TimeOffRequestController::class, 'pendingrequests'])->name('manager.requests');
 
+        Route::get('/manager/allrequests', [TimeOffRequestController::class, 'allrequests'])->name('manager.allrequests');
+
         Route::patch('/manager/requests/approve/{id}', [TimeOffRequestController::class, 'adminapprove'])->name('request.approve');
 
         Route::patch('/manager/requests/reject/{id}', [TimeOffRequestController::class, 'adminreject'])->name('request.reject');

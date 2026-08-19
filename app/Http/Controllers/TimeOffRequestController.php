@@ -227,6 +227,18 @@ class TimeOffRequestController extends Controller
     // }
 
 
+    public function allrequests()
+    {
+        $today = Carbon::today();
+
+        $requests = TimeOffRequest::where('status', 1)->where('end', '>=', $today)->with('user')->with('requesttype')->get();
+
+
+        return view('admin.attendance.allrequests', compact('requests'));
+    }
+
+
+
 
     public function adminapprove(Request $request, $id)
     {
