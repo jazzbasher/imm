@@ -129,25 +129,27 @@
                                 <tr>
                                     <td>On-Leave Today</td>
                                     <td class="align-middle">
-                                        @foreach($leaveusers as $user)
+                                        @forelse($leaveusers as $user)
                                             <small>{{ $user }} </small>
-                                        @endforeach
+                                        @empty
+                                            <span class="badge bg-warning align-middle ml-1 mr-1">0 </span>
+                                        @endforelse
                                     </td>
                                     <td></td>
-                                    <td><span class="badge text-bg-warning"></span></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td>OT Last 7 Days</td>
                                     <td class="align-middle">
-                                        @foreach($otcheck as $ot)
+                                        @forelse($otcheck as $ot)
                                             <small>{{ \Illuminate\Support\Str::words($ot->user->name, 1, '') }}<span class="badge bg-warning align-middle ml-1 mr-1">{{ $ot->cnt }} </span></small>
-                                        @endforeach
+                                        @empty
+                                            <span class="badge bg-warning align-middle ml-1 mr-1">0 </span>
+                                        @endforelse
                                     </td>
                                     <td></td>
-                                    <td><span class="badge text-bg-warning"></span></td>
+                                    <td></td>
                                 </tr>
-                    
-                          
                             </tbody>
                         </table>
                     </div>
@@ -171,19 +173,20 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    @foreach($clockedusers as $clocked)
-                                    <td>{{ $clocked->name }} - {{ \Carbon\Carbon::make($clocked->latestClock->clock_in)?->format('m/d h:m a') }}</td>
-                                    @endforeach
-                                    
+                                    @forelse($clockedusers as $clocked)
+                                    <td><small>{{ $clocked->name }} - {{ \Carbon\Carbon::make($clocked->latestClock->clock_in)?->format('m/d h:m a') }}</small></td>
+                                    @empty
+                                        <td><small>No One Clocked In</small></td>
+                                    @endforelse
                                 </tr>
                                 <tr>
-                                    <td>Tiffany's Metric Two</td>
+                                    <td><small>Tiffany's Metric Two</small></td>
                                    
                                     <td></td>
                                     <td><span class="badge text-bg-warning"></span></td>
                                 </tr>
                                 <tr>
-                                    <td>Tiffany's Metric Three</td>
+                                    <td><small>Tiffany's Metric Three</small></td>
                                    
                                     <td></td>
                                     <td><span class="badge text-bg-warning"></span></td>
