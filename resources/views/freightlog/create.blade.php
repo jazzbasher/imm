@@ -3,6 +3,11 @@
 @section('title', 'Add Freight Charge')
 
 @section('content')
+
+@section('content_top_nav_right')
+            {{ Breadcrumbs::render('newfreight') }}
+@endsection
+
 @include('partials.flash-messages')
 
 @section('content')

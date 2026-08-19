@@ -2,6 +2,50 @@
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
 
+Breadcrumbs::for('home', function (BreadcrumbTrail $trail) {
+    $trail->push('Home', route('home'));
+});
+
+Breadcrumbs::for('contacts', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Contacts', route('contacts.view'));
+});
+
+Breadcrumbs::for('timeclock', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Time Clock', route('attendance.index'));
+});
+
+Breadcrumbs::for('pricelist', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Vendor Pricelists', route('pricelist.lennox'));
+});
+
+Breadcrumbs::for('credentials', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Vendor Credentials', route('pricelist.lennox'));
+});
+
+Breadcrumbs::for('freightlog', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('FreightLog', route('freightlog'));
+});
+
+Breadcrumbs::for('newfreight', function (BreadcrumbTrail $trail) {
+    $trail->parent('freightlog');
+    $trail->push('Create Log', route('freightlog.create'));
+});
+
+
+Breadcrumbs::for('calendar', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Time-Off Calendar', route('calendar'));
+});
+
+Breadcrumbs::for('request', function (BreadcrumbTrail $trail) {
+    $trail->parent('calendar');
+    $trail->push('New Request', route('timeoff.requestform'));
+});
 
 Breadcrumbs::for('attendancedash', function (BreadcrumbTrail $trail) {
     $trail->push('Attendance Dash', route('dashboard.attendance'));

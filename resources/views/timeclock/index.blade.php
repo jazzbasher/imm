@@ -6,6 +6,10 @@
     <h1>Employee Time Clock</h1>
 @stop
 
+@section('content_top_nav_right')
+            {{ Breadcrumbs::render('timeclock') }}
+@endsection
+
 @section('content')
 @include('partials.flash-messages')
 

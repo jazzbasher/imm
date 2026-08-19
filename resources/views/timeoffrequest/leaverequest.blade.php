@@ -2,7 +2,13 @@
 
 @section('title', 'Time Off Request')
 
+@section('content_top_nav_right')
+            {{ Breadcrumbs::render('request') }}
+@endsection
+
 @section('content')
+
+
 @include('partials.flash-messages')
 
     <section class="content" style="margin-top: 5px;">

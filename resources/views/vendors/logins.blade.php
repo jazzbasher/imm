@@ -3,6 +3,11 @@
 @section('title', 'Vendors Logins') 
 
 @section('content_header')
+
+@section('content_top_nav_right')
+            {{ Breadcrumbs::render('credentials') }}
+@endsection
+
 @include('partials.flash-messages')
     
 @stop

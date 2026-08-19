@@ -2,6 +2,9 @@
 
 @section('title', 'Vendor Pricelists')
 
+@section('content_top_nav_right')
+            {{ Breadcrumbs::render('pricelist') }}
+@endsection
 
 @section('content')
 @include('partials.flash-messages')

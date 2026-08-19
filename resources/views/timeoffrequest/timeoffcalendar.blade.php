@@ -3,6 +3,11 @@
 @section('title', 'Time Off')
 
 @section('content')
+
+@section('content_top_nav_right')
+            {{ Breadcrumbs::render('calendar') }}
+@endsection
+
 @include('partials.flash-messages')
  <section class="content">
 

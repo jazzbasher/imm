@@ -3,12 +3,17 @@
 @section('title', 'Freight Log') 
 
 @section('content_header')
+
+@section('content_top_nav_right')
+            {{ Breadcrumbs::render('freightlog') }}
+@endsection
+
 @include('partials.flash-messages')
     
 @stop
 
 @section('content')
- <div class="row">
+ <div class="row pb-5">
     <div class="col-4">
         <a href="{{ route('freightlog.create') }}"><button type="button" class="btn btn-warning text-nowrap"><i class="fas fa-plus mr-2"></i>New Entry</button></a>                                    
     </div>

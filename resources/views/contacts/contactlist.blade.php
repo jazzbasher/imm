@@ -3,6 +3,11 @@
 @section('title', 'IMM Contacts') 
 
 @section('content_header')
+
+@section('content_top_nav_right')
+            {{ Breadcrumbs::render('contacts') }}
+@endsection
+
 @include('partials.flash-messages')
     
 @stop

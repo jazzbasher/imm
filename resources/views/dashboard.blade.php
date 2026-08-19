@@ -3,6 +3,11 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
+
+@section('content_top_nav_right')
+            {{ Breadcrumbs::render('home') }}
+@endsection
+
 @include('partials.flash-messages')
     
 @stop
