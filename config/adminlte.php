@@ -332,6 +332,12 @@ return [
                      'icon' => 'fas fa-clipboard-list',
                      'icon_color' => 'white',
                  ],
+                 [
+                     'text' => 'Login Credentials',
+                     'url' => '/vendors/credentials',
+                     'icon' => 'fas fa-lock-open',
+                     'icon_color' => 'danger',
+                 ],
              ],
         ],
         [

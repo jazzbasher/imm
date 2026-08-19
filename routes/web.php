@@ -57,6 +57,8 @@ Route::post('/vendors/pricelistupload', [VendorsController::class, 'storeFile'])
 
 Route::get('/vendors/pricelist', [VendorsController::class, 'lenoxpricelist'])->name('pricelist.lennox');
 
+Route::get('/vendors/credentials', [VendorsController::class, 'loginview'])->name('vendors.credentials');
+
 Route::get('/internal/contacts', [ContactController::class, 'view'])->name('contacts.view');
 
 // Deena report built in P21 report studio and removing from here.  Left in case it meets future need

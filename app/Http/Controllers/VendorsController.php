@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\File;
 use App\Models\Media;
+use App\Models\Vendors;
 
 class VendorsController extends Controller
 {
@@ -76,6 +77,44 @@ class VendorsController extends Controller
 
 
         return view('vendors.pricelist.vendors', compact('lenoxbandsaw'));
+
+    }
+
+
+
+    public function loginview()
+    {
+
+        $vendors = Vendors::whereNotNull('un')->get();
+
+
+        $heads = ['Vendor', 'UserName', 'Password'];
+
+        $data = [];
+
+        foreach ($vendors as $vendor) {
+            
+            $data[] = [
+
+                $vendor->vendor_name,
+                $vendor->un,
+                $vendor->pw
+
+            ];
+        }
+
+        $config = [
+            'data' => $data,
+            'order' => [[0, 'asc']],
+            'responsive' => true,
+            'lengthChange' => true,
+            'lengthMenu' => [[50, 100,-1], [50, 100, "All"]],
+            'language' => ['emptyTable' => 'There are no results', 'zeroRecords' => 'There are no results'],
+            'columns' => [null, null, null],
+
+        ];
+
+        return view('vendors.logins', compact('heads', 'config'));
 
     }
 
