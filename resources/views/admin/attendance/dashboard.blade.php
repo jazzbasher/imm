@@ -174,7 +174,7 @@
                             <tbody>
                                 <tr>
                                     @forelse($clockedusers as $clocked)
-                                    <td><small>{{ $clocked->name }} - {{ $clocked->latestClock->clock_in }}</small></td>
+                                    <td><small>{{ $clocked->name }} - {{ \Carbon\Carbon::parse($clocked->latestClock->clock_in)->format('H:i A') }}</small></td>
                                     @empty
                                         <td><small>No One Clocked In</small></td>
                                     @endforelse
