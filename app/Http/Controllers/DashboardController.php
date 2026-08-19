@@ -28,7 +28,7 @@ class DashboardController extends Controller
             $query->whereNotNull('clock_in')->whereNull('clock_out');
         })->with('latestClock')->get();
 
-
+dd($clockedusers);
 
         $countclocked = $clockedusers->count();
 
