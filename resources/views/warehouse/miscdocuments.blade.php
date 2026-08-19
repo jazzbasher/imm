@@ -2,6 +2,9 @@
 
 @section('title', 'Warehouse Downloads')
 
+@section('content_top_nav_right')
+            {{ Breadcrumbs::render('warehouseforms') }}
+@endsection
 
 @section('content')
 @include('partials.flash-messages')

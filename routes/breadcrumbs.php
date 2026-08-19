@@ -26,6 +26,31 @@ Breadcrumbs::for('credentials', function (BreadcrumbTrail $trail) {
     $trail->push('Vendor Credentials', route('pricelist.lennox'));
 });
 
+Breadcrumbs::for('drumlabels', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Drum Labels', route('warehouse.drumlabels'));
+});
+
+Breadcrumbs::for('warehouseforms', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Warehouse Forms', route('warehouse.miscdocs'));
+});
+
+Breadcrumbs::for('admap', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('AD Mapping', route('remit.mapping'));
+});
+
+Breadcrumbs::for('remitreport', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('AD Remit', route('remit.dateform'));
+});
+
+Breadcrumbs::for('remitpost', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('AD Remit', route('remit.report'));
+});
+
 Breadcrumbs::for('freightlog', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push('FreightLog', route('freightlog'));

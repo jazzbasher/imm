@@ -2,6 +2,10 @@
 
 @section('title', 'Warehouse Downloads')
 
+@section('content_top_nav_right')
+            {{ Breadcrumbs::render('drumlabels') }}
+@endsection
+
 @section('content')
 @include('partials.flash-messages')
 

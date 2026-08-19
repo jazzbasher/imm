@@ -2,6 +2,10 @@
 
 @section('title', 'AD Remit Report')
 
+@section('content_top_nav_right')
+            {{ Breadcrumbs::render('remitreport') }}
+@endsection
+
 @section('content')
 @include('partials.flash-messages')
 
