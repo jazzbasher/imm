@@ -204,20 +204,25 @@ class FreightLogController extends Controller
         $lastperiodbegin = Carbon::parse($currentpayperiod['start_date'])->subDays(7);
         $previouspayperiod = getPayPeriodDates($lastperiodbegin);
 
-         $logs = FreightLog::selectRaw('salesrep, SUM(amount) AS total')->whereBetween('date', [$previouspayperiod['start_date'], $previouspayperiod['end_date']])->with('outsidesales')->groupBy('salesrep')->orderBy('total', 'DESC')->get();
+        $startLastMonth = Carbon::now()->subMonth()->startOfMonth();
+        $endLastMonth = Carbon::now()->subMonth()->endOfMonth();
 
 
-         $itemized = FreightLog::whereBetween('date', [$previouspayperiod['start_date'], $previouspayperiod['end_date']])->with('outsidesales')->get();
+
+         $logs = FreightLog::selectRaw('salesrep, SUM(amount) AS total')->whereBetween('date', [$startLastMonth, $endLastMonth])->with('outsidesales')->groupBy('salesrep')->orderBy('total', 'DESC')->get();
+
+
+         $itemized = FreightLog::whereBetween('date', [$startLastMonth, $endLastMonth])->with('outsidesales')->get();
 
 $keyed = $itemized->groupBy('outsidesales.name');
 
 
-   return view('admin.freight.freightreport', compact('logs', 'previouspayperiod', 'keyed'));
+   return view('admin.freight.freightreport', compact('logs', 'previouspayperiod', 'keyed', 'startLastMonth', 'endLastMonth'));
 
 
     }
 
-
+ 
 
     
 }

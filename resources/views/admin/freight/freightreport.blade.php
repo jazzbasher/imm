@@ -13,7 +13,7 @@
         <div class="card-header p-0 pt-1">
           <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
             <li class="nav-item">
-              <a class="nav-link active" id="custom-tabs-one-smallengine-tab" data-toggle="pill" href="#custom-tabs-one-smallengine" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Last Payperiod</a>
+              <a class="nav-link active" id="custom-tabs-one-smallengine-tab" data-toggle="pill" href="#custom-tabs-one-smallengine" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Last Month</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" id="custom-tabs-one-powered-tab" data-toggle="pill" href="#custom-tabs-one-powered" role="tab" aria-controls="custom-tabs-one-powered" aria-selected="false">Itemized Line Charge
@@ -26,7 +26,7 @@
             <div class="tab-pane fade show active" id="custom-tabs-one-smallengine" role="tabpanel" aria-labelledby="custom-tabs-one-smallengine-tab">  
             	<div class="card mb-4">
                 <div class="card-header">
-                  <h3 class="card-title">Freight Charges By Rep <small class="text-warning">{{ \Carbon\Carbon::parse($previouspayperiod['start_date'])->format('m/d/y') }} - {{ \Carbon\Carbon::parse($previouspayperiod['end_date'])->format('m/d/y') }}</small></h3>
+                  <h3 class="card-title">Freight Charges By Rep <small class="text-warning">{{ \Carbon\Carbon::parse($startLastMonth)->format('m/d/y') }} - {{ \Carbon\Carbon::parse($endLastMonth)->format('m/d/y') }}</small></h3>
                 </div>
                 <div class="card-body p-0">
                   <table class="table table-striped" role="table">
