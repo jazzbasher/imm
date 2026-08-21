@@ -91,3 +91,13 @@ Breadcrumbs::for('punchdetails', function (BreadcrumbTrail $trail) {
     $trail->push('Edit Punch Entry');
 });
 
+Breadcrumbs::for('pendingrequests', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Pending Requests', route('manager.requests'));
+});
+
+Breadcrumbs::for('allrequests', function (BreadcrumbTrail $trail) {
+    $trail->parent('pendingrequests');
+    $trail->push('All Future Requests', route('manager.allrequests'));
+});
+

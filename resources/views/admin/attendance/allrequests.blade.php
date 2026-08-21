@@ -3,9 +3,14 @@
 
 @section('title', 'PayPeriod User Report')
 
+@section('content_top_nav_right')
+            {{ Breadcrumbs::render('allrequests') }}
+@endsection
+
 @section('plugins.Datatables', true)
 
 @section('content')
+
 @include('partials.flash-messages')
 
 
@@ -30,14 +35,14 @@
     ];
     @endphp
 
-    <div class="card border border-dark p-2 m-1" style="background-color: #343C45; border-style: solid;">
+    <div class="card border border-dark" style="background-color: #343C45; border-style: solid;">
         <div class="card-body">
             <div class="row">
-                <div class="col-3">
-                    <h4><h4><i class="far fa-fw fa-calendar-alt text-info pr-1"></i> All Approved Future Requests </h4>
-                </div>
                 <div class="col-9">
-                    <h5 class="text-secondary"> something here</h5>
+                    <h4><h4><i class="far fa-fw fa-calendar-alt text-info"></i> All Approved Future Requests </h4>
+                </div>
+                <div class="col-3">
+                    <h5 class="text-secondary"></h5>
                 </div>
             </div>
             <x-adminlte-datatable id="table2" :heads="$calheads" :config="$calconfig" striped hoverable bordered compressed>

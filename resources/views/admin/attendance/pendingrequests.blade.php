@@ -2,7 +2,12 @@
 
 @section('title', 'Pending Leave Requests')
 
+@section('content_top_nav_right')
+            {{ Breadcrumbs::render('pendingrequests') }}
+@endsection
+
 @section('content')
+
 @include('partials.flash-messages')
 
  <section class="content">
@@ -10,9 +15,9 @@
         <div class="card-header">
           <h3 class="card-title">Pending Leave Requests</h3>
           <div class="card-tools">
-           {{--  <a type="button" href="{{ route('bidtracker.create') }}" class="btn btn-tool" title="Add Bid">
-              <i class="fas fa-plus"></i> Create Project
-            </a> --}}
+           <a type="button" href="{{ route('manager.allrequests') }}" class="btn btn-tool" title="All Future Requests">
+              <i class="fas fa-eye"></i> View All Aproved Future Requests
+            </a>
           </div>
         </div>
         <div class="card-body p-0">
