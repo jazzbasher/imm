@@ -18,17 +18,13 @@
         <a href="{{ route('freightlog.create') }}"><button type="button" class="btn btn-warning text-nowrap"><i class="fas fa-plus mr-2"></i>New Entry</button></a>                                    
     </div>
     <div class="col-4">
-        @if($viewparam == 1)
-            <h4>Log Entries for {{ \Carbon\Carbon::parse($currentpayperiod['start_date'])->format('m/d/y') }} - {{ \Carbon\Carbon::parse($currentpayperiod['end_date'])->format('m/d/y') }}</h4>
-        @else
-            <h4>Log Entries for {{ \Carbon\Carbon::parse($previouspayperiod['start_date'])->format('m/d/y') }} - {{ \Carbon\Carbon::parse($previouspayperiod['end_date'])->format('m/d/y') }}</h4>  
-        @endif   
+            <h4>Log Entries for {{ $thismonth }}</h4>
     </div>
     <div class = "col-4">
         @if($viewparam == 1)
-            <a href="{{ route('freightlog.lastmonth') }}" class ="d-inline-block mt-2" style="color: #ffc107;"><< Previous PayPeriod</a> 
+            <a href="{{ route('freightlog.lastmonth') }}" class ="d-inline-block mt-2" style="color: #ffc107;"><< Previous Month</a> 
         @else
-            <a href="{{ route('freightlog') }}" class ="d-inline-block mt-2" style="color: #ffc107;">Current PayPeriod >></a> 
+            <a href="{{ route('freightlog') }}" class ="d-inline-block mt-2" style="color: #ffc107;">Current Month >></a> 
         @endif
     </div>
 </div>

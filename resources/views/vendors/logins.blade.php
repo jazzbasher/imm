@@ -18,7 +18,7 @@
         <h4>Vendors Login Credentials</h4>                              
     </div>
     {{-- <div class="col-4 text-right">
-        <a href="{{ route('admap.create') }}"><button type="button" class="btn btn-warning text-nowrap"><i class="fas fa-plus mr-2"></i>Add Vendor</button></a> 
+        <a href="#"><button type="button" class="btn btn-warning text-nowrap"><i class="fas fa-plus mr-2"></i>Add Vendor</button></a> 
     </div> --}}
 
 </div>

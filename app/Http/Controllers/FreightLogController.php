@@ -17,8 +17,14 @@ class FreightLogController extends Controller
         $currentpayperiod = getPayPeriodDates(now());
         $lastperiodbegin = Carbon::parse($currentpayperiod['start_date'])->subDays(7);
         $previouspayperiod = getPayPeriodDates($lastperiodbegin);
+
+        $startThisMonth = Carbon::now()->startOfMonth();
+        $thismonth = now()->monthName;
+        $lastmonth = now()->subMonthNoOverflow()->format('F');
+
+
    
-        $logs = FreightLog::whereBetween('date', [$currentpayperiod['start_date'], $currentpayperiod['end_date']])->orderBy('date', 'desc')->with('user')->with('outsidesales')->get();
+        $logs = FreightLog::where('date', '>=', $startThisMonth)->orderBy('date', 'desc')->with('user')->with('outsidesales')->get();
     
 
         $viewparam = 1;
@@ -58,7 +64,7 @@ class FreightLogController extends Controller
             'columns' => [null, ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false],['orderable' => false]],
         ];
 
-        return view('freightlog.index', compact('heads', 'config', 'currentpayperiod', 'viewparam'));
+        return view('freightlog.index', compact('heads', 'config', 'currentpayperiod', 'viewparam', 'startThisMonth', 'thismonth', 'lastmonth'));
     }
 
 
@@ -71,8 +77,16 @@ class FreightLogController extends Controller
         $currentpayperiod = getPayPeriodDates(now());
         $lastperiodbegin = Carbon::parse($currentpayperiod['start_date'])->subDays(7);
         $previouspayperiod = getPayPeriodDates($lastperiodbegin);
+
+        $startLastMonth = Carbon::now()->subMonth()->startOfMonth();
+        $endLastMonth = Carbon::now()->subMonth()->endOfMonth();
+
+        $thismonth = now()->subMonthNoOverflow()->format('F');
+        $lastmonth = now()->monthName;
+
+
    
-        $logs = FreightLog::whereBetween('date', [$previouspayperiod['start_date'], $previouspayperiod['end_date']])->orderBy('date', 'desc')->orderBy('date', 'desc')->with('user')->with('outsidesales')->get();
+        $logs = FreightLog::whereBetween('date', [$startLastMonth, $endLastMonth])->orderBy('date', 'desc')->with('user')->with('outsidesales')->get();
 
 
         $viewparam = 2;
@@ -111,7 +125,7 @@ class FreightLogController extends Controller
             'columns' => [null, ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false], ['orderable' => false],['orderable' => false]],
         ];
 
-        return view('freightlog.index', compact('heads', 'config', 'previouspayperiod', 'viewparam'));
+        return view('freightlog.index', compact('heads', 'config', 'previouspayperiod', 'viewparam', 'thismonth', 'lastmonth'));
     }
 
 
@@ -209,15 +223,15 @@ class FreightLogController extends Controller
 
 
 
-         $logs = FreightLog::selectRaw('salesrep, SUM(amount) AS total')->whereBetween('date', [$startLastMonth, $endLastMonth])->with('outsidesales')->groupBy('salesrep')->orderBy('total', 'DESC')->get();
+        $logs = FreightLog::selectRaw('salesrep, SUM(amount) AS total')->whereBetween('date', [$startLastMonth, $endLastMonth])->with('outsidesales')->groupBy('salesrep')->orderBy('total', 'DESC')->get();
 
 
-         $itemized = FreightLog::whereBetween('date', [$startLastMonth, $endLastMonth])->with('outsidesales')->get();
+        $itemized = FreightLog::whereBetween('date', [$startLastMonth, $endLastMonth])->with('outsidesales')->get();
 
-$keyed = $itemized->groupBy('outsidesales.name');
+        $keyed = $itemized->groupBy('outsidesales.name');
 
 
-   return view('admin.freight.freightreport', compact('logs', 'previouspayperiod', 'keyed', 'startLastMonth', 'endLastMonth'));
+        return view('admin.freight.freightreport', compact('logs', 'previouspayperiod', 'keyed', 'startLastMonth', 'endLastMonth'));
 
 
     }
