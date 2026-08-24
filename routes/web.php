@@ -108,15 +108,6 @@ Route::post('/3m', [POSReportController::class, 'mmmexport'])->name('mmm.report'
 }); /*** <- ends ACCOUNTING middleware  -> ***/
 
 
-// Route::get('/notify', [TimeOffRequestController::class, 'submitforapproval']);
-
-// test for git pull
-
-    // Route::get('/send-test-email', function () {
-    //     Mail::raw('This email was sent via the Mailgun HTTP API!', function ($message) {
-    //         $message->to('mbartlett@industrialmill.com')
-    //                 ->subject('MS Graph Test');  });  return 'Email sent successfully!';  });
-
 
 
 
@@ -212,14 +203,6 @@ Route::post('/3m', [POSReportController::class, 'mmmexport'])->name('mmm.report'
 
          Route::get('/admin/freight', [FreightLogController::class, 'adminreport'])->name('freightlog.report');
 
-
-      
-         // Route::get('/remitreport', [APRemittanceController::class,  'view'])->name('remit.dateform');
-         // Route::post('/remitreport', [APRemittanceController::class,  'export'])->name('remit.report'); 
-
-
-
-        // Route::get('/bustime', [TimeOffRequestController::class, 'businesstime']);
 
     });  /*** <- ends ADMIN middleware  -> ***/
 

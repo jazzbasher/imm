@@ -46,8 +46,6 @@ class DashboardController extends Controller
 
         
 
-
-
         $leaveusers = User::selectRaw("id,SUBSTRING_INDEX(name, ' ', 1) as name")->where('active', 1)->whereHas('leaverequest', function($query) {
             $query->whereDate('start', '<=', today())->whereDate('end', '>=', today());
         })->pluck('name', 'id');
@@ -64,7 +62,7 @@ class DashboardController extends Controller
                 $query->where('lunch_code', '!=', 3);})->with('user')->get();
 
         // 490 = 8 hours 10 minutes for users who do clock for lunch
-        $otclock = TimeClock::selectRaw('user_id, COUNT(*) as cnt')->whereRaw('TIMESTAMPDIFF(MINUTE, clock_in, clock_out) > ?', [490])->groupBy('user_id')->having('cnt', '>', 0)->where('clock_in', '>=', Carbon::now()->subDays(7)->startOfDay())->whereHas('user', function ($query) {
+        $otclock = TimeClock::selectRaw('user_id, COUNT(*) as cnt')->whereRaw('TIMESTAMPDIFF(MINUTE, clock_in, clock_out) > ?', [550])->groupBy('user_id')->having('cnt', '>', 0)->where('clock_in', '>=', Carbon::now()->subDays(7)->startOfDay())->whereHas('user', function ($query) {
                 $query->where('lunch_code', '=', 3);})->with('user')->get();
 
     
@@ -97,7 +95,6 @@ class DashboardController extends Controller
 
        
     
-
 
 
 

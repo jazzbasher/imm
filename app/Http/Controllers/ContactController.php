@@ -11,23 +11,18 @@ class ContactController extends Controller
     {
         $contacts = User::whereNotNull('directdial')->orWhereNotNull('extension')->get();
 
-
-          $heads = ['Name', 'Extension', 'Direct Dial'];
-
+        $heads = ['Name', 'Extension', 'Direct Dial'];
 
         $data = [];
 
         foreach ($contacts as $contact) {
-
-            
+   
             $data[] = [
                 $contact->name,
                 $contact->extension,
                 $contact->directdial
                
             ];
-
-            
         }
 
         $config = [
@@ -43,9 +38,7 @@ class ContactController extends Controller
 
         ];
 
-
         return view('contacts.contactlist', compact('heads', 'config'));
-
     }
 
 
