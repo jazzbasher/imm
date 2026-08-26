@@ -137,7 +137,7 @@ class DashboardController extends Controller
 
 
         /***********************************************************************/
-        /*************   Define payperiod from view paramater passed ***********/
+        /*************   Define payperiod from view parameter passed ***********/
 
 
         if($period === 'current') {

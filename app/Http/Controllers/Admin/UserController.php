@@ -13,12 +13,12 @@ class UserController extends Controller
 {
     public function create()
     {
-        return view('admin.users.create'); // Return your form view here
+        return view('admin.users.create'); 
     }
 
     public function store(Request $request)
     {
-        // 1. Validate the form payload
+        
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -106,8 +106,6 @@ class UserController extends Controller
         }
 
 
-
-
     }
 
     public function destroyuser(Request $request, $id)
@@ -130,26 +128,20 @@ class UserController extends Controller
 
     public function updatePassword(Request $request, User $user)
     {
-         // 1. Validate the new password inputs
+         
         $request->validate([
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
-
-        // 2. Update the user record with the new hashed password
+       
         $user->update([
             'password' => Hash::make($request->password),
         ]);
-
-        // 3. Redirect back with a success notice
+   
         return redirect()
             ->route('admin.users.manage')
             ->with('success', "Password for {$user->name} has been updated successfully.");
     }
 
-    // public function usermgmt()
-    // {
-    //     $users = User::all();
-    // }
 
 
 }

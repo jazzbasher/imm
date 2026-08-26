@@ -29,7 +29,6 @@
               </div>
             </div>
           </div>
-          <!-- /.col -->
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">
               <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-receipt"></i></span>
@@ -60,10 +59,9 @@
             <div class="info-box mb-3">
               <span class="info-box-icon bg-danger elevation-1"><i class="far fa-user-circle"></i></span>
               <div class="info-box-content">
-                    <span class="info-box-text">Service Provider Report</span>
-                    <span class="info-box-number"><small>Invoice Count</small> <span class="badge badge-warning ml-1">{{ $spcount }}
-                    </span></span>
-                </div>
+                  <span class="info-box-text">Service Provider Report</span>
+                  <span class="info-box-number"><small>Invoice Count</small> <span class="badge badge-warning ml-1">{{ $spcount }}</span></span>
+              </div>
             </div>
 
             @elseif($origin == 'Service Provider Program')
@@ -74,41 +72,37 @@
                     <span class="info-box-number"><small>Invoice Count</small> <span class="badge badge-warning ml-1">{{ $spcount }}</span></span>
               </div>
             </div>
-                @endif
-
-        </a>
+            @endif
+            </a>
           </div>
-     
+        </div>
+        <div class="row">
+          @if($origin == 'Industrial, Safety and Construction')
+              <form action="{{ route('remit.export') }}" method="POST" class="inline">
+                  @csrf
+                  <input type="hidden" name="date" value="{{ $reportdate }}">
+                  <button type="submit" class="btn btn-danger">
+                      <i class="fas fa-file-export"></i>
+                      Export To AD ISC Upload File
+                  </button>
+              </form>
+          @elseif($origin == 'Service Provider Program')
+              <form action="{{ route('remit.serviceprovider') }}" method="POST" class="inline">
+                  @csrf
+                  <input type="hidden" name="date" value="{{ $reportdate }}">
+                  <button type="submit" class="btn btn-danger">
+                      <i class="fas fa-file-export"></i>
+                      Export To AD SP Upload File
+                  </button>
+          @endif
         </div>
 
- <div class="row">
-    @if($origin == 'Industrial, Safety and Construction')
-        <form action="{{ route('remit.export') }}" method="POST" class="inline">
-            @csrf
-            <input type="hidden" name="date" value="{{ $reportdate }}">
-            <button type="submit" class="btn btn-danger">
-                <i class="fas fa-file-export"></i>
-                Export To AD ISC Upload File
-            </button>
-        </form>
-    @elseif($origin == 'Service Provider Program')
-        <form action="{{ route('remit.serviceprovider') }}" method="POST" class="inline">
-            @csrf
-            <input type="hidden" name="date" value="{{ $reportdate }}">
-            <button type="submit" class="btn btn-danger">
-                <i class="fas fa-file-export"></i>
-                Export To AD SP Upload File
-            </button>
-    @endif
-</div>
-
-@section('plugins.Datatables', true)
-
-    <x-adminlte-card title="AD . {{ $origin }}" header-class="text-center" theme="secondary"> 
-    <x-adminlte-datatable id="remit" class="with-buttons" :heads="$heads" :config="$config" striped compact with-buttons hoverable bordered compressed/>
-    </x-adminlte-card>
-@stop
-</div>
+    @section('plugins.Datatables', true)
+      <x-adminlte-card title="AD . {{ $origin }}" header-class="text-center" theme="secondary"> 
+        <x-adminlte-datatable id="remit" class="with-buttons" :heads="$heads" :config="$config" striped compact with-buttons hoverable bordered compressed/>
+      </x-adminlte-card>
+    @stop
+  </div>
 </section>
 
 

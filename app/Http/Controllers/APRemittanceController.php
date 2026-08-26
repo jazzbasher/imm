@@ -176,21 +176,17 @@ class APRemittanceController extends Controller
         $reportdate = $request->input('date');
 
         $origin = 'Industrial, Safety and Construction';
-        // $remitreport = EpicorOEHDR::select('vendor_id','invoice_no', 'invoice_date', 'invoice_amount', 'terms_amount_taken')->whereNotNull('check_no')->whereDate('check_date', $reportdate)->whereHas('vendor')->with('vendor')->with('address')->get();
 
 
-         $remitreport = EpicorOEHDR::select('vendor_id')->selectRaw('SUM(invoice_amount - terms_amount_taken) as total')->selectRaw('COUNT(*) as invoicecount')->whereNotNull('check_no')->whereDate('check_date', $reportdate)->whereHas('vendor')->with('vendor')->with('admap')->groupBy('vendor_id')->get();
+        $remitreport = EpicorOEHDR::select('vendor_id')->selectRaw('SUM(invoice_amount - terms_amount_taken) as total')->selectRaw('COUNT(*) as invoicecount')->whereNotNull('check_no')->whereDate('check_date', $reportdate)->whereHas('vendor')->with('vendor')->with('admap')->groupBy('vendor_id')->get();
 
-
-
-         $totalinvoices = 0;
-         $totalremittance = 0;
-         $spcount = 0;
+        $totalinvoices = 0;
+        $totalremittance = 0;
+        $spcount = 0;
 
 
 
-
-         $heads = ['Supplier Name', 'AD Supplier ID', 'Number of Invoices', 'Total Remittance'];
+        $heads = ['Supplier Name', 'AD Supplier ID', 'Number of Invoices', 'Total Remittance'];
 
 
         $data = [];
@@ -227,13 +223,15 @@ class APRemittanceController extends Controller
             'info' => true,
             'language' => ['emptyTable' => 'There are no results for the date you selected', 'zeroRecords' => 'There are no results for the date you selected'],
             'columns' => [null, null, null, null],
-            'buttons' =>  [
-                 
-                ]
+            'buttons' => [
+                ['extend' => 'excel', 'className' => 'btn btn-success'],
+                ['extend' => 'print', 'className' => 'btn btn-info'],
+            ],
+
 
         ];
 
-         return view('remit.remitreport', compact('heads', 'config', 'reportdate', 'totalinvoices', 'totalremittance', 'spcount', 'origin'));
+        return view('remit.remitreport', compact('heads', 'config', 'reportdate', 'totalinvoices', 'totalremittance', 'spcount', 'origin'));
 
     }
 
@@ -241,30 +239,20 @@ class APRemittanceController extends Controller
 
     public function spreport($reportdate)
     {
-        // $request->validate([
-        //     'date' => 'required|date_format:Y-m-d',
-        // ]);
 
-        // $reportdate = $request->input('date');
-
-
-        // $remitreport = EpicorOEHDR::select('vendor_id','invoice_no', 'invoice_date', 'invoice_amount', 'terms_amount_taken')->whereNotNull('check_no')->whereDate('check_date', $reportdate)->whereHas('vendor')->with('vendor')->with('address')->get();
 
         $origin = 'Service Provider Program';
 
 
-         $remitreport = EpicorOEHDR::select('vendor_id')->selectRaw('SUM(invoice_amount - terms_amount_taken) as total')->selectRaw('COUNT(*) as invoicecount')->whereNotNull('check_no')->whereDate('check_date', $reportdate)->whereHas('vendor')->with('vendor')->with('admap')->groupBy('vendor_id')->get();
+        $remitreport = EpicorOEHDR::select('vendor_id')->selectRaw('SUM(invoice_amount - terms_amount_taken) as total')->selectRaw('COUNT(*) as invoicecount')->whereNotNull('check_no')->whereDate('check_date', $reportdate)->whereHas('vendor')->with('vendor')->with('admap')->groupBy('vendor_id')->get();
 
 
-
-         $totalinvoices = 0;
-         $totalremittance = 0;
-         $spcount = 0;
-
+        $totalinvoices = 0;
+        $totalremittance = 0;
+        $spcount = 0;
 
 
-
-         $heads = ['Service Provider Name', 'AD Supplier ID', 'Number of Invoices', 'Total Remittance'];
+        $heads = ['Service Provider Name', 'AD Supplier ID', 'Number of Invoices', 'Total Remittance'];
 
 
         $data = [];
@@ -301,12 +289,14 @@ class APRemittanceController extends Controller
             'info' => true,
             'language' => ['emptyTable' => 'There are no results for the date you selected', 'zeroRecords' => 'There are no results for the date you selected'],
             'columns' => [null, null, null, null],
-            'buttons' =>  [
-                 
-                ]
+            'buttons' => [
+                ['extend' => 'excel', 'className' => 'btn btn-success'],
+                ['extend' => 'print', 'className' => 'btn btn-info'],
+            ],
+
         ];
 
-         return view('remit.remitreport', compact('heads', 'config', 'reportdate', 'totalinvoices', 'totalremittance', 'spcount', 'origin'));
+        return view('remit.remitreport', compact('heads', 'config', 'reportdate', 'totalinvoices', 'totalremittance', 'spcount', 'origin'));
 
     }
     

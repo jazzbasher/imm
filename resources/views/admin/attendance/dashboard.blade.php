@@ -99,6 +99,7 @@
         </div>
 
 
+
         <div class="row">
             <div class="col-md-6">
                 <div class="card h-70">
@@ -111,7 +112,7 @@
                                 <tr>
                                     <th style="width: 30%"></th>
                                     <th  style="width: 60%"></th>
-                                     <th  style="width: 5%"></th>
+                                    <th  style="width: 5%"></th>
                                     <th  style="width: 5%"></th>
                                 </tr>
                             </thead>
@@ -165,9 +166,9 @@
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th style="width: 90%"></th>
+                                    <th style="width: 30%"></th>
                                     <th  style="width: 60%"></th>
-                                     <th  style="width: 5%"></th>
+                                    <th  style="width: 5%"></th>
                                     <th  style="width: 5%"></th>
                                 </tr>
                             </thead>
@@ -178,16 +179,19 @@
                                     @empty
                                         <td><small>No One Clocked In</small></td>
                                     @endforelse
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td><small>Tiffany's Metric Two</small></td>
-                                   
+                                    <td></td>
                                     <td></td>
                                     <td><span class="badge text-bg-warning"></span></td>
                                 </tr>
                                 <tr>
                                     <td><small>Tiffany's Metric Three</small></td>
-                                   
+                                   <td></td>
                                     <td></td>
                                     <td><span class="badge text-bg-warning"></span></td>
                                 </tr>

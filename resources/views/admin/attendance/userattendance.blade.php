@@ -109,7 +109,15 @@
     </div>
 @else
 
-    No Time Clock Data
+    <div class="card border border-dark p-2" style="background-color: #343C45; border-style: solid;">
+        <div class="card-body">
+            <div class="row">                   
+                <div class="col-12">
+                    <h4><i class="far fa-clock text-warning pr-1"></i> {{ $username }} has no timeclock entries</h4>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endif
 
@@ -179,7 +187,15 @@
 
 @else
 
-    No Calendar Data
+    <div class="card border border-dark p-2" style="background-color: #343C45; border-style: solid;">
+        <div class="card-body">
+            <div class="row">                   
+                <div class="col-12">
+                    <h4><i class="far fa-calendar-alt text-info pr-1"></i> {{ $username }} has no time-off requests</h4>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endif
 
