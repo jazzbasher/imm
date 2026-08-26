@@ -65,6 +65,8 @@ class DashboardController extends Controller
         $otclock = TimeClock::selectRaw('user_id, COUNT(*) as cnt')->whereRaw('TIMESTAMPDIFF(MINUTE, clock_in, clock_out) > ?', [540])->groupBy('user_id')->having('cnt', '>', 0)->where('clock_in', '>=', Carbon::now()->subDays(7)->startOfDay())->whereHas('user', function ($query) {
                 $query->where('lunch_code', '=', 3);})->with('user')->get();
 
+
+
     
         // merge/union both collections for blade foreach display
 

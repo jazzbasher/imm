@@ -111,7 +111,7 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
             'trust_server_certificate' => true,
-            // 'encrypt' => env('DB_ENCRYPT', 'yes'),
+            'encrypt' => env('DB_ENCRYPT_SECOND', 'yes'),
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
