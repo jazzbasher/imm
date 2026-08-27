@@ -50,10 +50,14 @@
                                 0
                             @endisset
                         </td> 
-                        <td>
-                            {{ ($times["net_longclocks"] ?? 0) + ($times["net_clockdups"] ?? 0)  }}
+                        <td class="text-center">
+                            @if (($times["net_longclocks"] ?? 0) + ($times["net_clockdups"] ?? 0) > 0)
+                                <i class="fas fa-check text-danger"></i>
+                            @else
+                            
+                            @endif
                         </td>                                                                                       
-                        <td>                                                      
+                        <td class="text-center">                                                      
                             <a class="text-decoration-none" href="{{ route('attendance.details', ['period' => $period, 'id' => $k]) }}"> 
                             <i class="far fa-eye" style="color: #778CF7;"></i></a>
                         </td>

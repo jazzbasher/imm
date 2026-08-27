@@ -2,9 +2,8 @@
 
 @section('title', 'Edit User')
 
-
-
 @section('content')
+
 @include('partials.flash-messages')
 
   <section class="content">

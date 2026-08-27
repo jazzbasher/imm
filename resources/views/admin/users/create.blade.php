@@ -1,10 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Home')
-
-{{-- @section('content_top_nav_right')
-            {{ Breadcrumbs::render('admincreateuser') }}
-@endsection --}}
+@section('title', 'Create User')
 
 @section('content')
 
@@ -19,11 +15,8 @@
             <div class="card shadow-sm">
                 <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Register New User</h5>
-
                 </div>
-
                 <div class="card-body">
-                    {{-- Success Alert Notification --}}
                     @if (session('success'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             {{ session('success') }}
@@ -33,7 +26,6 @@
                     <form method="POST" action="{{ route('admin.users.store') }}">
                         @csrf
 
-                        {{-- Name Field --}}
                         <div class="mb-3">
                             <label for="name" class="form-label">First and Last Name</label>
                             <input type="text" 
@@ -47,8 +39,6 @@
                                 <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                             @enderror
                         </div>
-
-                        {{-- Email Field --}}
                         <div class="mb-3">
                             <label for="email" class="form-label">Email Address</label>
                             <input type="email" 
@@ -61,21 +51,6 @@
                                 <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                             @enderror
                         </div>
-
-                        {{-- Optional Role Selection --}}
-                        {{-- <div class="mb-3">
-                            <label for="role" class="form-label">System Role</label>
-                            <select class="form-select @error('role') is-invalid @enderror" id="role" name="role" required>
-                                <option value="" disabled selected>Select user role...</option>
-                                <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>Standard User</option>
-                                <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Administrator</option>
-                            </select>
-                            @error('role')
-                                <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
-                            @enderror
-                        </div> --}}
-
-                        {{-- Password Field --}}
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" 
@@ -87,8 +62,6 @@
                                 <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                             @enderror
                         </div>
-
-                        {{-- Password Confirmation Field --}}
                         <div class="mb-3">
                             <label for="password-confirm" class="form-label">Confirm Password</label>
                             <input type="password" 
@@ -149,7 +122,6 @@
                                 <label class="form-check-label" for="is_freightlog">Yes</label>
                             </div>
                         </div>
-
                         <div class="mb-3">
                             <label class="form-label d-block">Accounting?</label>
 
@@ -164,7 +136,6 @@
                                 <label class="form-check-label" for="is_accounting">Yes</label>
                             </div>
                         </div>
-
                         <div class="mb-3">
                             <label class="form-label d-block">Hourly Employee?</label>
 
@@ -179,8 +150,6 @@
                                 <label class="form-check-label" for="hourly">Yes</label>
                             </div>
                         </div>
-
-                        {{-- Form Action Button --}}
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
                             <button type="reset" class="btn btn-secondary me-md-2">Clear Form</button>
                             <button type="submit" class="btn btn-primary">Create User Profile</button>
@@ -194,7 +163,7 @@
 @stop
 
 @section('css')
-    {{-- Add extra stylesheets here --}}
+  
 @stop
 
 @section('js')

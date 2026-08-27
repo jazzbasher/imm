@@ -1,10 +1,11 @@
 @extends('adminlte::page')
 
 @section('title', 'User Management')
+
 @section('plugins.Datatables', true)
 
-
 @section('content')
+
 @include('partials.flash-messages')
 
     

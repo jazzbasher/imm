@@ -88,7 +88,7 @@ class DashboardController extends Controller
         $timeclockhours = TimeClock::whereBetween('clock_in', [$thispayperiod['start_date'], $thispayperiod['end_date']])->whereNotNull('clock_out')->get();
 
         $totalclockhours = $timeclockhours->sum(function ($item) {
-            // Assuming 'start_time' and 'end_time' are your datetime columns
+            
             $start = Carbon::parse($item->clock_in);
             $end = Carbon::parse($item->clock_out);
             
@@ -115,7 +115,7 @@ class DashboardController extends Controller
 
 
         $lasttotalclockhours = $lasttimeclockhours->sum(function ($item) {
-            // Assuming 'start_time' and 'end_time' are your datetime columns
+           
             $start = Carbon::parse($item->clock_in);
             $end = Carbon::parse($item->clock_out);
             
@@ -351,7 +351,7 @@ class DashboardController extends Controller
 
             $usertimeclockdata = TimeClock::where('user_id', $uid)->whereBetween('clock_in', [$payperiod['start_date'], $payperiod['end_date']])->whereNotNull('clock_out')->with('user')->orderBy('clock_in', 'ASC')->get();
 
-            $clockindups = TImeClock::where('user_id', $uid)->selectRaw('DATE(clock_in) as date, COUNT(DISTINCT DATE(clock_in)) as clockdups')->whereBetween('clock_in', [$payperiod['start_date'], $payperiod['end_date']])->groupBy('date')->havingRaw('COUNT(*) > 1')->get();
+            $clockindups = TimeClock::where('user_id', $uid)->selectRaw('DATE(clock_in) as date, COUNT(DISTINCT DATE(clock_in)) as clockdups')->whereBetween('clock_in', [$payperiod['start_date'], $payperiod['end_date']])->groupBy('date')->havingRaw('COUNT(*) > 1')->get();
 
         } else {
 

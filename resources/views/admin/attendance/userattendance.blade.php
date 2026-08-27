@@ -80,10 +80,10 @@
                             @endif                        
                         </td>
                         <td>
-                            {{ $clock->lunchtotal * 60 }}
+                            {{ floor($clock->lunchtotal * 60) }}
                         </td> 
 
-                        @if($clock->nethours >= 9.5 )
+                        @if($clock->nethours >= 8.18 )
                             <td style="background-color: #47161e;">
                         @else
                             <td>
