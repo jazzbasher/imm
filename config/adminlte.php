@@ -453,17 +453,21 @@ return [
             // 'icon' => 'far fa-fw fa-calendar-alt',
             // 'icon_color' => 'yellow',
         ],
-        ['header' => 'ACCOUNTING'],
+        ['header' => 'ACCOUNTING',
+          'can'   => 'accounting' 
+        ],
         [
             'text' => 'Accounting Tools',
             'icon' => 'fas fa-wrench',
             'icon_color' => 'red',
+            'can'   => 'accounting',
             'submenu' => [
                  [
                      'text' => 'AD Trustee Mapping',
                      'url' => '/adtrusteemap',
                      'icon' => 'fas fa-map-marker-alt',
                      'icon_color' => 'yellow',
+                     'can'   => 'accounting',
                  ],
                  [
                      'text' => 'Online CC Processing',
@@ -471,6 +475,7 @@ return [
                      'target' => '_blank',
                      'icon' => 'far fa-credit-card',
                      'icon_color' => 'white',
+                     'can'   => 'accounting',
                  ],
                  [
                      'text' => 'Charlottes Web',
@@ -478,6 +483,7 @@ return [
                      'target' => '_blank',
                      'icon' => 'fas fa-spider',
                      'icon_color' => 'gray',
+                     'can'   => 'accounting',
                  ],
              ],
         ],
@@ -486,18 +492,21 @@ return [
             'url' => '/remitreport',
             'icon' => 'fas fa-chart-line',
             'icon_color' => 'cyan',
+            'can'   => 'accounting',
         ],
         [
             'text' => 'Sandvik POS',
             'url' => '/sandvik',
             'icon' => 'fas fa-chart-pie',
             'icon_color' => 'green',
+            'can'   => 'accounting',
         ],
         [
             'text' => '3M POS',
             'url' => '/3m',
             'icon' => 'fas fa-poll',
             'icon_color' => 'plum',
+            'can'   => 'accounting',
         ],
          ['header' => 'ADMIN',
           'can'   => 'admin' 

@@ -15,8 +15,8 @@
         <div class="card-header">
           <h3 class="card-title">Pending Leave Requests</h3>
           <div class="card-tools">
-           <a type="button" href="{{ route('manager.allrequests') }}" class="btn btn-tool" title="All Future Requests">
-              <i class="fas fa-eye"></i> View All Aproved Future Requests
+           <a type="button" href="{{ route('manager.allrequests') }}" class="text-warning" title="All Future Requests">
+              <i class="fas fa-eye"></i> View All Aproved Future Requests 
             </a>
           </div>
         </div>
@@ -48,7 +48,7 @@
                   </tr>
               </thead>
               <tbody>
-              @foreach($requests as $request)
+                @foreach($requests as $request)
                   <tr>
                       <td>
                            {{ $request->user->name }}      
@@ -81,28 +81,28 @@
                           {{ $request->reason }}
                       </td>
                       <td class="d-flex gap-2">
-                    <!-- Approve Button -->
-                    <form action="{{ route('request.approve', $request->id) }}"class ="pr-3" method="POST">
-                        @csrf
-                        @method('PATCH')
-                        <input type="hidden" name="status" value="1"/>
-                        <button type="submit" class="btn btn-success btn-sm" title="Approve">
-                            <i class="fas fa-check-square"></i> 
-                        </button>
-                    </form>
+                        <!-- Approve Button -->
+                        <form action="{{ route('request.approve', $request->id) }}"class ="pr-3" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <input type="hidden" name="status" value="1"/>
+                            <button type="submit" class="btn btn-success btn-sm" title="Approve">
+                                <i class="fas fa-check-square"></i> 
+                            </button>
+                        </form>
 
-                    <!-- Reject Button -->
-                    <form action="{{ route('request.reject', $request->id) }}" method="POST">
-                        @csrf
-                        @method('PATCH')
-                        <input type="hidden" name="status" value="2"/>
-                        <button type="submit" class="btn btn-danger btn-sm" title="Reject">
-                            <i class="fas fa-window-close"></i>
-                        </button>
-                    </form>
-                </td>
+                        <!-- Reject Button -->
+                        <form action="{{ route('request.reject', $request->id) }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <input type="hidden" name="status" value="2"/>
+                            <button type="submit" class="btn btn-danger btn-sm" title="Reject">
+                                <i class="fas fa-window-close"></i>
+                            </button>
+                        </form>
+                      </td>
                   </tr>                
-                  @endforeach              
+                @endforeach              
               </tbody>
           </table>
         </div>

@@ -30,6 +30,11 @@ class AppServiceProvider extends ServiceProvider
         return $user->is_admin;
         });
 
+        // Define the 'accounting' gate
+        Gate::define('accounting', function ($user) {
+        return $user->accounting;
+        });
+
 
         $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
             // 1. Get your dynamic count
