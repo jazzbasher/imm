@@ -32,22 +32,21 @@
                   </div>
                 </div>
               </div>
-              <div class="row justify-content-center">
+              {{-- <div class="row justify-content-center">
                 <div class="col-md-6 mb-4">
                    <div class="card h-70">
                         <div class="card-header border-0">
                             <h3 class="card-title">Placeholder for another vendor pricelist</h3> 
                         </div>
                         <div class="card-body text-center">
-                        <img src="{{ asset('images/thumbnails/maintenancethumb.png') }}" class="img-thumbnail w-25" alt="Small Thumbnail">
-                        
-                    </div>
-                    <div class="card-footer text-muted text-small text-center" style="background-color: #40545C;">
-                        <a href="#" class="small-box-footer text-white">View <i class="far fa-eye"></i></a>    
-                    </div>
-                </div>             
-            </div>
-        </div>
+                            <img src="{{ asset('images/thumbnails/maintenancethumb.png') }}" class="img-thumbnail w-25" alt="Small Thumbnail">
+                        </div>
+                        <div class="card-footer text-muted text-small text-center" style="background-color: #40545C;">
+                            <a href="#" class="small-box-footer text-white">View <i class="far fa-eye"></i></a>    
+                        </div>
+                    </div>             
+                </div>
+              </div> --}}
 
       </div>
     </section>
