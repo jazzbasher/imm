@@ -166,10 +166,10 @@
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th style="width: 30%"></th>
-                                    <th  style="width: 60%"></th>
-                                    <th  style="width: 5%"></th>
-                                    <th  style="width: 5%"></th>
+                                    <th style="width: 97%"></th>
+                                    <th  style="width: 1%"></th>
+                                    <th  style="width: 1%"></th>
+                                    <th  style="width: 1%"></th>
                                 </tr>
                             </thead>
                             <tbody>
