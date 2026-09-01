@@ -37,14 +37,14 @@
           ];
         @endphp
 
-        <x-adminlte-datatable id="tableusers" :heads="$heads" :config="$config" striped hoverable bordered compressed>
+        <x-adminlte-datatable id="tableusers" :heads="$heads" :config="$config"  striped hoverable bordered compressed>
           @foreach($users as $user)
             <tr>
               <td class="text-nowrap">
                 {{ $user->name }}
               </td>
               <td>
-                {{ $user->email }}
+                <small>{{ $user->email }}</small>
               </td>
               <td>
                 {{ $user->branch }}
@@ -79,7 +79,7 @@
               </td>
               <td>
                 @if($user->lunch_code > 0)                                                      
-                  {{ $user->lunchcode->description }}
+                  <small>{{ $user->lunchcode->description }}</small>
                 @endif
               </td>
               <td class="project-actions">
