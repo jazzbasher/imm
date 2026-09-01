@@ -340,19 +340,21 @@ return [
                  ],
              ],
         ],
-        [
-            'text' => 'Vending',
-            'icon' => 'fas fa-tv',
-            'icon_color' => 'white',
-            'submenu' => [
-                 [
-                     'text' => 'WIP',
-                     'url' => '#',
-                     'icon' => 'fas fa-forward',
-                     'icon_color' => 'blue',
-                 ],
-             ],
-        ],
+        // [
+        //     'text' => 'Vending',
+        //     'icon' => 'fas fa-tv',
+        //     'icon_color' => 'white',
+        //     'submenu' => [
+        //          [
+        //              'text' => 'WIP',
+        //              'url' => '#',
+        //              'icon' => 'fas fa-forward',
+        //              'icon_color' => 'blue',
+        //          ],
+        //      ],
+        // ],
+
+        
         // [
         //     'text' => 'Proof Of Delivery',
         //     'url' => 'https://drive.google.com/drive/folders/1D32QuriJgq52dosHPXmyK5QIjWbRyOLi',

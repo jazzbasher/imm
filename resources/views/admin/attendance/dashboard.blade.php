@@ -166,10 +166,7 @@
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th style="width: 97%"></th>
-                                    <th  style="width: 1%"></th>
-                                    <th  style="width: 1%"></th>
-                                    <th  style="width: 1%"></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -185,15 +182,9 @@
                                 </tr>
                                 <tr>
                                     <td><small>Tiffany's Metric Two</small></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td><span class="badge text-bg-warning"></span></td>
                                 </tr>
                                 <tr>
                                     <td><small>Tiffany's Metric Three</small></td>
-                                   <td></td>
-                                    <td></td>
-                                    <td><span class="badge text-bg-warning"></span></td>
                                 </tr>
                     
                           
