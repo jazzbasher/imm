@@ -173,7 +173,7 @@
                                 <tr>
                                     <td>
                                     @forelse($clockedusers as $clocked)
-                                    <small>{{ \Illuminate\Support\Str::words($clocked->name, 1, '') }}-{{ \Carbon\Carbon::parse($clocked->latestClock->clock_in)->format('g:i') }}</small>
+                                    <span class="badge badge-pill badge-warning"><small><b>{{ \Illuminate\Support\Str::words($clocked->name, 1, '') }} {{ \Carbon\Carbon::parse($clocked->latestClock->clock_in)->format('g:i') }}</b></small></span>
                                     @empty
                                         <small>No One Clocked In</small>
                                     @endforelse
