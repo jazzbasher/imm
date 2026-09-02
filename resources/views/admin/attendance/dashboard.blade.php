@@ -7,7 +7,35 @@
 @endsection
 
 @section('content')
+
 @include('partials.flash-messages')
+
+
+    
+    <div class="modal fade" id="activeclocks" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventTitle">Currently Clocked-In</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @forelse ($activeclocks ?? [] as $active)
+                        <p><a class="text-reset text-decoration-none text-warning" href="{{ route('clockevent.details', ['id' => $active->id, 'period' => 'current', 'user' => 'user']) }}"> {{ $active->user->name }} - {{ \Carbon\Carbon::parse($active->clock_in)->format('m/d g:i A') }}</a></p>
+                    @empty
+                        <p>No One Currently Clocked In</p>
+                    @endforelse
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <section class="content">
       <div class="container-fluid px-0">
@@ -181,10 +209,10 @@
 
                                 </tr>
                                 <tr>
-                                    <td><small>Tiffany's Metric Two</small></td>
+                                    <td><a href="#activeclocks" class="text-reset text-decoration-none" data-toggle="modal"><span class="badge badge-pill badge-primary">Clock Out an Active Session</span></a></td>
                                 </tr>
                                 <tr>
-                                    <td><small>Tiffany's Metric Three</small></td>
+                                    <td><small>Tiffany's Future Metric</small></td>
                                 </tr>
                     
                           

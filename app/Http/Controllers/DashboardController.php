@@ -21,6 +21,8 @@ class DashboardController extends Controller
         * ***************************        Current Statuses        ******************************** *
         * ********************************************************************************************/
 
+        $activeclocks = TimeClock::whereNotNull('clock_in')->whereNull('clock_out')->with('user')->get();
+
 
         $hourlyusers = User::where('active', 1)->where('hourly', 1)->where('is_admin', 0)->count();
 
@@ -122,7 +124,7 @@ class DashboardController extends Controller
             return $end->diffInHours($start, true);
         });
 
-        return view('admin.attendance.dashboard', compact('thispayperiod', 'calendarevents', 'totalclockhours', 'lastpayperiod', 'lastcalendarevents', 'lasttotalclockhours', 'hourlyusers', 'countclocked', 'clockedusers', 'percentclocked', 'leaveusers', 'countleavetoday', 'otcheck'));
+        return view('admin.attendance.dashboard', compact('thispayperiod', 'calendarevents', 'totalclockhours', 'lastpayperiod', 'lastcalendarevents', 'lasttotalclockhours', 'hourlyusers', 'countclocked', 'clockedusers', 'percentclocked', 'leaveusers', 'countleavetoday', 'otcheck', 'activeclocks'));
     }
 
 
