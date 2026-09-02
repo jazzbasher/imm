@@ -88,7 +88,7 @@
                         @else
                             <td>
                         @endif
-                            {{ sprintf('%02d:%02d', floor($clock["nethours"]), round(($clock["nethours"] - floor($clock["nethours"])) * 60)) }}
+                            {{ sprintf('%02d:%02d', floor($clock["nethours"]), floor(($clock["nethours"] - floor($clock["nethours"])) * 60)) }}
                         </td>                                                                                  
                         <td>                                                    
                             <a class="text-decoration-none" href="{{ route('clockevent.details', ['id' => $clock->id, 'period' => $period, 'user' => $username]) }}"> 

@@ -38,7 +38,7 @@
                         </td>
                         <td>
                             @isset($times["nethours"])
-                                {{ sprintf('%02d:%02d', floor($times["nethours"]), round(($times["nethours"] - floor($times["nethours"])) * 60)) }}                             
+                                {{ sprintf('%02d:%02d', floor($times["nethours"]), floor(($times["nethours"] - floor($times["nethours"])) * 60)) }}                             
                             @else
                                 0
                             @endisset
