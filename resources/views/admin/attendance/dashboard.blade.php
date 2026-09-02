@@ -214,15 +214,11 @@
                                 <tr>
                                     <td><small>Tiffany's Future Metric</small></td>
                                 </tr>
-                    
-                          
                             </tbody>
                         </table>
                     </div>            
-            </div>
+                </div>
         </div>
-
-
       </div>
     </section>
 

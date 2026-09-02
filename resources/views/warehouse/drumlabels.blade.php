@@ -27,9 +27,9 @@
                 </h2>
               </div>
               <div id="collapse-{{ $label->id }}" class="collapse" aria-labelledby="{{ $label->id }}" data-parent="#darkAccordion">
-                <div class="card-body text-center">
-                  <a href="{{ Storage::disk('public')->url($label->file_path) }}" target="_blank" class="text-reset">Download</a>
-                </div>
+                  <div class="card-footer text-muted text-small text-center" style="background-color: #40545C;">
+                    <a href="{{ Storage::disk('public')->url($label->file_path) }}" target="_blank" class="small-box-footer text-white">View <i class="far fa-eye"></i></a>
+                  </div>
               </div>
             </div>
           @endforeach
