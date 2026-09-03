@@ -159,7 +159,7 @@
                                     <td>On-Leave Today</td>
                                     <td class="align-middle">
                                         @forelse($leaveusers as $user)
-                                            <small>{{ $user }} </small>
+                                            <span class="badge badge-pill badge-light"><small><b>{{ $user }}</b></small></span>
                                         @empty
                                             <span class="badge bg-warning align-middle ml-1 mr-1">0 </span>
                                         @endforelse
