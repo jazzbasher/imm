@@ -236,7 +236,7 @@ class DashboardController extends Controller
 
             } elseif($punch->user->lunch_code == 2) { 
 
-                if($start->diffInHours($end, true) > 6) {
+                if($start->diffInHours($end, true) >= 7) {
 
                     $punch->lunchhours = 1;
                     $lunchsubtract = 1;
@@ -392,7 +392,7 @@ class DashboardController extends Controller
 
                 } elseif($userlunchcode === 2) { 
 
-                    if($start->diffInHours($end, true) > 6) {
+                    if($start->diffInHours($end, true) >= 7) {
 
                         $lunchsubtract = 1;
                     } else {
