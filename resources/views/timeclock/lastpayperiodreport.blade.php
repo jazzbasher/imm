@@ -80,11 +80,7 @@
                             {{ floor($clock->lunchtotal * 60) }}
                         </td> 
 
-                        @if($clock->nethours >= 8.18 )
-                            <td style="background-color: #47161e;">
-                        @else
-                            <td>
-                        @endif
+                        <td>
                             {{ sprintf('%02d:%02d', floor($clock["nethours"]), floor(($clock["nethours"] - floor($clock["nethours"])) * 60)) }}
                         </td>                                                                                  
                     </tr>
