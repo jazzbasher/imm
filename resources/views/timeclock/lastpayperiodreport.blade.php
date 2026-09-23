@@ -111,25 +111,25 @@
         'Ttl Hours',
         'Type',
         'Notes',
-        ['label' => 'Edit', 'no-export' => true, 'width' => 5],
     ];
 
     $calconfig = [
         'order' => [[0, 'asc']],
         'lengthChange' => false,
         'paging' => false,
+        'searching' => false,
         'info'  => false,
-        'columns' => [null, null, null, null, null, ['orderable' => false]],
+        'columns' => [null, null, null, null, null],
     ];
     @endphp
 
     <div class="card border border-dark p-2 m-1" style="background-color: #343C45; border-style: solid;">
         <div class="card-body">
             <div class="row">
-                <div class="col-3">
+                <div class="col-6">
                     <h4><h4><i class="far fa-fw fa-calendar-alt text-info pr-1"></i> {{ $username }} </h4>
                 </div>
-                <div class="col-9">
+                <div class="col-6">
                     <h5 class="text-secondary"> Leave Requests for PayPeriod {{ $periodstart }} - {{ $periodend }}</h5>
                 </div>
             </div>
@@ -157,10 +157,7 @@
                         <td>
                             {{ $calendar->reason }}
                         </td>
-                        <td>
-                            <a class="text-decoration-none" href="{{ route('calendar.details', ['id' => $calendar->id, 'period' => $period, 'user' => $username]) }}"> 
-                              <i class="fas fa-pen text-info"></i></a>
-                        </td>
+                       
                     </tr>
                 @endforeach
             </x-adminlte-datatable>
