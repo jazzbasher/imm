@@ -16,6 +16,11 @@ Breadcrumbs::for('timeclock', function (BreadcrumbTrail $trail) {
     $trail->push('Time Clock', route('attendance.index'));
 });
 
+Breadcrumbs::for('timeclockreport', function (BreadcrumbTrail $trail) {
+    $trail->parent('timeclock');
+    $trail->push('Last PayPeriod', route('attendance.lastpayperiod'));
+});
+
 Breadcrumbs::for('pricelist', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push('Vendor Pricelists', route('pricelist.lennox'));

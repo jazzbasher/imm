@@ -124,6 +124,8 @@ Route::post('/3m', [POSReportController::class, 'mmmexport'])->name('mmm.report'
 
         Route::post('/lunch/toggle', [TimeCLockController::class, 'lunchtoggle'])->name('lunch.toggle');
 
+        Route::get('attendance/lastpayperiod', [TimeClockController::class, 'viewlastpayperiod'])->name('attendance.lastpayperiod');
+
     }); /*** <- ends HOURLY middleware  -> ***/
 
 

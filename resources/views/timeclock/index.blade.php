@@ -60,7 +60,14 @@
     </div>
 
         <!-- History Log -->
-    <h3 class="text-lg font-semibold mb-4 text-gray-700">Current Payperiod Clocks</h3>
+    <div class="row">                   
+                <div class="col-10">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Current PayPeriod Clocks</h3>
+                </div>
+                <div class="col-2">
+                    <a class="btn btn-outline-warning btn-sm text-nowrap" href="{{ route('attendance.lastpayperiod') }}" role="button">Last PayPeriod</a>
+                </div>
+    </div>
     <div class="overflow-x-auto">
         <table class="table">
             <thead class="thead-dark">
