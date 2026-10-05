@@ -95,7 +95,7 @@
         <div class="card-body">
             <div class="row">                   
                 <div class="col-12">
-                    <h4><i class="far fa-clock text-warning pr-1"></i> {{ $username }} had no timeclock entries</h4>
+                    <h4><i class="far fa-clock text-warning pr-1"></i> {{ $username }} had no timeclock entries from {{ $periodstart }} - {{ $periodend }}</h4>
                 </div>
             </div>
         </div>
@@ -170,7 +170,7 @@
         <div class="card-body">
             <div class="row">                   
                 <div class="col-12">
-                    <h4><i class="far fa-calendar-alt text-info pr-1"></i> {{ $username }} had no time-off requests</h4>
+                    <h4><i class="far fa-calendar-alt text-info pr-1"></i> {{ $username }} had no time-off requests from {{ $periodstart }} - {{ $periodend }}</h4>
                 </div>
             </div>
         </div>

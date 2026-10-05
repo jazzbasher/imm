@@ -18,7 +18,7 @@ Breadcrumbs::for('timeclock', function (BreadcrumbTrail $trail) {
 
 Breadcrumbs::for('timeclockreport', function (BreadcrumbTrail $trail) {
     $trail->parent('timeclock');
-    $trail->push('Last PayPeriod', route('attendance.lastpayperiod'));
+    $trail->push('PayPeriod Report', route('attendance.lastpayperiod'));
 });
 
 Breadcrumbs::for('pricelist', function (BreadcrumbTrail $trail) {

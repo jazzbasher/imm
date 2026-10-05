@@ -234,7 +234,7 @@ class TimeClockController extends Controller
         /*************   Define payperiod from view paramater passed ***********/
 
 
-            $payperiod = $previouspayperiod;
+        $payperiod = $previouspayperiod;
 
        
 
@@ -375,14 +375,207 @@ class TimeClockController extends Controller
 
         } else {
 
-            dd('you are not hourly');
+            return redirect()->back()->with('error', 'Not an hourly employee');
 
         }
 
          
     }
-        
 
+
+    public function generateppdates()
+    {
+        // *************************************************************************** //
+        // ***************  Start of build to show all payperiod punches  ************ //
+        // *************************************************************************** //
+
+
+        $currentpayperiod = getPayPeriodDates(now());
+        $lastperiodbegin = Carbon::parse($currentpayperiod['start_date'])->subDays(7);
+        $previouspayperiod = getPayPeriodDates($lastperiodbegin);
+
+
+        $dates = [];
+        $current = $previouspayperiod['start_date'];
+        $limit = (clone $current)->subYear();
+
+        while ($current->greaterThanOrEqualTo($limit)) {
+            $dates[] = $current->format('Y-m-d');
+            $current->subWeek(2); // Move back 7 days
+        }
+
+        $filtered = array_filter($dates, function($value) {
+            return $value >= '2026-09-06';
+        });
+
+
+        return view('timeclock.choosepayperiod', compact('filtered'));
+
+    }
+
+
+    public function pastpunchreport(Request $request)
+    {
+        $me = Auth::user();
+
+    
+        if($me->hourly === 1) {
+
+            $ppstartdate = $request->input('payperiod');
+            $parseddate = Carbon::parse($ppstartdate);
+
+            $requestedpayperiod = getPayPeriodDates($parseddate);
+      
+
+            /***********************************************************************/
+            /*************   Define payperiod from view paramater passed ***********/
+
+
+            $payperiod = $requestedpayperiod;
+
+           
+
+            $user = User::where('id', $me->id)->with('lunchcode')->first();
+            $uid = $user->id;
+            $userlunchcode = $user->lunch_code;
+            $userlunchdesc = $user->lunchcode->description;
+            $userhourly = $user->hourly;
+            $username = $user->name;
+            $periodstart = Carbon::parse($payperiod['start_date'])->format('m/d/y');
+            $periodend = Carbon::parse($payperiod['end_date'])->format('m/d/y');
+
+
+
+            if($userhourly === 1) {
+
+                $usertimeclockdata = TimeClock::where('user_id', $uid)->whereBetween('clock_in', [$payperiod['start_date'], $payperiod['end_date']])->whereNotNull('clock_out')->with('user')->orderBy('clock_in', 'ASC')->get();
+
+                
+
+            } else {
+
+                $usertimeclockdata = collect();
+              
+            }
+
+
+            /***********************************************************************/
+            /*************              Time Clock Section               ***********/
+            /***********************************************************************/
+
+
+            if($usertimeclockdata->isNotEmpty()) {
+
+                $usertimeclock = $usertimeclockdata->map(function ($punch) use ($userlunchcode) {
+
+                    $start = Carbon::parse($punch->clock_in);
+                    $end = Carbon::parse($punch->clock_out);
+
+
+                    if($userlunchcode === 3) { 
+
+                        if($punch->lunch_in && $punch->lunch_out) { 
+
+                        $lunchin = Carbon::parse($punch->lunch_in);
+                        $lunchout = Carbon::parse($punch->lunch_out);
+
+                        $lunchsubtract = round($lunchin->floatDiffInHours($lunchout),2);
+
+                        } else {
+
+                            $lunchsubtract = 0;
+                        }
+
+
+                    } elseif($userlunchcode === 2) { 
+
+                        if($start->diffInHours($end, true) >= 7) {
+
+                            $lunchsubtract = 1;
+                        } else {
+
+                            $lunchsubtract = 0;
+                        }
+                        
+
+                    } elseif($userlunchcode === 1 || $userlunchcode === 0) {
+
+                        $lunchsubtract = 0;
+                    }
+
+                    
+                    $hoursPassed = $start->diffInHours($end, true);
+                             
+                    $punch->ttlhours = round($hoursPassed, );
+
+                    $punch->nethours = $hoursPassed - $lunchsubtract;
+
+                    $punch->lunchtotal = $lunchsubtract;
+          
+                    return $punch;
+                });
+
+
+            } else {
+
+                $usertimeclock = collect();
+            }
+
+
+
+            /***********************************************************************/
+            /*************        Calendar/Leave Request Section         ***********/
+            /***********************************************************************/
+
+
+            $calendardata = TimeOffRequest::where('user_id', $uid)->whereBetween('start', [$payperiod['start_date'], $payperiod['end_date']])->where('status', 1)->with('user')->orderBy('start', 'ASC')->get();
+
+
+
+            if($calendardata->isNotEmpty()) {
+
+                $usercalendarhours = $calendardata->map(function ($event) {
+
+                    $eventstart = Carbon::parse($event->start);
+                    $eventend = Carbon::parse($event->end);
+
+                
+                    if($event->allDay === 0) {
+
+                        $calchours = $eventstart->diffInHours($eventend, true);
+
+                    } elseif($event->allDay === 1) {
+
+                        $calchours = (($eventstart->diffInDays($eventend) + 1) * 8);
+
+                    } else {
+
+                        $calchours = 0;
+                    }
+                         
+
+                $event->cldrhours = round($calchours, 2);
+                
+                return $event;
+
+                });
+
+            } else {
+
+                $usercalendarhours = collect();
+            }
+
+
+            return view('timeclock.lastpayperiodreport', compact('usertimeclock', 'userhourly', 'userlunchcode', 'username', 'periodstart', 'periodend', 'userlunchdesc', 'usercalendarhours'));
+
+        } else {
+
+            return redirect()->back()->with('error', 'Not an hourly employee');
+        }
+
+
+    }
+        
 
 
 }

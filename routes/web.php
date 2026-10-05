@@ -126,6 +126,10 @@ Route::post('/3m', [POSReportController::class, 'mmmexport'])->name('mmm.report'
 
         Route::get('attendance/lastpayperiod', [TimeClockController::class, 'viewlastpayperiod'])->name('attendance.lastpayperiod');
 
+        Route::get('/getdates', [TimeClockController::class, 'generateppdates'])->name('attendance.getdates');
+
+        Route::post('/getdates/report', [TimeCLockController::class, 'pastpunchreport'])->name('attendance.payperiodreport');
+
     }); /*** <- ends HOURLY middleware  -> ***/
 
 
