@@ -191,7 +191,7 @@ class DashboardController extends Controller
 
                 } elseif($event->allDay === 1) {
 
-                    $calchours = (($eventstart->diffInDays($eventend) + 1) * 8);
+                    $calchours = (($eventstart->diffInWeekdays($eventend) + 1) * 8);
 
                 } else {
 
@@ -449,7 +449,7 @@ class DashboardController extends Controller
 
                 } elseif($event->allDay === 1) {
 
-                    $calchours = (($eventstart->diffInDays($eventend) + 1) * 8);
+                    $calchours = (($eventstart->diffInWeekdays($eventend) + 1) * 8);
 
                 } else {
 
