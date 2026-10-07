@@ -389,6 +389,13 @@ return [
                     'icon_color' => 'lime',
                 ],
                 [
+                    'text' => 'TX Tax Exempt Cert',
+                    'url' => '/accounting/taxexemptcert',
+                    'target' => '_blank',
+                    'icon' => 'fas fa-comment-dollar',
+                    'icon_color' => 'light',
+                ],
+                [
                     'text' => 'Warehouse',
                     'url' => '#',
                     'icon' => 'fas fa-warehouse',
@@ -725,7 +732,7 @@ return [
             ],
         ],
         'Chartjs' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',

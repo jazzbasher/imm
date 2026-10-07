@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\File;
 use App\Models\Media;
 
@@ -23,6 +24,13 @@ class WarehouseController extends Controller
 
 
         return view('warehouse.miscdocuments', compact('shippingchecklist', 'vehiclemaintenance'));
+    }
+
+    public function taxexemptcert()
+    {
+        $taxexemptform = Media::where('identifier', 'accounting.txtaxexenptcert')->latest()->value('file_path');
+
+        return redirect(Storage::disk('public')->url($taxexemptform));
     }
 
  

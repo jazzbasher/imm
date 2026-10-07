@@ -13,6 +13,7 @@ use App\Http\Controllers\POSReportController;
 use App\Http\Controllers\EpicorReportController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\SalesHaltController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
@@ -67,6 +68,8 @@ Route::get('/internal/contacts', [ContactController::class, 'view'])->name('cont
 
 Route::get('/warehouse/drumlabels', [WarehouseController::class, 'drumlabels'])->name('warehouse.drumlabels');
 Route::get('/warehouse/miscdocs', [WarehouseController::class, 'miscdocs'])->name('warehouse.miscdocs');
+
+Route::get('/accounting/taxexemptcert', [WarehouseController::class, 'taxexemptcert'])->name('accounting.taxexemptcert');
 
 
 
@@ -208,6 +211,10 @@ Route::post('/3m', [POSReportController::class, 'mmmexport'])->name('mmm.report'
          Route::post('/timeoff/adminrequest', [App\Http\Controllers\TimeOffRequestController::class, 'adminrequeststore'])->name('adminrequest.store');
 
          Route::get('/admin/freight', [FreightLogController::class, 'adminreport'])->name('freightlog.report');
+
+         Route::get('/saleshalt', [SalesHaltController::class, 'index'])->name('saleshalt.index');
+
+         Route::get('/saleshalt/details/{itemid}/{custid}', [SalesHaltController::class, 'details'])->name('saleshalt.details');
 
 
     });  /*** <- ends ADMIN middleware  -> ***/
