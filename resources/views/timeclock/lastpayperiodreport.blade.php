@@ -38,11 +38,14 @@
     <div class="card border border-dark p-2" style="background-color: #343C45; border-style: solid;">
         <div class="card-body">
             <div class="row">                   
-                <div class="col-6">
+                <div class="col-5">
                     <h4><i class="far fa-clock text-warning pr-1"></i> {{ $username }}</h4>
                 </div>
-                <div class="col-6">
+                <div class="col-5">
                     <h5 class="text-secondary"> Punches for PayPeriod {{ $periodstart }} - {{ $periodend }}</h5>
+                </div>
+                <div class="col-2">
+                    <a class="btn btn-outline-warning btn-sm text-nowrap" href="{{ route('attendance.getdates') }}" role="button">View Past PayPeriods</a>
                 </div>
             </div>
             <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" striped hoverable bordered compressed with-buttons>
