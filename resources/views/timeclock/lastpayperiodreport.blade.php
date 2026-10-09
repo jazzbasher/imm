@@ -97,8 +97,11 @@
     <div class="card border border-dark p-2" style="background-color: #343C45; border-style: solid;">
         <div class="card-body">
             <div class="row">                   
-                <div class="col-12">
+                <div class="col-10">
                     <h4><i class="far fa-clock text-warning pr-1"></i> {{ $username }} had no timeclock entries from {{ $periodstart }} - {{ $periodend }}</h4>
+                </div>
+                <div class="col-2">
+                    <a class="btn btn-outline-warning btn-sm text-nowrap" href="{{ route('attendance.getdates') }}" role="button">View Past PayPeriods</a>
                 </div>
             </div>
         </div>
