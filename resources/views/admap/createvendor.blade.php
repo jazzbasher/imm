@@ -31,6 +31,21 @@
                         <label for="title">AD Supplier Name (what AD calls them, not in Prophet)</label>
                         <input type="text" class="form-control" id="ad_vendorname" name="ad_vendorname" autocomplete="off"  value="{{ old('ad_vendorname') }}" class="@error('ad_vendorname') is-invalid @enderror" required>
                       </div>
+
+                      <div class="mb-3">
+                            <label class="form-label d-block">Vendor Category</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="iscsp" id="isc" value="isc"
+                                @checked(old('is_isc', 0) === 0)>
+                                <label class="form-check-label" for="isc">ISC <small class="text-danger">Industrial, Safety & Construction</small></label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="iscsp" id="sp" value="sp">
+                                <label class="form-check-label" for="sp">SP <small class="text-danger">Service Provider</small></label>
+                            </div>
+                        </div>
+
                      
                       <br>
                       <a href="{{ url()->previous() }}" class="btn btn-secondary mr-5">Cancel</a>

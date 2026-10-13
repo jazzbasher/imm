@@ -117,18 +117,33 @@ class APRemittanceController extends Controller
 
     public function store(Request $request)
     {
+
+
          
         $validated = $request->validate([
             'vendor_id' => ['required', 'numeric', 'unique:adtrustee_map,vendor_id'],
             'supplier_id' => ['required', 'numeric'],
             'ad_vendorname' => ['required', 'string', 'min:2'],
+            'iscsp' => ['required'],
 
         ]);
+
+        if($validated['iscsp'] === 'isc') {
+            $isisc = 1;
+            $issp = 0;
+        } 
+        elseif($validated['iscsp'] === 'sp') {
+            $isisc = 0;
+            $issp = 1;
+        }
+
   
         ADSupplierMap::create([
             'vendor_id' => $validated['vendor_id'],
             'supplier_id' => $validated['supplier_id'],
             'ad_vendorname' => $validated['ad_vendorname'],
+            'is_isc' => $isisc,
+            'is_sp'  => $issp,
         ]);
 
         
