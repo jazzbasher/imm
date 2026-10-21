@@ -88,6 +88,11 @@ class User extends Authenticatable
         return (bool) $this->accounting; 
     }
 
+    public function pos(): bool
+    {
+        return (bool) $this->pos; 
+    }
+
     public function lunchcode()
     {
         return $this->hasOne(TimeClockLunchCode::class, 'lunch_id', 'lunch_code');

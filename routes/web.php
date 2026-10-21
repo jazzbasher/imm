@@ -74,6 +74,33 @@ Route::get('/accounting/taxexemptcert', [WarehouseController::class, 'taxexemptc
 
 
 
+ /******************************************************************************************** *
+  * ***************************         POS Access only        ******************************** *
+  * ********************************************************************************************/
+
+
+Route::middleware(['pos'])->group(function () {
+
+
+// Route::get('/ceratizitpos', [POSReportController::class, 'ceratizitpos'])->name('pos.ceratizit');
+
+// Route::get('/ingersolpos', [POSReportController::class, 'ingersolpos'])->name('pos.ingersol');
+
+// Route::get('/iscarpos', [POSReportController::class, 'iscarpos'])->name('pos.iscar');
+
+// Route::get('/mitsubishipos', [POSReportController::class, 'mitsubishipos'])->name('pos.mitsubishi');
+
+Route::get('/posreports/ceratizit', [POSReportController::class, 'allposview'])->name('Ceratizit');
+
+Route::get('/posreports/ingersoll', [POSReportController::class, 'allposview'])->name('Ingersoll');
+
+Route::get('/posreports/iscar', [POSReportController::class, 'allposview'])->name('Iscar');
+
+Route::get('/posreports/mitsubishi', [POSReportController::class, 'allposview'])->name('Mitsubishi');
+
+Route::post('/ciimreport', [POSReportController::class, 'ciimposreport'])->name('ciim.report');
+
+}); /*** <- ends POS middleware  -> ***/
 
 
 

@@ -418,6 +418,52 @@ return [
              ],
         ],
         [
+            'text' => 'Tools',
+            'icon' => 'fas fa-tools',
+            'icon_color' => 'red',
+            'submenu' => [
+                [
+                    'text' => 'Online CC Processing',
+                    'url' => 'https://paytrace.com/login.pay',
+                    'target' => '_blank',
+                    'icon' => 'far fa-credit-card',
+                    'icon_color' => 'white',
+                ],
+                [
+                    'text' => 'POS Reports',
+                    'url' => '#',
+                    'icon' => 'fas fa-shopping-cart',
+                    'icon_color' => 'warning',
+                    'submenu' => [
+                        [
+                            'text' => 'Ceratizit',
+                            'url' => '/posreports/ceratizit',
+                            'icon' => 'far fa-circle',
+                            'icon_color' => 'red',
+                        ],
+                        [
+                            'text' => 'Ingersoll',
+                            'url' => '/posreports/ingersoll',
+                            'icon' => 'far fa-circle',
+                            'icon_color' => 'blue',
+                        ],
+                        [
+                            'text' => 'Iscar',
+                            'url' => '/posreports/iscar',
+                            'icon' => 'far fa-circle',
+                            'icon_color' => 'yellow',
+                        ],
+                        [
+                            'text' => 'Mitsubishi',
+                            'url' => '/posreports/mitsubishi',
+                            'icon' => 'far fa-circle',
+                            'icon_color' => 'green',
+                        ],
+                    ],
+                ],
+             ],
+        ],
+        [
             'text' => 'Freight Log',
             'url' => '/freightlog',
             'icon' => 'fas fa-shipping-fast',

@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class EnsureUserIsPOS
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  Closure(Request): (Response)  $next
+     */
+    public function handle(Request $request, Closure $next): Response
+    {
+        // Check if user is logged in and allow to run POS reports
+        if ($request->user() && $request->user()->pos()) {
+            return $next($request);
+        }
+
+        
+        // abort(403, 'You are not an hourly employee.');
+        return redirect()->back()->with('error', 'You are not authorized.');
+    }
+}

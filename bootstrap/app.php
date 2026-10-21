@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
         'hourly' => \App\Http\Middleware\EnsureUserIsHourly::class,
         'freight' => \App\Http\Middleware\EnsureUserIsFreightlog::class,
         'accounting' => \App\Http\Middleware\EnsureUserIsAccounting::class,
+        'pos' => \App\Http\Middleware\EnsureUserIsPOS::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
