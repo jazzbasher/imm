@@ -12,9 +12,14 @@
 @section('content')
  <div class="row">
     <div class="col-4">
-        <h3>Query/Drill Down Coming Soon</h3>
+        <h3></h3>
         <h5>Customer ID: {{ $custid }}</h5>  
-        <h5>Item ID: {{ $itemid }}</h5>                          
+        <h5>Item ID: {{ $itemid }}</h5> 
+        <br>
+        <br>
+        <h5>Total Invoices:  {{ $itemsales->invoicecnt }}</h5>
+        <h5>Total Quantity Shipped: {{ (int) $itemsales->qtyshipped }}</h5>
+        <h5>Total Price: ${{ number_format($itemsales->extendedprice, 2,'.', ',') }}</h5>                         
     </div>
 </div>
 
