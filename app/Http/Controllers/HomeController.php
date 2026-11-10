@@ -33,7 +33,7 @@ class HomeController extends Controller
         $userid = Auth::id();
         $today = today();
 
-        $calendarevents = TimeOffRequest::where('user_id', $userid)->where('start', '>=', $today)->count();
+        $calendarevents = TimeOffRequest::where('user_id', $userid)->where('start', '>=', $today)->where('status', 1)->count();
 
 
         $lat = Auth::user()->location->lat;
@@ -78,8 +78,6 @@ class HomeController extends Controller
 
     public function test()
     {
-        $test = EpicorOEHDR::all();
-
-        dd($test);
+        //
     }
 }

@@ -23,6 +23,7 @@
               'FreightLog?',
               'OutsideSales?',
               'Accounting?',
+              'POS?',
               'Hourly?',
               'Lunch',
               ['label' => 'Edit', 'no-export' => true, 'width' => 5],
@@ -33,7 +34,7 @@
               'searching' => true,
               'lengthChange' => false,
               'paging' => false,
-              'columns' => [null, null, null, null, null, null, null, null, null, null, ['orderable' => false]],
+              'columns' => [null, null, null, null, null, null, null, null, null, null, null, ['orderable' => false]],
           ];
         @endphp
 
@@ -69,6 +70,11 @@
               </td>
               <td class="text-center">                                                      
                 @if($user->accounting === 1)
+                  <i class="fas fa-check text-success"></i>
+                @endif                          
+              </td>
+              <td class="text-center">                                                      
+                @if($user->pos === 1)
                   <i class="fas fa-check text-success"></i>
                 @endif                          
               </td>

@@ -32,6 +32,7 @@ class User extends Authenticatable
         'freightlog',
         'lunch_code',
         'accounting',
+        'pos',
         'outside_sales',
         'active',
     ];

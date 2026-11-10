@@ -10,10 +10,10 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FreightLogController;
 use App\Http\Controllers\APRemittanceController;
 use App\Http\Controllers\POSReportController;
-use App\Http\Controllers\EpicorReportController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SalesHaltController;
+use App\Http\Controllers\PowerBIController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
@@ -43,7 +43,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/vendors', [App\Http\Controllers\VendorsController::class, 'index'])->name('vendors');
 
-Route::get('/test', [App\Http\Controllers\HomeController::class, 'test'])->name('test');
+// Route::get('/test', [App\Http\Controllers\HomeController::class, 'test'])->name('test');
 
 Route::get('/timeoff/newrequest', [App\Http\Controllers\TimeOffRequestController::class, 'requestform'])->name('timeoff.requestform');
 
@@ -62,9 +62,6 @@ Route::get('/vendors/credentials', [VendorsController::class, 'loginview'])->nam
 
 Route::get('/internal/contacts', [ContactController::class, 'view'])->name('contacts.view');
 
-// Deena report built in P21 report studio and removing from here.  Left in case it meets future need
-// Route::get('/deenareport', [EpicorReportController::class, 'lineitemview'])->name('epicorreport.form');
-// Route::post('/deenareport', [EpicorReportController::class, 'deena'])->name('epicorreport.post');
 
 Route::get('/warehouse/drumlabels', [WarehouseController::class, 'drumlabels'])->name('warehouse.drumlabels');
 Route::get('/warehouse/miscdocs', [WarehouseController::class, 'miscdocs'])->name('warehouse.miscdocs');
@@ -81,14 +78,6 @@ Route::get('/accounting/taxexemptcert', [WarehouseController::class, 'taxexemptc
 
 Route::middleware(['pos'])->group(function () {
 
-
-// Route::get('/ceratizitpos', [POSReportController::class, 'ceratizitpos'])->name('pos.ceratizit');
-
-// Route::get('/ingersolpos', [POSReportController::class, 'ingersolpos'])->name('pos.ingersol');
-
-// Route::get('/iscarpos', [POSReportController::class, 'iscarpos'])->name('pos.iscar');
-
-// Route::get('/mitsubishipos', [POSReportController::class, 'mitsubishipos'])->name('pos.mitsubishi');
 
 Route::get('/posreports/ceratizit', [POSReportController::class, 'allposview'])->name('Ceratizit');
 
@@ -242,6 +231,8 @@ Route::post('/3m', [POSReportController::class, 'mmmexport'])->name('mmm.report'
          Route::get('/saleshalt', [SalesHaltController::class, 'index'])->name('saleshalt.index');
 
          Route::get('/saleshalt/details/{itemid}/{custid}', [SalesHaltController::class, 'details'])->name('saleshalt.details');
+
+         Route::get('/powerbi/itemsaleshistory/{itemid}/{custid}', [PowerBIController::class, 'itemsaleshistory'])->name('powerbi.itemsaleshistory');
 
 
     });  /*** <- ends ADMIN middleware  -> ***/

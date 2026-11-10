@@ -105,70 +105,7 @@ class POSReportController extends Controller
     }
 
 
-    // public function ceratizitpos(Request $request)
-    // {
-    //     $startdate = Carbon::parse('2026-01-01')->startOfDay();
-    //     $enddate = Carbon::parse('2026-09-30')->endOfDay();
 
-    //     $ceratizit = EpicorSalesHistory::select('branch_id', 'customer_id', 'ship2_name', 'ship2_city', 'ship2_state',
-    //     'ship2_country', 'ship2_postal_code', 'item_id', 'item_desc', 'qty_shipped', 'cogs_amount', 'invoice_date')
-    //     ->where('supplier_id', '14142')
-    //     ->whereBetween('invoice_date', [$startdate, $enddate])
-    //     ->where('rma_flag', 'N')->orderBy('invoice_date')->get();
-
-
-    //  dd($ceratizit);
-
-    // }
-
-
-    // public function ingersolpos(Request $request)
-    // {
-    //     $startdate = Carbon::parse('2026-09-01')->startOfDay();
-    //     $enddate = Carbon::parse('2026-09-30')->endOfDay();
-
-
-    //     $ingersol = EpicorSalesHistory::select('company_name', 'invoice_date', 'ship2_postal_code', 'cogs_amount',
-    //     'item_id', 'qty_shipped', 'ship2_name')
-    //     ->where('supplier_id', '11125')
-    //     ->whereBetween('invoice_date', [$startdate, $enddate])
-    //     ->orderBy('invoice_date')->get();
-
-    // dd($ingersol);
-
-    // }
-
-
-    // public function iscarpos(Request $request)
-    // {
-    //     $startdate = Carbon::parse('2026-09-01')->startOfDay();
-    //     $enddate = Carbon::parse('2026-09-30')->endOfDay();
-
-    //     $iscar = EpicorSalesHistory::selectRaw('DATEPART(year, invoice_date) AS Year, DATEPART(month, invoice_date) AS Month, ship2_state AS State, ship2_postal_code, ship2_name, item_id, cogs_amount, qty_shipped')
-    //     ->where('supplier_id', '18915')
-    //     ->whereBetween('invoice_date', [$startdate, $enddate])
-    //     ->where('rma_flag', 'N')->orderBy('invoice_date')->get();
-
-
-    //  dd($iscar);
-
-    // }
-
-
-    // public function mitsubishipos(Request $request)
-    // {
-    //     $startdate = Carbon::parse('2026-09-01')->startOfDay();
-    //     $enddate = Carbon::parse('2026-09-30')->endOfDay();
-
-    //     $mitsubishi = EpicorSalesHistory::select('branch_id', 'customer_id', 'ship2_name', 'ship2_address1', 'ship2_city', 'ship2_state', 'ship2_country', 'ship2_postal_code', 'item_id', 'item_desc', 'qty_shipped', 'cogs_amount', 'invoice_date')
-    //     ->where('supplier_id', '14340')
-    //     ->whereBetween('invoice_date', [$startdate, $enddate])
-    //     ->where('rma_flag', 'N')->orderBy('invoice_date')->get();
-
-
-    //  dd($mitsubishi);
-
-    // }
 
 
     public function ciimposreport(Request $request)
