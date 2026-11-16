@@ -232,7 +232,7 @@ Route::post('/3m', [POSReportController::class, 'mmmexport'])->name('mmm.report'
 
          Route::get('/saleshalt/details/{itemid}/{custid}', [SalesHaltController::class, 'details'])->name('saleshalt.details');
 
-         Route::get('/powerbi/itemsaleshistory/{itemid}/{custid}', [PowerBIController::class, 'itemsaleshistory'])->name('powerbi.itemsaleshistory');
+         Route::get('/powerbi/itemsaleshistory/{itemid}/{custid}/{supplierid}', [PowerBIController::class, 'itemsaleshistory'])->name('powerbi.itemsaleshistory');
 
 
     });  /*** <- ends ADMIN middleware  -> ***/

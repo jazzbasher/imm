@@ -18,9 +18,8 @@
               <div class="row flex-nowrap pt-4">
     <div class="col"><h5><small>Customer:</small> {{ $custid }}</h5></div>
     <div class="col"><h5><small>Item:</small> {{ $itemid }}</h5></div>
-    <div class="col"><h5><small>UnitPrice:</small> ${{ number_format($firstitem->unit_price, 2) }}</h5></div>
     <div class="col"><h5><small>Total Bought:</small> {{ $totalqty }}</h5></div>
-    <div class="col"><h5><small>Total Paid:</small> ${{ $totalprice }}</h5></div>
+    <div class="col"><h5><small>Total Paid:</small> {{ number_format($totalprice, 2, '.', ',') }}</h5></div>
   </div>
 
           <div class="card-tools">
@@ -44,25 +43,38 @@
                       <th  style="width: 20%">
                           Price
                       </th>
-  
+
                   </tr>
               </thead>
               <tbody>
 @foreach($itemsales as $sales)
 
+        @if($supplierid != $sales->supplier_id)
+
+            <tr style="background-color: #4d0601;">
+
+            @else
+
                  <tr>
+        @endif
                       <td>
                           {{ $sales->invoice_no }}
                       </td>
                       <td>
-                         {{ $sales->invoice_date }}
+                         {{ \Carbon\Carbon::parse($sales->invoice_date)->format('m-d-Y') }}
                       </td>
                       <td>
                           {{ (int) $sales->qty_shipped }}
                       </td>
                       <td>
-                          {{ number_format($sales->extended_price, 2) }}
+                          {{ number_format($sales->extended_price,2, '.', ',') }}
                       </td>
+
+            @if($supplierid != $sales->supplier_id)
+                    <td>
+                        {{ $sales->supplier_id }}
+                    </td>
+            @endif
 
                </tr>                
               @endforeach                
