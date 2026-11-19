@@ -17,9 +17,11 @@ class EpicorReportController extends Controller
 
 	$binaryPath = config('services.poppler.pdftotext_path');
 	$path = Storage::path('documents\texttest.pdf');
+	$pathubuntu = '/mnt/windowspod/doc26614720260105063713_001.pdf';
 
 	// Quick static usage
-	$text = Pdf::getText($path, $binaryPath);
+	$text = Pdf::getText($pathubuntu, $binaryPath);
+
 
 	dd($text);
 
