@@ -13,18 +13,44 @@ class PodSearchController extends Controller
         $results = collect();
 
         if ($query !== '') {
-            // Prepare boolean wildcard query (e.g. "INV 1045" -> "+INV* +1045*")
             $terms = preg_split('/\s+/', $query);
-            $booleanQuery = collect($terms)
-                ->map(fn($term) => '+' . preg_replace('/[+\-><\(\)~*\"@]+/', '', $term) . '*')
-                ->filter(fn($term) => strlen($term) > 2)
-                ->implode(' ');
+            
+            // Separate normal words (3+ alphanumeric chars) from dates/symbols/short codes
+            $ftTerms = [];
+            $likeTerms = [];
 
-            $results = PodDocument::query()
-                ->select(['id', 'filename', 'content', 'updated_at'])
-                ->whereRaw("MATCH(filename, content) AGAINST(? IN BOOLEAN MODE)", [$booleanQuery])
-                ->paginate(25)
-                ->withQueryString();
+            foreach ($terms as $term) {
+                $clean = preg_replace('/[+\-><\(\)~*\"@]+/', '', $term);
+                if ($clean === '') {
+                    continue;
+                }
+
+                // If the term contains a slash/dash (like 12/31/2025) or is under 3 chars, use LIKE
+                if (preg_match('/[\/\-]/', $clean) || strlen($clean) < 3) {
+                    $likeTerms[] = $clean;
+                } else {
+                    $ftTerms[] = '+' . $clean . '*';
+                }
+            }
+
+            $builder = PodDocument::query()
+                ->select(['id', 'filename', 'content', 'updated_at']);
+
+            // 1. Run ultra-fast FULLTEXT index on standard words/numbers (3+ chars)
+            if (!empty($ftTerms)) {
+                $booleanQuery = implode(' ', $ftTerms);
+                $builder->whereRaw("MATCH(filename, content) AGAINST(? IN BOOLEAN MODE)", [$booleanQuery]);
+            }
+
+            // 2. Run exact substring LIKE match for dates (e.g. 12/31/2025) and short codes
+            foreach ($likeTerms as $likeTerm) {
+                $builder->where(function ($q) use ($likeTerm) {
+                    $q->where('content', 'LIKE', '%' . $likeTerm . '%')
+                      ->orWhere('filename', 'LIKE', '%' . $likeTerm . '%');
+                });
+            }
+
+            $results = $builder->paginate(25)->withQueryString();
         }
 
         return view('pod.search', compact('results', 'query'));

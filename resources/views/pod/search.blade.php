@@ -16,7 +16,7 @@
 
     <form method="GET" action="{{ route('pod.search') }}" class="mb-4">
         <div class="input-group">
-            <input type="text" name="q" value="{{ $query }}" class="form-control"
+            <input type="text" name="q" value="{{ $query }}" class="form-control" autocomplete="off"
                    placeholder="Search Order Number, Pick Ticket Number, Ship To..." required autofocus>
             <button type="submit" class="btn btn-primary">Search</button>
         </div>
