@@ -35,6 +35,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'poppler' => [
+        'pdftotext_path' => env('PDFTOTEXT_PATH', '/usr/bin/pdftotext'),
+    ],
+
     'slack' => [
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),

@@ -14,6 +14,7 @@ use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SalesHaltController;
 use App\Http\Controllers\PowerBIController;
+use App\Http\Controllers\EpicorReportController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
@@ -69,7 +70,7 @@ Route::get('/warehouse/miscdocs', [WarehouseController::class, 'miscdocs'])->nam
 Route::get('/accounting/taxexemptcert', [WarehouseController::class, 'taxexemptcert'])->name('accounting.taxexemptcert');
 
 
-
+Route::get('/ocr', [EpicorReportController::class, 'ocr'])->name('ocr.test');
 
  /******************************************************************************************** *
   * ***************************         POS Access only        ******************************** *
