@@ -20,7 +20,7 @@ class EpicorReportController extends Controller
 	$pathubuntu = '/mnt/windowspod/doc26614720260105063713_001.pdf';
 
 	// Quick static usage
-	$text = Pdf::getText($pathubuntu, $binaryPath);
+	$text = Pdf::getText($path, $binaryPath);
 
 
 	dd($text);
