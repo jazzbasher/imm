@@ -41,7 +41,7 @@
             @endforelse
         </div>
 
-        {{ $results->links() }}
+        {{ $results->links('pagination::bootstrap-4') }}
     @endif
 </div>
 @endsection
