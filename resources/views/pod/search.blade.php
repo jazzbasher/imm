@@ -17,7 +17,7 @@
     <form method="GET" action="{{ route('pod.search') }}" class="mb-4">
         <div class="input-group">
             <input type="text" name="q" value="{{ $query }}" class="form-control" autocomplete="off"
-                   placeholder="Search Order Number, Pick Ticket Number, Ship To..." required autofocus>
+                   placeholder="Search Order Number, Pick Ticket Number, Ship To..." onfocus="this.setSelectionRange(this.value.length, this.value.length);" required autofocus>
             <button type="submit" class="btn btn-primary">Search</button>
         </div>
     </form>
@@ -33,7 +33,8 @@
                         <small class="text-muted">Open PDF ↗</small>
                     </div>
                     <p class="mb-1 text-muted small">
-                        {{ \Illuminate\Support\Str::limit($doc->content, 220) }}
+                        {{-- {{ \Illuminate\Support\Str::limit($doc->content, 220) }} --}}
+                        {!! $doc->getSnippet($query) !!}
                     </p>
                 </a>
             @empty
