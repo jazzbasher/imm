@@ -50,7 +50,7 @@ class PodSearchController extends Controller
                 });
             }
 
-            $results = $builder->paginate(25)->withQueryString();
+            $results = $builder->orderByDesc('created_at')->paginate(25)->withQueryString();
         }
 
         return view('pod.search', compact('results', 'query'));
