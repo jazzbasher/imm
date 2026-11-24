@@ -28,9 +28,11 @@
         <div class="list-group mb-3">
             @forelse($results as $doc)
                 <a href="{{ route('pod.view', $doc) }}" target="_blank" class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
+                    <div class="d-flex w-100 justify-content-between align-items-center">
                         <h5 class="mb-1">{{ $doc->filename }}</h5>
-                        <small class="text-muted">Open PDF ↗</small>
+                        <small class="text-muted text-nowrap ms-2">
+                            {{ $doc->created_at?->format('M j, Y') }} &bull; Open PDF ↗
+                        </small>
                     </div>
                     <p class="mb-1 text-muted small">
                         {{-- {{ \Illuminate\Support\Str::limit($doc->content, 220) }} --}}
