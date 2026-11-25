@@ -13,7 +13,7 @@ Artisan::command('inspire', function () {
 
 // uncomment below  and adjust time when ready to schedule pod indexing into database
 
-// Schedule::command('pod:index')->dailyAt('23:00')->withoutOverlapping();
+Schedule::command('pod:index')->dailyAt('23:00')->withoutOverlapping();
 
 
 
