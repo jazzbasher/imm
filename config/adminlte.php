@@ -384,7 +384,6 @@ return [
                 [
                     'text' => 'Proof Of Delivery',
                     'url' => '/pod-search',
-                    'target' => '_blank',
                     'icon' => 'fas fa-dolly',
                     'icon_color' => 'lime',
                 ],
