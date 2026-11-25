@@ -383,7 +383,7 @@ return [
                 ],
                 [
                     'text' => 'Proof Of Delivery',
-                    'url' => 'https://drive.google.com/drive/folders/1D32QuriJgq52dosHPXmyK5QIjWbRyOLi',
+                    'url' => '/pod-search',
                     'target' => '_blank',
                     'icon' => 'fas fa-dolly',
                     'icon_color' => 'lime',
